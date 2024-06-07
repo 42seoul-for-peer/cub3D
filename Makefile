@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/07 15:21:45 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/07 18:05:52 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,9 @@ DEPS = $(COMP_SRCS:.c=.d)
 MAN_DIR = ./mandatory
 
 src_m = cub3d.c\
+		cub3d_get_map.c\
+		cub3d_parse_map.c\
+		cub3d_error.c\
 
 SRCS_M = $(addprefix $(MAN_DIR)/,$(src_m))
 OBJS_M = $(SRCS_M:.c=.o)

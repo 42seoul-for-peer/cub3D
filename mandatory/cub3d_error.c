@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   cub3d_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 12:21:09 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/07 16:53:11 by hyeunkim         ###   ########.fr       */
+/*   Created: 2024/06/07 17:31:46 by hyeunkim          #+#    #+#             */
+/*   Updated: 2024/06/07 18:09:36 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
-int	ft_isdigit(int val)
+void	error_with_str(int flag)
 {
-	if ('0' <= val && val <= '9')
-		return (1);
-	return (0);
+	ft_putstr_fd("cub3d: ", STDERR_FILENO);
+	if (flag == ERR_SYSCALL)
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+	else if (flag == ERR_MAP)
+		ft_putendl_fd("invalid map data", STDERR_FILENO);
+	else if (flag == ERR_ARG)
+		ft_putendl_fd("\n\tusage: ./cub3d x.cub", STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }
-//return 1 when true
