@@ -1,3 +1,6 @@
+.mandatory
+cub3D
+
 # hyeunkim local
 hyeunkim_test
 
@@ -53,5 +56,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-cub3D
-cub3D
+
