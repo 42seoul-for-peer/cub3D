@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-t_type get_map_line_type(char *line)
+t_type get_map_line_type(char *line, t_type line_type)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (north);
@@ -159,11 +159,11 @@ t_map   *get_map_data(t_map *map, int fd)
     {
 		if (*line != '\n')
 		{
-			line_type = get_map_line_type(line);
+			line_type = get_map_line_type(line, line_type);
 			if (0 <= line_type && line_type < 4)
-				get_map_texture(map, line_type, line); //get_map_texture
+				get_map_texture(map, line_type, line);
 			else if (4 <= line_type && line_type < 6)
-				get_map_color(map, line_type, line); // get_color
+				get_map_color(map, line_type, line);
 			else
 				break ;
 			line_type++;
