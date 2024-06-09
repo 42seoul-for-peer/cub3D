@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:31:46 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/07 18:09:36 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:15:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	error_with_str(int flag)
+void	print_error(int flag)
 {
 	ft_putstr_fd("cub3d: ", STDERR_FILENO);
 	if (flag == ERR_SYSCALL)
