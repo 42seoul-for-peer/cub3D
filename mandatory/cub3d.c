@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:20:20 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:06:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int main(int argc, char *argv[])
 		print_error(ERR_SYSCALL);
 	map = parse_map(map_fd);
 	dev_print_mapFormat(map);
+	dev_print_mapFormat(map);
   	mlx.mlx = mlx_init();
   	mlx.win = mlx_new_window(mlx.mlx, 960, 960, "test");
 	// mlx_hook(mlx.win, 2, 0, &dev_close, 0);
   	// mlx_loop(mlx.mlx);
-	free(map); // leak을 의심하자
+	free(map);
   	exit(EXIT_SUCCESS);
 }

@@ -6,16 +6,23 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:51:35 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:05:14 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// 맵 데이터 순서
-// NO -> SO -> WE -> EA -> F -> C -> mapdata
-// NO~EA : 각 방향의 텍스쳐 경로
-// F, C  : 색깔 코드
+void dev_print_mapFormat2(char **map)
+{
+	int idx = 0;
+	ft_printf("-----------------------------------\n");
+	while (map[idx][0] != 0)
+	{
+		ft_printf("%s\n", map[idx]);
+		idx++;
+	}
+	ft_printf("-----------------------------------\n");
+}
 
 t_type get_map_line_type(char *line)
 {
@@ -42,24 +49,25 @@ char	**get_map_scene_append(char **prev_scene, char *line)
 	static int	height;
 	int			idx;
 
-	new_scene = (char **) malloc(sizeof(char *) * ++height + 1);
+	ft_printf("newline\n");
+	ft_printf("%s\n", line);
+	new_scene = ft_calloc(++height + 1, sizeof(char *));
 	if (!new_scene)
-		print_error(ERR_SYSCALL);
+		error_with_str(ERR_SYSCALL);
 	if ((int) ft_strlen(line) > max_width)
 		max_width = ft_strlen(line);
-	idx = 1;
-	while (idx < height)
+	idx = 0;
+	while (idx <= height)
 	{
-		new_scene[idx - 1] = ft_calloc(1, max_width - 1);
-		if (!new_scene[idx - 1])
-			print_error(ERR_SYSCALL);
-		ft_strlcpy(new_scene[idx - 1], prev_scene[idx], max_width);
+		new_scene[idx] = ft_calloc(1, max_width - 1);
+		if (!new_scene[idx])
+			error_with_str(ERR_SYSCALL);
+		if (idx == height - 1)
+			ft_strlcpy(new_scene[idx], line, ft_strlen(line));
+		else if (idx != height)
+			ft_strlcpy(new_scene[idx], prev_scene[idx], max_width);
 		idx++;
 	}
-	new_scene[0] = ft_calloc(1, max_width - 1);
-	if (!new_scene[height])
-		print_error(ERR_SYSCALL);
-	ft_strlcpy(new_scene[height], line, ft_strlen(line) - 1);
 	return (new_scene);
 }
 
@@ -71,7 +79,7 @@ void get_map_scene(t_map *map, int fd, char *line)
 	{
 		prev_scene = map->scene;
 		map->scene = get_map_scene_append(prev_scene, line);
-		ft_printf("first_line:%s\n", map->scene[0]);
+		dev_print_mapFormat2(map->scene);
 		free(prev_scene);
 		free(line);
 		line = get_next_line(fd);
@@ -85,10 +93,11 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
     const int   len = ft_strlen(line);
     char    *path;
 
-    path = ft_substr(line, 2, len - 4);
+    path = ft_substr(line, 3, len - 4);
     if (!path)
         print_error(ERR_SYSCALL);
     fd = open(path, O_RDONLY);
+	free(path);
 	free(path);
     if (fd < 0)
         print_error(ERR_SYSCALL);
