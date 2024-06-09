@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 15:29:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:16:33 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_map	*parse_map(int fd)
     map = get_map_data(map, fd);
     if (map == NULL)
         print_error(map_data);
-	if (!checkvalidFormat(map))
-		print_error(map_data);
+	// if (!checkvalidFormat(map))
+	// 	print_error(map_data);
     return (map);
 }

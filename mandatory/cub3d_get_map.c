@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:16:19 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-t_type get_map_line_type(char *line, t_type line_type)
+t_type get_map_line_type(char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (north);
@@ -159,7 +159,7 @@ t_map   *get_map_data(t_map *map, int fd)
     {
 		if (*line != '\n')
 		{
-			line_type = get_map_line_type(line, line_type);
+			line_type = get_map_line_type(line);
 			if (0 <= line_type && line_type < 4)
 				get_map_texture(map, line_type, line);
 			else if (4 <= line_type && line_type < 6)
