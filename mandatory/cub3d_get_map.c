@@ -26,11 +26,47 @@ t_type get_map_line_idx(char *line)
 		return (scene);
 }
 
+char	**get_map_scene_append(char **prev_scene, char *line)
+{
+	char		**new_scene;
+	static int	max_width;
+	static int	height;
+	int			idx;
+
+	new_scene = (char **) malloc(sizeof(char *) * ++height + 1);
+	if (!new_scene)
+		error_with_str(ERR_SYSCALL);
+	if ((int) ft_strlen(line) > max_width)
+		max_width = ft_strlen(line);
+	idx = 1;
+	while (idx < height)
+	{
+		new_scene[idx - 1] = ft_calloc(1, max_width - 1);
+		if (!new_scene[idx - 1])
+			error_with_str(ERR_SYSCALL);
+		ft_strlcpy(new_scene[idx - 1], prev_scene[idx], max_width);
+		idx++;
+	}
+	new_scene[0] = ft_calloc(1, max_width - 1);
+	if (!new_scene[height])
+		error_with_str(ERR_SYSCALL);
+	ft_strlcpy(new_scene[height], line, ft_strlen(line) - 1);
+	return (new_scene);
+}
+
 void get_map_scene(t_map *map, int fd, char *line)
 {
-	(void) map;
-	(void) fd;
-	(void) line;
+	char	**prev_scene;
+
+	while (line)
+	{
+		prev_scene = map->scene;
+		map->scene = get_map_scene_append(prev_scene, line);
+		ft_printf("first_line:%s\n", map->scene[0]);
+		free(prev_scene);
+		free(line);
+		line = get_next_line(fd);
+	}
 }
 
 
@@ -40,10 +76,11 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
     const int   len = ft_strlen(line);
     char    *path;
 
-    path = ft_substr(line, 3, len - 3);
+    path = ft_substr(line, 3, len - 4);
     if (!path)
         error_with_str(ERR_SYSCALL);
     fd = open(path, O_RDONLY);
+	free(path);
     if (fd < 0)
         error_with_str(ERR_SYSCALL);
 	if (map->north == 0 && line_type == north)
@@ -102,18 +139,25 @@ t_map   *get_map_data(t_map *map, int fd)
     t_type  line_type;
 
     line = get_next_line(fd);
+	line_type = north;
     while (line)
     {
-		if (line != 0)
+		if (line != 0 && !(ft_strlen(line) == 1 && line[0] == '\n'))
 		{
-			line_type = get_map_line_idx(line);
+			if (get_map_line_idx(line) != line_type)
+				error_with_str(ERR_MAP);
 			if (0 <= line_type && line_type < 4)
 				get_map_texture(map, line_type, line); //get_map_texture
 			else if (4 <= line_type && line_type < 6)
 				get_map_color(map, line_type, line); // get_color
 			else
+			{
 				get_map_scene(map, fd, line);
-			free(line);
+				break ;
+			}
+			line_type++;
+			if (line != 0)
+				free(line);
 		}
         line = get_next_line(fd);
     }
