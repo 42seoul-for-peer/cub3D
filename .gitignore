@@ -1,8 +1,7 @@
+# executable
 .mandatory
+.bonus
 cub3D
-
-# hyeunkim local
-hyeunkim_test
 
 # Prerequisites
 *.d

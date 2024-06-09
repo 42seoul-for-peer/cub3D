@@ -1,10 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_get_map.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
+/*   Updated: 2024/06/09 16:07:06 by hyeunkim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // 맵 데이터 순서
 // NO -> SO -> WE -> EA -> F -> C -> mapdata
-// NO~EA : 각 방향의 텍스쳐 경로
-// F, C  : 색깔 코드
-// ()// NO -> SO -> WE -> EA -> F -> C -> mapdata
 // NO~EA : 각 방향의 텍스쳐 경로
 // F, C  : 색깔 코드
 
@@ -76,7 +85,7 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
     const int   len = ft_strlen(line);
     char    *path;
 
-    path = ft_substr(line, 3, len - 4);
+    path = ft_substr(line, 2, len - 4);
     if (!path)
         error_with_str(ERR_SYSCALL);
     fd = open(path, O_RDONLY);

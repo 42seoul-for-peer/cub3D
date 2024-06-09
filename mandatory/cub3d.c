@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
+/*   Updated: 2024/06/09 16:07:15 by hyeunkim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-void dev_print_mapFormat(t_map *map)
+void dev_print_mapFormat(t_map *map) //map 출력
 {
 	int idx = 0;
 	ft_printf("north : %d\n", map->north);
@@ -17,7 +29,7 @@ void dev_print_mapFormat(t_map *map)
 	}
 }
 
-int dev_close(int key, void *test)
+int dev_close(int key, void *test) //mlx key hook (ESC)
 {
 	test = 0;
 	if (key == 53)
@@ -42,6 +54,6 @@ int main(int argc, char *argv[])
   	mlx.win = mlx_new_window(mlx.mlx, 960, 960, "test");
 	// mlx_hook(mlx.win, 2, 0, &dev_close, 0);
   	// mlx_loop(mlx.mlx);
-	free(map);
+	free(map); // leak을 의심하자
   	exit(EXIT_SUCCESS);
 }

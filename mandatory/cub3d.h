@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
+/*   Updated: 2024/06/09 16:12:51 by hyeunkim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -25,6 +37,7 @@ typedef struct s_map
 	int		east;
 	int		floor[3];
 	int		ceiling[3];
+	int		player_pos[3]; //x, y, dir.
 	char	**scene;
 }	t_map;
 
