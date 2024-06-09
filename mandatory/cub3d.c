@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:07:15 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:15:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int main(int argc, char *argv[])
 	int		map_fd;
 
 	if (argc != 2)
-    	error_with_str(ERR_ARG);
+    	print_error(ERR_ARG);
 	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd < 0)
-		error_with_str(ERR_SYSCALL);
+		print_error(ERR_SYSCALL);
 	map = parse_map(map_fd);
 	dev_print_mapFormat(map);
   	mlx.mlx = mlx_init();

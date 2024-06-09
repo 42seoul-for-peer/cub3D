@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:07:06 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:15:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**get_map_scene_append(char **prev_scene, char *line)
 
 	new_scene = (char **) malloc(sizeof(char *) * ++height + 1);
 	if (!new_scene)
-		error_with_str(ERR_SYSCALL);
+		print_error(ERR_SYSCALL);
 	if ((int) ft_strlen(line) > max_width)
 		max_width = ft_strlen(line);
 	idx = 1;
@@ -52,13 +52,13 @@ char	**get_map_scene_append(char **prev_scene, char *line)
 	{
 		new_scene[idx - 1] = ft_calloc(1, max_width - 1);
 		if (!new_scene[idx - 1])
-			error_with_str(ERR_SYSCALL);
+			print_error(ERR_SYSCALL);
 		ft_strlcpy(new_scene[idx - 1], prev_scene[idx], max_width);
 		idx++;
 	}
 	new_scene[0] = ft_calloc(1, max_width - 1);
 	if (!new_scene[height])
-		error_with_str(ERR_SYSCALL);
+		print_error(ERR_SYSCALL);
 	ft_strlcpy(new_scene[height], line, ft_strlen(line) - 1);
 	return (new_scene);
 }
@@ -87,11 +87,11 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
 
     path = ft_substr(line, 2, len - 4);
     if (!path)
-        error_with_str(ERR_SYSCALL);
+        print_error(ERR_SYSCALL);
     fd = open(path, O_RDONLY);
 	free(path);
     if (fd < 0)
-        error_with_str(ERR_SYSCALL);
+        print_error(ERR_SYSCALL);
 	if (map->north == 0 && line_type == north)
 		map->north = fd;
 	else if (map->south == 0 && line_type == south)
@@ -101,7 +101,7 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
 	else if (map->east == 0 && line_type == east)
 		map->east = fd;
     else
-        error_with_str(ERR_MAP);
+        print_error(ERR_MAP);
 }
 
 int	get_color(int *rgb, char *str)
@@ -139,7 +139,7 @@ void get_map_color(t_map *map, t_type line_type, char *line)
 	else if (line_type == ceiling)
 		checker = get_color(map->ceiling, line);
 	if (checker != 0)
-		error_with_str(checker);
+		print_error(checker);
 }
 
 t_map   *get_map_data(t_map *map, int fd)
@@ -154,7 +154,7 @@ t_map   *get_map_data(t_map *map, int fd)
 		if (line != 0 && !(ft_strlen(line) == 1 && line[0] == '\n'))
 		{
 			if (get_map_line_idx(line) != line_type)
-				error_with_str(ERR_MAP);
+				print_error(ERR_MAP);
 			if (0 <= line_type && line_type < 4)
 				get_map_texture(map, line_type, line); //get_map_texture
 			else if (4 <= line_type && line_type < 6)
