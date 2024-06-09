@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:15:58 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:51:00 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ typedef struct s_map
 	int		south;
 	int		west;
 	int		east;
-	int		floor[3];
-	int		ceiling[3];
-	int		player_pos[3]; //x, y, dir.
+	int		*floor;
+	int		*ceiling;
+	int		*player_pos; //x, y, dir.
 	char	**scene;
 }	t_map;
 

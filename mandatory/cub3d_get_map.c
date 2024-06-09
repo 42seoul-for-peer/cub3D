@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:15:58 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:51:35 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // NO~EA : 각 방향의 텍스쳐 경로
 // F, C  : 색깔 코드
 
-t_type get_map_line_idx(char *line)
+t_type get_map_line_type(char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (north);
@@ -115,7 +115,7 @@ int	get_color(int *rgb, char *str)
 	idx = 0;
 	while (str_arr[idx])
 		idx++;
-	if (idx != 3) //RGB중에 하나가 빠진 경우
+	if (idx != 3) //RGB중에 하나가 빠진 경우 또는 이미 값이 존재하는 경우
 		return (ERR_MAP);
 	rgb[0] = ft_atoi(str_arr[0] + 1);
 	rgb[1] = ft_atoi(str_arr[1]);
@@ -131,15 +131,21 @@ int	get_color(int *rgb, char *str)
 
 void get_map_color(t_map *map, t_type line_type, char *line)
 {
+	int	*color_arr;
 	int	checker;
 
-	checker = 0;
-	if (line_type == floor)
-		checker = get_color(map->floor, line);
-	else if (line_type == ceiling)
-		checker = get_color(map->ceiling, line);
-	if (checker != 0)
+	color_arr = ft_calloc(3, sizeof(int));
+	if (!color_arr)
+		print_error(ERR_SYSCALL);
+	checker = get_color(color_arr, line);
+	if (checker)
 		print_error(checker);
+	if (line_type == floor && map->floor == NULL)
+		map->floor = color_arr;
+	else if (line_type == ceiling && map->ceiling == NULL)
+		map->ceiling = color_arr;
+	else
+		print_error(ERR_MAP);
 }
 
 t_map   *get_map_data(t_map *map, int fd)
@@ -148,27 +154,24 @@ t_map   *get_map_data(t_map *map, int fd)
     t_type  line_type;
 
     line = get_next_line(fd);
-	line_type = north;
+	if (!line)
+		return (NULL);
     while (line)
     {
-		if (line != 0 && !(ft_strlen(line) == 1 && line[0] == '\n'))
+		if (*line != '\n')
 		{
-			if (get_map_line_idx(line) != line_type)
-				print_error(ERR_MAP);
+			line_type = get_map_line_type(line);
 			if (0 <= line_type && line_type < 4)
 				get_map_texture(map, line_type, line); //get_map_texture
 			else if (4 <= line_type && line_type < 6)
 				get_map_color(map, line_type, line); // get_color
 			else
-			{
-				get_map_scene(map, fd, line);
 				break ;
-			}
 			line_type++;
-			if (line != 0)
-				free(line);
 		}
+		free(line);
         line = get_next_line(fd);
     }
+	get_map_scene(map, fd, line);
     return (map);
 }
