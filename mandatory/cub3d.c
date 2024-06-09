@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:27:33 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,19 @@ int dev_close(int key, void *test) //mlx key hook (ESC)
 	return (0);
 }
 
+bool	check_file_format(char *path)
+{
+	char	*file_name;
+
+	if (ft_strrchr(path, '/'))
+		file_name = ft_strrchr(path, '/') + 1;
+	else
+		file_name = path;
+	if (ft_strlen(file_name) < 5 || ft_strnstr(file_name, ".cub", 4) == NULL)
+		return (false);
+	return (true);
+}
+
 int main(int argc, char *argv[])
 {
 	t_mlx	mlx;
@@ -45,7 +58,7 @@ int main(int argc, char *argv[])
 
 	if (argc != 2)
     	print_error(argument);
-	if (ft_strlen(argv[1]) < 5 && ft_strnstr(argv[1], ".cub", 4) == NULL)
+	if (check_file_format(argv[1]) == false)
 		print_error(map_file);
 	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd < 0)
