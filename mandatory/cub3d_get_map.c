@@ -1,14 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_get_map.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
+/*   Updated: 2024/06/09 16:51:35 by hyeunkim         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 // 맵 데이터 순서
 // NO -> SO -> WE -> EA -> F -> C -> mapdata
 // NO~EA : 각 방향의 텍스쳐 경로
 // F, C  : 색깔 코드
-// ()// NO -> SO -> WE -> EA -> F -> C -> mapdata
-// NO~EA : 각 방향의 텍스쳐 경로
-// F, C  : 색깔 코드
 
-t_type get_map_line_idx(char *line)
+t_type get_map_line_type(char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
 		return (north);
@@ -26,11 +35,47 @@ t_type get_map_line_idx(char *line)
 		return (scene);
 }
 
+char	**get_map_scene_append(char **prev_scene, char *line)
+{
+	char		**new_scene;
+	static int	max_width;
+	static int	height;
+	int			idx;
+
+	new_scene = (char **) malloc(sizeof(char *) * ++height + 1);
+	if (!new_scene)
+		print_error(ERR_SYSCALL);
+	if ((int) ft_strlen(line) > max_width)
+		max_width = ft_strlen(line);
+	idx = 1;
+	while (idx < height)
+	{
+		new_scene[idx - 1] = ft_calloc(1, max_width - 1);
+		if (!new_scene[idx - 1])
+			print_error(ERR_SYSCALL);
+		ft_strlcpy(new_scene[idx - 1], prev_scene[idx], max_width);
+		idx++;
+	}
+	new_scene[0] = ft_calloc(1, max_width - 1);
+	if (!new_scene[height])
+		print_error(ERR_SYSCALL);
+	ft_strlcpy(new_scene[height], line, ft_strlen(line) - 1);
+	return (new_scene);
+}
+
 void get_map_scene(t_map *map, int fd, char *line)
 {
-	(void) map;
-	(void) fd;
-	(void) line;
+	char	**prev_scene;
+
+	while (line)
+	{
+		prev_scene = map->scene;
+		map->scene = get_map_scene_append(prev_scene, line);
+		ft_printf("first_line:%s\n", map->scene[0]);
+		free(prev_scene);
+		free(line);
+		line = get_next_line(fd);
+	}
 }
 
 
@@ -40,12 +85,13 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
     const int   len = ft_strlen(line);
     char    *path;
 
-    path = ft_substr(line, 3, len - 3);
+    path = ft_substr(line, 2, len - 4);
     if (!path)
-        error_with_str(ERR_SYSCALL);
+        print_error(ERR_SYSCALL);
     fd = open(path, O_RDONLY);
+	free(path);
     if (fd < 0)
-        error_with_str(ERR_SYSCALL);
+        print_error(ERR_SYSCALL);
 	if (map->north == 0 && line_type == north)
 		map->north = fd;
 	else if (map->south == 0 && line_type == south)
@@ -55,7 +101,7 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
 	else if (map->east == 0 && line_type == east)
 		map->east = fd;
     else
-        error_with_str(ERR_MAP);
+        print_error(ERR_MAP);
 }
 
 int	get_color(int *rgb, char *str)
@@ -69,7 +115,7 @@ int	get_color(int *rgb, char *str)
 	idx = 0;
 	while (str_arr[idx])
 		idx++;
-	if (idx != 3) //RGB중에 하나가 빠진 경우
+	if (idx != 3) //RGB중에 하나가 빠진 경우 또는 이미 값이 존재하는 경우
 		return (ERR_MAP);
 	rgb[0] = ft_atoi(str_arr[0] + 1);
 	rgb[1] = ft_atoi(str_arr[1]);
@@ -85,15 +131,21 @@ int	get_color(int *rgb, char *str)
 
 void get_map_color(t_map *map, t_type line_type, char *line)
 {
+	int	*color_arr;
 	int	checker;
 
-	checker = 0;
-	if (line_type == floor)
-		checker = get_color(map->floor, line);
-	else if (line_type == ceiling)
-		checker = get_color(map->ceiling, line);
-	if (checker != 0)
-		error_with_str(checker);
+	color_arr = ft_calloc(3, sizeof(int));
+	if (!color_arr)
+		print_error(ERR_SYSCALL);
+	checker = get_color(color_arr, line);
+	if (checker)
+		print_error(checker);
+	if (line_type == floor && map->floor == NULL)
+		map->floor = color_arr;
+	else if (line_type == ceiling && map->ceiling == NULL)
+		map->ceiling = color_arr;
+	else
+		print_error(ERR_MAP);
 }
 
 t_map   *get_map_data(t_map *map, int fd)
@@ -102,20 +154,24 @@ t_map   *get_map_data(t_map *map, int fd)
     t_type  line_type;
 
     line = get_next_line(fd);
+	if (!line)
+		return (NULL);
     while (line)
     {
-		if (line != 0)
+		if (*line != '\n')
 		{
-			line_type = get_map_line_idx(line);
+			line_type = get_map_line_type(line);
 			if (0 <= line_type && line_type < 4)
 				get_map_texture(map, line_type, line); //get_map_texture
 			else if (4 <= line_type && line_type < 6)
 				get_map_color(map, line_type, line); // get_color
 			else
-				get_map_scene(map, fd, line);
-			free(line);
+				break ;
+			line_type++;
 		}
+		free(line);
         line = get_next_line(fd);
     }
+	get_map_scene(map, fd, line);
     return (map);
 }
