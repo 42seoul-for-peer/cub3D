@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 17:25:23 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:11:35 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 # include <errno.h>
 # include "libft.h"
 
-# define ERR_SYSCALL 1
-# define ERR_MAP 2
-# define ERR_ARG 3
+typedef	enum e_error
+{
+	syscall,
+	map_data,
+	map_file,
+	argument
+}	t_error;
 
 typedef struct s_mlx
 {
