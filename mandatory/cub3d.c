@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:11:30 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int main(int argc, char *argv[])
 	if (argc != 2)
     	print_error(argument);
 	if (ft_strlen(argv[1]) < 5 && ft_strnstr(argv[1], ".cub", 4) == NULL)
-		print_error(map_data);
+		print_error(map_file);
 	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd < 0)
-		print_error(syscall);
+		print_error(sys_call);
 	map = parse_map(map_fd);
 	dev_print_mapFormat(map);
   	mlx.mlx = mlx_init();

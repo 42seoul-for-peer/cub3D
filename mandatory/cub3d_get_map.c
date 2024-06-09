@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:10:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 
 	new_scene = ft_calloc(++map->height + 1, sizeof(char *));
 	if (!new_scene)
-		print_error(syscall);
+		print_error(sys_call);
 	if ((int) ft_strlen(line) > map->width)
 		map->width = ft_strlen(line);
 	idx = 0;
@@ -45,7 +45,7 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 	{
 		new_scene[idx] = ft_calloc(1, map->width);
 		if (!new_scene[idx])
-			print_error(syscall);
+			print_error(sys_call);
 		if (idx == map->height - 1)
 			ft_strlcpy(new_scene[idx], line, ft_strlen(line) + 1);
 		else if (idx != map->height)
@@ -83,14 +83,14 @@ void get_map_texture(t_map *map, t_type line_type, char *line)
 
     path = ft_substr(line, 3, len - 4);
     if (!path)
-        print_error(syscall);
+        print_error(sys_call);
 	idx = 0;
 	while (path[idx] == ' ')
 		idx++;
     fd = open(path + idx, O_RDONLY);
 	free(path);
     if (fd < 0)
-        print_error(syscall);
+        print_error(sys_call);
 	if (map->north == 0 && line_type == north)
 		map->north = fd;
 	else if (map->south == 0 && line_type == south)
@@ -110,7 +110,7 @@ int	get_color(int *rgb, char *str)
 
 	str_arr = ft_split(str, ',');
 	if (!str_arr)
-		return (syscall);
+		return (sys_call);
 	idx = 0;
 	while (str_arr[idx])
 		idx++;
@@ -135,7 +135,7 @@ void get_map_color(t_map *map, t_type line_type, char *line)
 
 	color_arr = ft_calloc(3, sizeof(int));
 	if (!color_arr)
-		print_error(syscall);
+		print_error(sys_call);
 	checker = get_color(color_arr, line);
 	if (checker)
 		print_error(checker);
