@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 17:25:23 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:24:52 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 # include <fcntl.h>
 # include <string.h>
 # include <errno.h>
+# include <stdbool.h>
 # include "libft.h"
 
-# define ERR_SYSCALL 1
-# define ERR_MAP 2
-# define ERR_ARG 3
+typedef	enum e_error
+{
+	sys_call,
+	map_data,
+	map_file,
+	argument
+}	t_error;
 
 typedef struct s_mlx
 {
@@ -61,5 +66,5 @@ t_map *get_map_data(t_map *map, int fd);
 t_map *parse_map(int fd);
 
 //error.c
-void	print_error(int flag);
+void	print_error(t_error flag);
 #endif

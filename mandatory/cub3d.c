@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 17:30:46 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:49:44 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ int dev_close(int key, void *test) //mlx key hook (ESC)
 	return (0);
 }
 
+bool	check_file_format(char *path)
+{
+	char	*file_name;
+
+	if (ft_strrchr(path, '/'))
+		file_name = ft_strrchr(path, '/') + 1;
+	else
+		file_name = path;
+	if (ft_strlen(file_name) < 5)
+		return (false);
+	if (ft_strchr(file_name, '.') != ft_strrchr(file_name, '.'))
+		return (false);
+	if (ft_strncmp(ft_strnstr(file_name, ".cub", ft_strlen(file_name)), ".cub", 5))
+		return (false);
+	return (true);
+}
+
 int main(int argc, char *argv[])
 {
 	t_mlx	mlx;
@@ -44,10 +61,12 @@ int main(int argc, char *argv[])
 	int		map_fd;
 
 	if (argc != 2)
-    	print_error(ERR_ARG);
+    	print_error(argument);
+	if (check_file_format(argv[1]) == false)
+		print_error(map_file);
 	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd < 0)
-		print_error(ERR_SYSCALL);
+		print_error(sys_call);
 	map = parse_map(map_fd);
 	dev_print_mapFormat(map);
   	mlx.mlx = mlx_init();
