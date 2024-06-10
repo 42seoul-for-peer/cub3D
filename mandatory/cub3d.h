@@ -59,6 +59,9 @@ typedef enum e_type
 	scene
 }	t_type;
 
+//check_map.c
+bool	check_map_format(t_map *map);
+
 //get_map.c
 t_map *get_map_format(t_map *map, int fd);
 
