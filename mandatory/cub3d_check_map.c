@@ -82,7 +82,7 @@ char    **get_copied_scene(t_map *map)
     return (scene_copy);
 }
 
-void    check_void_nearby(t_map *map, int idx_h, int idx_w)
+bool    check_void_nearby(t_map *map, int idx_h, int idx_w)
 {
     const char    elem_up = map->scene[idx_h - 1][idx_w];
     const char    elem_down = map->scene[idx_h + 1][idx_w];
@@ -90,14 +90,14 @@ void    check_void_nearby(t_map *map, int idx_h, int idx_w)
     const char    elem_right = map->scene[idx_h][idx_w - 1];
 
     if (idx_h == 0 || idx_h == map->height - 1)
-        print_error(map_file);
+        return (false);
     if (idx_w == 0 || idx_w == map->width - 1)
-        print_error(map_file);
+        return (false);
     if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
-        print_error(map_file);
+        return (false);
     if (elem_up == ' ' || elem_down == ' ' || elem_right == ' ' || elem_left == ' ')
-        print_error(map_file);
-    return ;
+        return (false);
+    return (true);
 }
 
 bool    check_map_surrounded(t_map *map)
@@ -116,7 +116,10 @@ bool    check_map_surrounded(t_map *map)
         {
             elem = map->scene[idx_h][idx_w];
             if (elem == '0' || elem == 'P')
-                check_void_nearby(map, idx_h, idx_w);
+            {
+                if (check_void_nearby(map, idx_h, idx_w) == false)
+                    return (false);
+            }
             idx_w++;
         }
         idx_h++;
