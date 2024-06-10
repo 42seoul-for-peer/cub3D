@@ -82,7 +82,7 @@ char    **get_copied_scene(t_map *map)
     return (scene_copy);
 }
 
-void    loop_dfs(t_map *map, int idx_h, int idx_w)
+void    check_void_nearby(t_map *map, int idx_h, int idx_w)
 {
     const char    elem_up = map->scene[idx_h - 1][idx_w];
     const char    elem_down = map->scene[idx_h + 1][idx_w];
@@ -116,7 +116,7 @@ bool    check_map_surrounded(t_map *map)
         {
             elem = map->scene[idx_h][idx_w];
             if (elem == '0' || elem == 'P')
-                loop_dfs(map, idx_h, idx_w);
+                check_void_nearby(map, idx_h, idx_w);
             idx_w++;
         }
         idx_h++;
