@@ -22,7 +22,7 @@ void dev_print_mapFormat(t_map *map) //map 출력
 	ft_printf("floor : %d %d %d\n", map->floor[0], map->floor[1], map->floor[2]);
 	ft_printf("ceiling : %d %d %d\n", map->ceiling[0], map->ceiling[1], map->ceiling[2]);
 	ft_printf("map format : \n");
-	while (map->scene[idx] != 0)
+	while (idx < map->height)
 	{
 		ft_printf("%s\n", map->scene[idx]);
 		idx++;

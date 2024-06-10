@@ -40,7 +40,7 @@ t_map	*parse_map(int fd)
     map = get_map_format(map, fd);
     if (map == NULL)
         print_error(map_data);
-	// if (!checkvalidFormat(map))
-	// 	print_error(map_data);
+	if (check_map_format(map) == false)
+		print_error(map_data);
     return (map);
 }
