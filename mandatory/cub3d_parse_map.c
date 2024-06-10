@@ -37,7 +37,7 @@ t_map	*parse_map(int fd)
 	map = ft_calloc(1, sizeof(t_map));
 	if (!map)
 		print_error(sys_call);
-    map = get_map_data(map, fd);
+    map = get_map_format(map, fd);
     if (map == NULL)
         print_error(map_data);
 	// if (!checkvalidFormat(map))

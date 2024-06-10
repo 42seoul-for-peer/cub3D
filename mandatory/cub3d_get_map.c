@@ -147,7 +147,7 @@ void get_map_color(t_map *map, t_type line_type, char *line)
 		print_error(map_data);
 }
 
-t_map   *get_map_data(t_map *map, int fd)
+t_map   *get_map_format(t_map *map, int fd)
 {
     char	*line;
     t_type  line_type;
