@@ -13,9 +13,9 @@
 #include "cub3d.h"
 
 /*
-1. 맵은 0, 1, (N, S, W, E 중 1개), ' ' 로만 구성되어야 함
+1. 맵은 0, 1, (N, S, W, E 중 1개), 0 로만 구성되어야 함
 2. 맵이 둘러싸여져 있어야 함 -> 0이 삐져나와 있으면 안된다
-   -> 0에 인접하는 것이 ' '이거나 마지막 index면 안된다
+   -> 0에 인접하는 것이 0이거나 마지막 index면 안된다
 */
 
 bool    get_player_pos(t_map *map, int idx_h, int idx_w, char elem)
@@ -28,6 +28,7 @@ bool    get_player_pos(t_map *map, int idx_h, int idx_w, char elem)
     map->player_pos[0] = idx_w;
     map->player_pos[1] = idx_h;
     map->player_pos[2] = elem;
+    map->scene[idx_h][idx_w] = 'P';
     return (true);
 }
 
@@ -49,18 +50,79 @@ bool    check_map_elements(t_map *map)
                 if (get_player_pos(map, idx_h, idx_w, elem) == false)
                     return (false);
             }
-            else if (elem != '0' && elem != '1' && elem != ' ')
+            else if (elem != '0' && elem != '1' && elem != 0 && elem != ' ')
                 return (false);
             idx_w++;
         }
         idx_h++;
     }
+    if (map->player_pos == 0)
+        return (false);
     return (true);
+}
+
+char    **get_copied_scene(t_map *map)
+{
+    char    **scene_copy;
+    int     idx;
+
+    idx = 0;
+    scene_copy = ft_calloc(map->height + 1, sizeof(char *));
+    if (!scene_copy)
+        print_error(sys_call);
+    while (idx < map->height)
+    {
+        scene_copy[idx] = ft_calloc(map->width + 1, sizeof(char *));
+        if (!scene_copy[idx])
+            print_error(sys_call);
+        ft_strlcpy(scene_copy[idx], map->scene[idx], map->width + 1);
+        idx++;
+    }
+    scene_copy[map->height] = 0;
+    return (scene_copy);
+}
+
+void    loop_dfs(t_map *map, int idx_h, int idx_w)
+{
+    const char    elem_up = map->scene[idx_h - 1][idx_w];
+    const char    elem_down = map->scene[idx_h + 1][idx_w];
+    const char    elem_left = map->scene[idx_h][idx_w + 1];
+    const char    elem_right = map->scene[idx_h][idx_w - 1];
+
+    if (idx_h == 0 || idx_h == map->height - 1)
+        print_error(map_file);
+    if (idx_w == 0 || idx_w == map->width - 1)
+        print_error(map_file);
+    if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
+        print_error(map_file);
+    if (elem_up == ' ' || elem_down == ' ' || elem_right == ' ' || elem_left == ' ')
+        print_error(map_file);
+    return ;
 }
 
 bool    check_map_surrounded(t_map *map)
 {
-    (void) map;
+    char    **scene_backup;
+    char    elem;
+    int     idx_h;
+    int     idx_w;
+    
+    idx_h = 0;
+    scene_backup = get_copied_scene(map);
+    while (idx_h < map->height)
+    {
+        idx_w = 0;
+        while (idx_w < map->width)
+        {
+            elem = map->scene[idx_h][idx_w];
+            if (elem == '0' || elem == 'P')
+                loop_dfs(map, idx_h, idx_w);
+            idx_w++;
+        }
+        idx_h++;
+    }
+    free(map->scene);
+    map->scene = scene_backup;
     return (true);
 }
 
