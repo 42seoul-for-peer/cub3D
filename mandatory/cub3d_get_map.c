@@ -43,7 +43,7 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 	idx = 0;
 	while (idx < map->height)
 	{
-		new_scene[idx] = ft_calloc(1, map->width);
+		new_scene[idx] = ft_calloc(1, map->width + 1);
 		if (!new_scene[idx])
 			print_error(sys_call);
 		if (idx == map->height - 1)
