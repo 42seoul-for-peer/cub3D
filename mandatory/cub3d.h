@@ -60,7 +60,7 @@ typedef enum e_type
 }	t_type;
 
 //get_map.c
-t_map *get_map_data(t_map *map, int fd);
+t_map *get_map_format(t_map *map, int fd);
 
 //parse_map.c
 t_map *parse_map(int fd);
