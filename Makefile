@@ -46,6 +46,7 @@ MAN_DIR = ./mandatory
 src_m = cub3d.c\
 		cub3d_check_map.c\
 		cub3d_get_map.c\
+		cub3d_print_map.c\
 		cub3d_parse_map.c\
 		cub3d_error.c\
 

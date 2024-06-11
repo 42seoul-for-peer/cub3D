@@ -24,6 +24,7 @@ void	dev_print_mapformat(t_map *map) //map 출력
 	ft_printf("east : %d\n", map->east);
 	ft_printf("floor : %d %d %d\n", map->floor[0], map->floor[1], map->floor[2]);
 	ft_printf("ceiling : %d %d %d\n", map->ceiling[0], map->ceiling[1], map->ceiling[2]);
+	ft_printf("player pos : %d %d %d\n", map->player_pos[0], map->player_pos[1], map->player_pos[2]);
 	ft_printf("map format : \n");
 	while (idx < map->height)
 	{
@@ -52,6 +53,8 @@ bool	check_file_format(char *path)
 		return (false);
 	if (ft_strchr(file_name, '.') != ft_strrchr(file_name, '.'))
 		return (false);
+	if (ft_strnstr(file_name, ".cub", ft_strlen(file_name)) == 0)
+		return (false);
 	if (ft_strncmp(ft_strnstr(file_name, ".cub", ft_strlen(file_name)), ".cub", 5))
 		return (false);
 	return (true);
@@ -73,9 +76,10 @@ int	main(int argc, char *argv[])
 	map = parse_map(map_fd);
 	dev_print_mapformat(map);
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 960, 960, "test");
-	// mlx_hook(mlx.win, 2, 0, &dev_close, 0);
-  	// mlx_loop(mlx.mlx);
+	mlx.win = mlx_new_window(mlx.mlx, 60 * map->width, 60 * map->height, "test");
+	mlx_hook(mlx.win, 2, 0, &dev_close, 0);
+	print_map(map, mlx);
+	mlx_loop(mlx.mlx);
 	free(map);
 	exit(EXIT_SUCCESS);
 }
