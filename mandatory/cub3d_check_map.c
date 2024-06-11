@@ -84,15 +84,19 @@ char    **get_copied_scene(t_map *map)
 
 bool    check_void_nearby(t_map *map, int idx_h, int idx_w)
 {
-    const char    elem_up = map->scene[idx_h - 1][idx_w];
-    const char    elem_down = map->scene[idx_h + 1][idx_w];
-    const char    elem_left = map->scene[idx_h][idx_w + 1];
-    const char    elem_right = map->scene[idx_h][idx_w - 1];
+    char    elem_up;
+    char    elem_down;
+    char    elem_left;
+    char    elem_right;
 
     if (idx_h == 0 || idx_h == map->height - 1)
         return (false);
     if (idx_w == 0 || idx_w == map->width - 1)
         return (false);
+    elem_up = map->scene[idx_h - 1][idx_w];
+    elem_down = map->scene[idx_h + 1][idx_w];
+    elem_left = map->scene[idx_h][idx_w + 1];
+    elem_right = map->scene[idx_h][idx_w - 1];
     if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
         return (false);
     if (elem_up == ' ' || elem_down == ' ' || elem_right == ' ' || elem_left == ' ')
@@ -131,8 +135,6 @@ bool    check_map_surrounded(t_map *map)
 
 bool    check_map_format(t_map *map)
 {
-    (void) map;
-
     if (check_map_elements(map) == false)
         return (false);
     else if (check_map_surrounded(map) == false)
