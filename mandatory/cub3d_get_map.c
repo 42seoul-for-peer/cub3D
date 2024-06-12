@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:16:19 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:53:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 
 	new_scene = ft_calloc(++map->height + 1, sizeof(char *));
 	if (!new_scene)
-		print_error(sys_call);
+		print_error(sys_call, __func__);
 	if ((int) ft_strlen(line) > map->width)
 		map->width = ft_strlen(line);
 	idx = 0;
@@ -45,7 +45,7 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 	{
 		new_scene[idx] = ft_calloc(1, map->width + 1);
 		if (!new_scene[idx])
-			print_error(sys_call);
+			print_error(sys_call, __func__);
 		if (idx == map->height - 1)
 			ft_strlcpy(new_scene[idx], line, ft_strlen(line) + 1);
 		else if (idx != map->height)
@@ -76,31 +76,34 @@ void get_map_scene(t_map *map, int fd, char *line)
 
 void get_map_texture(t_map *map, t_type line_type, char *line)
 {
-    int     fd;
     const int   len = ft_strlen(line);
     char    *path;
+	char	*path_trim;
 	int		idx;
 
     path = ft_substr(line, 3, len - 4);
     if (!path)
-        print_error(sys_call);
+        print_error(sys_call, __func__);
 	idx = 0;
 	while (path[idx] == ' ')
 		idx++;
-    fd = open(path + idx, O_RDONLY);
+	path_trim = ft_strdup(path + idx);
+	if (!path_trim)
+		print_error(sys_call, __func__);
 	free(path);
-    if (fd < 0)
-        print_error(sys_call);
 	if (map->north == 0 && line_type == north)
-		map->north = fd;
+		map->north = path_trim;
 	else if (map->south == 0 && line_type == south)
-		map->south = fd;
+		map->south = path_trim;
 	else if (map->west == 0 && line_type == west)
-		map->west = fd;
+		map->west = path_trim;
 	else if (map->east == 0 && line_type == east)
-		map->east = fd;
+		map->east = path_trim;
     else
-        print_error(map_data);
+	{
+		// free(path_trim);
+        print_error(map_data, __func__);
+	}
 }
 
 int	get_color(int *rgb, char *str)
@@ -135,16 +138,16 @@ void get_map_color(t_map *map, t_type line_type, char *line)
 
 	color_arr = ft_calloc(3, sizeof(int));
 	if (!color_arr)
-		print_error(sys_call);
+		print_error(sys_call, __func__);
 	checker = get_color(color_arr, line);
 	if (checker)
-		print_error(checker);
+		print_error(checker, __func__);
 	if (line_type == floor && map->floor == NULL)
 		map->floor = color_arr;
 	else if (line_type == ceiling && map->ceiling == NULL)
 		map->ceiling = color_arr;
 	else
-		print_error(map_data);
+		print_error(map_data, __func__);
 }
 
 t_map   *get_map_format(t_map *map, int fd)
