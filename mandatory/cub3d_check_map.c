@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:51:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 16:51:10 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:23:44 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ bool    check_map_elements(t_map *map)
                 if (get_player_pos(map, idx_h, idx_w, elem) == false)
                     return (false);
             }
-            else if (elem != '0' && elem != '1' && elem != 0 && elem != ' ')
+            else if (elem != '0' && elem != '1' && elem != 0 && elem != ' ' && elem != '2')
                 return (false);
             idx_w++;
         }

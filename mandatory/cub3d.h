@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:24:52 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:21:48 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ typedef enum e_type
 //check_map.c
 bool	check_map_format(t_map *map);
 
+//check_map.c
+bool	check_map_format(t_map *map);
+
 //get_map.c
+t_map *get_map_format(t_map *map, int fd);
 t_map *get_map_format(t_map *map, int fd);
 
 //parse_map.c
@@ -71,6 +75,7 @@ t_map *parse_map(int fd);
 //error.c
 void	print_error(t_error flag);
 
-//print_map.c
-void	print_map(t_map *map, t_mlx mlx);
+//raycasting_tutorial.c
+void	tutorial(t_map *map, t_mlx mlx);
+
 #endif
