@@ -71,6 +71,7 @@ t_map *parse_map(int fd);
 //error.c
 void	print_error(t_error flag);
 
-//print_map.c
-void	print_map(t_map *map, t_mlx mlx);
+//raycasting_tutorial.c
+void	tutorial(t_map *map, t_mlx mlx);
+
 #endif
