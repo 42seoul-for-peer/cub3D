@@ -3,6 +3,10 @@
 .bonus
 cub3D
 
+
+# Temp files
+.DS_Store
+
 # Prerequisites
 *.d
 
