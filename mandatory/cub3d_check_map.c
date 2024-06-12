@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:51:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/12 14:23:44 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:49:26 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ bool    get_player_pos(t_map *map, int idx_h, int idx_w, char elem)
         return (false);
     map->player_pos = ft_calloc(3, sizeof(int));
     if (!map->player_pos)
-        print_error(sys_call);
+        print_error(sys_call, __func__);
     map->player_pos[0] = idx_w;
     map->player_pos[1] = idx_h;
     map->player_pos[2] = elem;
@@ -69,12 +69,12 @@ char    **get_copied_scene(t_map *map)
     idx = 0;
     scene_copy = ft_calloc(map->height + 1, sizeof(char *));
     if (!scene_copy)
-        print_error(sys_call);
+        print_error(sys_call, __func__);
     while (idx < map->height)
     {
         scene_copy[idx] = ft_calloc(map->width + 1, sizeof(char *));
         if (!scene_copy[idx])
-            print_error(sys_call);
+            print_error(sys_call, __func__);
         ft_strlcpy(scene_copy[idx], map->scene[idx], map->width + 1);
         idx++;
     }

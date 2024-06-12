@@ -6,14 +6,15 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:31:46 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/09 20:14:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:48:57 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	print_error(t_error flag)
+void	print_error(t_error flag, const char *func)
 {
+	ft_printf("func %s\n", func);
 	ft_putstr_fd("cub3d: ", STDERR_FILENO);
 	if (flag == sys_call)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);

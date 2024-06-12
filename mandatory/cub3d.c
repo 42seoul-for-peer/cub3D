@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/12 14:24:25 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:50:53 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,24 +62,21 @@ bool	check_file_format(char *path)
 
 int	main(int argc, char *argv[])
 {
-	t_mlx	mlx;
-	t_map	*map;
+	t_info	*info;
 	int		map_fd;
 
 	if (argc != 2)
-		print_error(argument);
+		print_error(argument, __func__);
 	if (check_file_format(argv[1]) == false)
-		print_error(map_file);
+		print_error(map_file, __func__);
 	map_fd = open(argv[1], O_RDONLY);
 	if (map_fd < 0)
-		print_error(sys_call);
-	map = parse_map(map_fd);
-	dev_print_mapformat(map);
-	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "test");
-	mlx_hook(mlx.win, 2, 0, &dev_close, 0);
-	tutorial(map, mlx);
-	mlx_loop(mlx.mlx);
-	free(map);
+		print_error(sys_call, __func__);
+	info = init_info(map_fd);
+	dev_print_mapformat(info->map);
+	mlx_hook(info->win, 2, 0, &dev_close, 0);
+	tutorial(info);
+	mlx_loop(info->mlx);
+	free(info->map);
 	exit(EXIT_SUCCESS);
 }
