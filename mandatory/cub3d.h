@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/12 20:51:01 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:17:22 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <string.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <math.h>
 # include "libft.h"
 
 /* ************************************************************************** */
@@ -27,7 +28,7 @@ typedef enum e_type
 	south,
 	west,
 	east,
-	floor,
+	floor_l,
 	ceiling,
 	scene
 }	t_type;

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/12 21:02:24 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:15:57 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void print_color(t_info *info, int width, int h_start, int h_end, int color)
 
 void    tutorial(t_info *info)
 {
-    t_vector    pos;        // 플레이어의 위치
-    t_vector    dir;        // 방향 벡터(불변)
+    t_vector    pos;        // 플레이어의 시작 위치
+    t_vector    dir;        // 초기 방향 벡터(불변)
     dir = init_dir_vector(info->map->player_pos[2]);
     t_vector    plane;      // 플레이어가 바라보는 카메라 평면(출력 화면, 불변)
     t_vector    rayDir;     // 광선의 방향 벡터
@@ -124,7 +124,7 @@ void    tutorial(t_info *info)
     int     drawEnd;        // 화면에 그리기 위한 높이의 end값      (둘이 합하면 화면 출력 높이(height))
     int     color;          // Color값
 
-    info->img->img = mlx_new_image(info->mlx, 1920, 1080);
+    info->img->img = mlx_new_image(info->mlx, 1920, 1080); //화면에 씌울 이미지 생성 (image buffer)
     info->img->addr = mlx_get_data_addr(info->img->img, &(info->img->bpp), \
 									&(info->img->line), &(info->img->endian));
     unsigned int *data;
@@ -142,20 +142,21 @@ void    tutorial(t_info *info)
     {
         hit = false;
 
-        cameraX = 2 * idx_x / (double)1920 - 1;
+        cameraX = 2 * idx_x / (double)1920 - 1; //카메라 평면에서의 x좌표
         rayDir.x = dir.x + plane.x * cameraX;
         rayDir.y = dir.y + plane.y * cameraX;
 
+		//플레이어가 위치한 격자의 좌표
         mapX = pos.x;
         mapY = pos.y;
-        deltaDistX = ft_abs(1 / rayDir.x);
-        deltaDistY = ft_abs(1 / rayDir.y);
-        if (rayDir.x < 0)
+        deltaDistX = fabs(1 / rayDir.x); //x가 1 증가할 때 광선의 이동 거리
+        deltaDistY = fabs(1 / rayDir.y); //y가 1 증가할 때 광선의 이동 거리
+        if (rayDir.x < 0) //왼쪽으로 이동하다 처음 만나는 x면까지의 거리
         {
             stepX = -1;
             sideDistX = (pos.x - mapX) * deltaDistX;
         }
-        else
+        else // sideDistX : raydir.x> 0인 경우 광선의 시작부터 오른쪽으로 이동하다 처음 만나는 x면까지의 거리
         {
             stepX = 1;
             sideDistX = (mapX + 1.0 - pos.x) * deltaDistX;
@@ -170,7 +171,7 @@ void    tutorial(t_info *info)
             stepY = 1;
             sideDistY = (mapY + 1.0 - pos.y) * deltaDistY;
         }
-        while (hit == false)
+        while (hit == false) //DDA 알고리즘
         {
             if (sideDistX < sideDistY)
             {
@@ -184,6 +185,7 @@ void    tutorial(t_info *info)
                 mapY += stepY;
                 side = 1;
             }
+			//광선이 벽과 만났는지 확인
             if (info->map->scene[mapY][mapX] == '1' || info->map->scene[mapY][mapX] == '2')
                 hit = true;
         }
@@ -191,7 +193,7 @@ void    tutorial(t_info *info)
             perpWallDist = (mapX - pos.x + (1 - stepX) / 2) / rayDir.x;
         else            // x축에 평행하게 벽에 충돌
             perpWallDist = (mapY - pos.y + (1 - stepY) / 2) / rayDir.y;
-        lineHeight = (int)(1080 / perpWallDist);
+        lineHeight = (int)(1080 / perpWallDist); //화면에 그려야하는 선의 길이
         drawStart = -lineHeight / 2 + 1080 / 2;
         if (drawStart < 0)
             drawStart = 0;
@@ -199,7 +201,7 @@ void    tutorial(t_info *info)
         if (drawEnd >= 1080)
             drawEnd = 1080 - 1;
 
-        double wallX;
+        double wallX; //벽과 부딪힌 자리의 X좌표
         if (side == 0)
             wallX = pos.y + perpWallDist * rayDir.y;
         else
@@ -214,24 +216,22 @@ void    tutorial(t_info *info)
 
         double step = 1.0 * 425 / lineHeight;
         double texPos = (drawStart - 1080 / 2 + lineHeight / 2) * step;
-        int r, g, b;
+        // int r, g, b;
+		char	*loc;
         for (int y = drawStart; y < drawEnd; y++) // y: 화면상의 픽셀 좌표
         {
             int texY = (int)texPos & (info->texture->east->height - 1); // texture file에서 얻어와야 하는 자리
-            //ft_printf("y: %d texX %d, texY %d ", y,texX, texY);
-            texPos += step;
-            color = (int) (info->texture->east->addr + texY * info->texture->east->line + texX * (info->texture->east->bpp / 8));
-            r = (color &(0xFF << 16))>>16;
-            g = (color &(0xFF << 8)) >> 8;
-            b = color & 0XFF;
-            color = (r << 16 | g << 8 | b);
-            //ft_printf("%X\n", color);
-            // if (side == 1)
+            loc = info->texture->east->addr + texY * info->texture->east->line + texX * info->texture->east->line / 8;
+            // r = (color &(0xFF << 16))>>16;
+            // g = (color &(0xFF << 8)) >> 8;
+            // b = color & 0XFF;
+            // color = (r << 16 | g << 8 | b);
+            // // if (side == 1)
             //     color = (color >> 1) & 8355711;
-            
-            char *dst = info->img->addr + (y * info->img->line + idx_x * (info->img->bpp / 8));
-	        *(unsigned int *)dst = color;
+            char *dst = loc;
+	        // *(unsigned int *)dst = color;
             //info->img->addr + (y * info->img->line + idx_x * (info->img->bpp / 8)) = color;
+            texPos += step;
         }
         //mlx_put_image_to_window(info->mlx, info->win, info->texture->east, 0, 0);
         mlx_put_image_to_window(info->mlx, info->win, info->img->img, 0, 0);
