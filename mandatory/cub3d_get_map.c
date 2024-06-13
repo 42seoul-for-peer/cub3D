@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/12 16:53:27 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:17:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_type get_map_line_type(char *line)
 	else if (ft_strncmp(line, "EA ", 3) == 0)
 		return (east);
 	else if (ft_strncmp(line, "F ", 2) == 0)
-		return (floor);
+		return (floor_l);
 	else if (ft_strncmp(line, "C ", 2) == 0)
 		return (ceiling);
 	else
@@ -142,7 +142,7 @@ void get_map_color(t_map *map, t_type line_type, char *line)
 	checker = get_color(color_arr, line);
 	if (checker)
 		print_error(checker, __func__);
-	if (line_type == floor && map->floor == NULL)
+	if (line_type == floor_l && map->floor == NULL)
 		map->floor = color_arr;
 	else if (line_type == ceiling && map->ceiling == NULL)
 		map->ceiling = color_arr;
