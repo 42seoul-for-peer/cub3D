@@ -67,6 +67,18 @@ void	load_texture(t_info *info)
 	}
 }
 
+int	find_color(t_info *info, int col, int row)
+{
+	int	color;
+	int height = info->tex[0].height;
+	int	width = info->tex[0].width;
+	int	result_row = height * row / 1920;
+	int	result_col = width * col / 1080;
+
+	color = info->tex[0].texture[width * result_row + result_col];
+	return (color);
+}
+
 int	main()
 {
 	t_info	info;
@@ -89,7 +101,7 @@ int	main()
 	for (int row = 0; row < info.tex[0].height; row++)
 	{
 		for (int col = 0; col < info.tex[0].width; col++)
-			info.img->data[(int)info.tex[0].height * row + col] = info.tex[0].texture[(int)info.tex[0].height * row + col];
+			info.img->data[(int)info.tex[0].height * row + col] = find_color(&info, col, row);
 	}
 	mlx_put_image_to_window(info.mlx->mlx, info.mlx->win, info.img->img, 0, 0);
 	mlx_loop(info.mlx->mlx);
