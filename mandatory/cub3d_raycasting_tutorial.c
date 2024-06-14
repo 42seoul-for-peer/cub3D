@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/13 18:15:57 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:48:14 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,6 @@ t_vector    init_plane_vector(t_vector dir)
     return (plane);
 }
 
-double  ft_abs(double num)
-{
-    if (num < 0)
-        return (num * -1);
-    else
-        return (num);
-}
-
-double  ft_floor(double num)
-{
-    double num_floor;
-
-    if (num > 0)
-        num_floor = (int) num - 0;
-    else
-        num_floor = (int) num - 1;
-    return (num_floor);
-}
-
 void print_color(t_info *info, int width, int h_start, int h_end, int color)
 {
     while (h_start < h_end)
@@ -125,14 +106,9 @@ void    tutorial(t_info *info)
     int     color;          // Color값
 
     info->img->img = mlx_new_image(info->mlx, 1920, 1080); //화면에 씌울 이미지 생성 (image buffer)
-    info->img->addr = mlx_get_data_addr(info->img->img, &(info->img->bpp), \
+    info->img->addr = (int *) mlx_get_data_addr(info->img->img, &(info->img->bpp), \
 									&(info->img->line), &(info->img->endian));
-    unsigned int *data;
-    int bpp;
-    int size_l;
-    int endian;
-    data = (unsigned int *)mlx_get_data_addr(info->texture->north, &bpp, &size_l, &endian);
-
+                                    
     pos.x = info->map->player_pos[0];
     pos.y = info->map->player_pos[1];
 
@@ -206,7 +182,7 @@ void    tutorial(t_info *info)
             wallX = pos.y + perpWallDist * rayDir.y;
         else
             wallX = pos.x + perpWallDist * rayDir.x;
-        wallX -= ft_floor((wallX));
+        wallX -= floor((wallX));
 
         int texX = (int) (wallX * (double)(425));
         if (side == 0 && rayDir.x > 0)
@@ -216,24 +192,42 @@ void    tutorial(t_info *info)
 
         double step = 1.0 * 425 / lineHeight;
         double texPos = (drawStart - 1080 / 2 + lineHeight / 2) * step;
-        // int r, g, b;
-		char	*loc;
+
+        ft_printf("drawstart & end: %d ~ %d\n", drawStart, drawEnd);
+        int prev_color = 0;
         for (int y = drawStart; y < drawEnd; y++) // y: 화면상의 픽셀 좌표
         {
-            int texY = (int)texPos & (info->texture->east->height - 1); // texture file에서 얻어와야 하는 자리
-            loc = info->texture->east->addr + texY * info->texture->east->line + texX * info->texture->east->line / 8;
-            // r = (color &(0xFF << 16))>>16;
-            // g = (color &(0xFF << 8)) >> 8;
-            // b = color & 0XFF;
-            // color = (r << 16 | g << 8 | b);
-            // // if (side == 1)
-            //     color = (color >> 1) & 8355711;
-            char *dst = loc;
-	        // *(unsigned int *)dst = color;
-            //info->img->addr + (y * info->img->line + idx_x * (info->img->bpp / 8)) = color;
+            int texY = (int)texPos % 425;
             texPos += step;
+            if (side == 0)
+            {
+                if (rayDir.x >= 0)
+                    color = info->texture->west->addr[info->texture->west->height * texY + texX];
+                else
+                    color = info->texture->east->addr[info->texture->east->height * texY + texX];
+            }
+            else
+            {
+                if (rayDir.y >= 0)
+                    color = info->texture->north->addr[info->texture->north->height * texY + texX];
+                else
+                    color = info->texture->south->addr[info->texture->south->height * texY + texX];
+            }
+            if (prev_color == 0)
+            {
+                ft_printf("now focusing on texPos(%d, %d) for (%d, %d) ", texX, texY, idx_x, y);
+                ft_printf(" %X \n",color);
+                prev_color = color;
+            }
+            if (prev_color != 0 && color != prev_color)
+            {
+                ft_printf("now focusing on (%d, %d) for (%d, %d) ", texX, texY, idx_x, y);
+                ft_printf(" %X \n",color);
+                prev_color = color;
+            }
+            *(info->img->addr + y * 1920 + idx_x) = color;
         }
-        //mlx_put_image_to_window(info->mlx, info->win, info->texture->east, 0, 0);
+        ft_printf("\n");
         mlx_put_image_to_window(info->mlx, info->win, info->img->img, 0, 0);
         idx_x++;
     }

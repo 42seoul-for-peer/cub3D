@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/13 16:17:22 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/14 14:31:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef	enum e_error
 typedef struct s_img
 {
 	void	*img;
-	char	*addr;
+	int		*addr;
 	int		width;
 	int		height;
 	int		bpp;
@@ -105,4 +105,6 @@ void	print_error(t_error flag, const char *func);
 //raycasting_tutorial.c
 void	tutorial(t_info *info);
 
+//ray_tutorial
+int		main_loop(t_info *info);
 #endif
