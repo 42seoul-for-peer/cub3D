@@ -48,7 +48,7 @@ int	*load_image_malloc(t_info *info, char *path, t_img *img, int i)
 	for(row = 0;row < img->height; row++)
 	{
 		for (col = 0; col < img->width; col++)
-			result[img->height * row + col] = img->data[img->width * row + col];
+			result[img->width * row + col] = img->data[img->width * row + col];
 	}
 	mlx_destroy_image(info->mlx->mlx, img->img);
 	return (result);
