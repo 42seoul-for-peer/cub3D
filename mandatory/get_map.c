@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 17:26:13 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 21:08:11 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,68 +107,52 @@ void get_map_texture(t_map *map, char *line, t_type line_type)
 	}
 }
 
-void	set_rgb(int	*rgb, char *line)
-{
-	int		idx;
-	char	*trim_result;
-	char	**split_res;
-
-	while ((9 <= *line && *line <= 13) || *line == 32)
-		line++;
-	if (!ft_isdigit(*line))
-		print_error(map_data, __func__);
-	split_res = ft_split(line, ',');
-	if (!split_res)
-		print_error(sys_call, __func__);
-	idx = 0;
-	while (idx < 3)
-	{
-		trim_result = ft_strtrim(split_res[idx], " \n");
-		if (!trim_result)
-			print_error(sys_call, __func__);
-		rgb[idx] = ft_atoi(trim_result);
-		if (ft_strchr(trim_result, ' ') || rgb[idx] < 0 || rgb[idx] > 255)
-			print_error(map_data, __func__);
-		free(trim_result);
-		free(split_res[idx++]);
-	}
-	free(split_res);
-}
-
 bool	check_color_format(char *str)
 {
-	int	cnt;
-	int	idx;
+	int	comma_cnt;
+	int	num_cnt;
 
-	if (*str != 'F' && *str != 'C')
-		return (false);
-	cnt = 0;
-	while (ft_strchr(str, ','))
-		cnt++;
-	ft_printf("cnt: %d\n", cnt);
-	if (cnt > 2)
-		return (false);
-	idx = 0;
-	while (idx < 3)
+	comma_cnt = 0;
+	num_cnt = 0;
+	while (*str)
 	{
-		while (!ft_isdigit(*str))
-			str++;
-		if (ft_atoi(str) < 0 || ft_atoi(str) > 255)
-			return (false);
-		while (ft_isdigit(*str))
-			str++;
+		if (ft_isdigit(*str))
+		{
+			num_cnt++;
+			if (ft_atoi(str) < 0 || ft_atoi(str) > 255)
+				return (false);
+			while (ft_isdigit(*str))
+				str++;
+		}
+		else if (*str == ',')
+			comma_cnt++;
+		str++;
 	}
+	if (comma_cnt > 2 || num_cnt > 3)
+		return (false);
 	return (true);
 }
 
 void	get_map_color(t_map *map, char *line, t_type line_type)
 {
+	int		idx;
 	int		*rgb;
 
 	rgb = ft_calloc(3, sizeof(int));
 	if (!rgb)
 		print_error(sys_call, __func__);
-	set_rgb(rgb, line + 1);
+	if (check_color_format(line) == false)
+		print_error(map_data, __func__);
+	idx = 0;
+	while (*line && idx < 3)
+	{
+		while (!ft_isdigit(*line))
+			line++;
+		rgb[idx] = ft_atoi(line);
+		while (ft_isdigit(*line))
+			line++;
+		idx++;
+	}
 	if (line_type == floor_color && map->floor == NULL)
 		map->floor = rgb;
 	else if (line_type == ceiling_color && map->ceiling == NULL)
