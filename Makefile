@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/16 14:43:41 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/16 15:28:24 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ src_m = cub3d.c\
 		check_map.c\
 		get_map.c\
 		raycasting_tutorial.c\
-		parse_map.c\
 		error.c\
 
 SRCS_M = $(addprefix $(MAN_DIR)/,$(src_m))

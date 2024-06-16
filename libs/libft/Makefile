@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 12:49:20 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/04/16 21:28:55 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/16 17:24:52 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ src_man = ft_isalpha.c\
 		ft_isalnum.c\
 		ft_isascii.c\
 		ft_isprint.c\
+		ft_isspace.c\
 		ft_strlen.c\
 		ft_memset.c\
 		ft_bzero.c\

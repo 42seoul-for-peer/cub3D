@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   racasting_tutorial.c                               :+:      :+:    :+:   */
+/*   raycasting_tutorial.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/16 14:49:18 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:25:37 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,6 @@ void    tutorial(t_info *info)
 
     screen.x = 0;
     dir = init_dir_vector(info->map->player_dir);
-    info->img->addr = (int *) mlx_get_data_addr(info->img->img, &(info->img->bpp), \
-									&(info->img->line), &(info->img->endian));
     pos.x = info->map->pos.x + 0.5;
     pos.y = info->map->pos.y + 0.5;
 
@@ -260,7 +258,7 @@ void    tutorial(t_info *info)
         while (screen.y < drawStart)
         {
             color = create_color(info->map->ceiling);
-            *(info->img->addr + screen.y * 1920 + screen.x) = color;
+            *(info->screen->addr + screen.y * 1920 + screen.x) = color;
             screen.y++;
         }
         while (screen.y < drawEnd)
@@ -281,17 +279,17 @@ void    tutorial(t_info *info)
                 else
                     color = info->texture->south->addr[info->texture->south->height * tex.y + tex.x];
             }
-            *(info->img->addr + screen.y * 1920 + screen.x) = color;
+            *(info->screen->addr + screen.y * 1920 + screen.x) = color;
             screen.y++;
         }
         while (screen.y < 1080)
         {
             color = create_color(info->map->floor);
-            *(info->img->addr + screen.y * 1920 + screen.x) = color;
+            *(info->screen->addr + screen.y * 1920 + screen.x) = color;
             screen.y++;
         }
 
-        mlx_put_image_to_window(info->mlx, info->win, info->img->img, 0, 0);
+        mlx_put_image_to_window(info->mlx, info->win, info->screen->ptr, 0, 0);
         screen.x++;
     }
     mlx_hook(info->win, 17, 0, &dev_close, 0);
