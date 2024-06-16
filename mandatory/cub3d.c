@@ -33,14 +33,6 @@ void	dev_print_mapformat(t_map *map) //map 출력
 	}
 }
 
-int dev_close(int key, void *test) //mlx key hook (ESC)
-{
-	test = 0;
-	if (key == 53)
-		exit(0);
-	return (0);
-}
-
 bool	check_file_format(char *path)
 {
 	char	*file_name;
@@ -74,9 +66,7 @@ int	main(int argc, char *argv[])
 		print_error(sys_call, __func__);
 	info = init_info(map_fd);
 	dev_print_mapformat(info->map);
-	mlx_hook(info->win, 2, 0, &dev_close, 0);
 	tutorial(info);
-	mlx_loop(info->mlx);
 	free(info->map);
 	exit(EXIT_SUCCESS);
 }
