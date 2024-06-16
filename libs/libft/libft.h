@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 17:08:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/01/08 18:49:55 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:25:15 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_isdigit(int val);
 int		ft_isalnum(int val);
 int		ft_isascii(int val);
 int		ft_isprint(int val);
+int		ft_isspace(int val);
 
 /* alter char */
 int		ft_tolower(int c);

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 14:56:54 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:21:28 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@
 
 typedef enum e_type
 {
-	north = 0,
+	error = -1,
+	north,
 	south,
 	west,
 	east,
-	floor_l,
-	ceiling,
+	floor_color,
+	ceiling_color,
 	scene
 }	t_type;
 
@@ -63,7 +64,7 @@ typedef struct s_coodinate
 
 typedef struct s_img
 {
-	void	*img;
+	void	*ptr;
 	int		*addr;
 	int		width;
 	int		height;
@@ -101,7 +102,7 @@ typedef struct s_info
 {
 	t_map	*map;
 	t_tex	*texture;
-	t_img	*img;
+	t_img	*screen;
 	void    *mlx;
     void    *win;
 }	t_info;
@@ -113,7 +114,11 @@ t_info	*init_info(int fd);
 bool	check_map_format(t_map *map);
 
 //get_map.c
-t_map *get_map_format(t_map *map, int fd);
+void	set_map_data(t_map *map, int fd);
+void	get_map_color(t_map *map, char *str, t_type line_type);
+void	get_map_texture(t_map *map, char *str, t_type line_type);
+void	get_map_scene(t_map *map, char *str, int fd);
+t_type get_map_line_type(char *line);
 
 //parse_map.c
 t_map *parse_map(int fd);
@@ -124,6 +129,4 @@ void	print_error(t_error flag, const char *func);
 //raycasting_tutorial.c
 void	tutorial(t_info *info);
 
-//ray_tutorial
-int		main_loop(t_info *info);
 #endif

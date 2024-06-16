@@ -6,30 +6,16 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 14:28:48 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:32:16 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	dev_print_mapformat(t_map *map) //map 출력
+void	dev_print_info(t_info *info)
 {
-	int	idx;
-
-	idx = 0;
-	ft_printf("width, height : %d, %d\n", map->width, map->height);
-	ft_printf("north : %06d\n", map->north);
-	ft_printf("south : %06d\n", map->south);
-	ft_printf("west : %06d\n", map->west);
-	ft_printf("east : %06d\n", map->east);
-	ft_printf("floor : %d %d %d\n", map->floor[0], map->floor[1], map->floor[2]);
-	ft_printf("ceiling : %d %d %d\n", map->ceiling[0], map->ceiling[1], map->ceiling[2]);
-	ft_printf("map format : \n");
-	while (idx < map->height)
-	{
-		ft_printf("%s\n", map->scene[idx]);
-		idx++;
-	}
+	ft_printf("Floor : (%d, %d, %d)\n", info->map->floor[0], info->map->floor[1], info->map->floor[2]);
+	ft_printf("Ceiling : (%d, %d, %d)\n", info->map->ceiling[0], info->map->ceiling[1], info->map->ceiling[2]);
 }
 
 bool	check_file_format(char *path)
@@ -64,7 +50,7 @@ int	main(int argc, char *argv[])
 	if (map_fd < 0)
 		print_error(sys_call, __func__);
 	info = init_info(map_fd);
-	dev_print_mapformat(info->map);
+	dev_print_info(info);
 	tutorial(info);
 	free(info->map);
 	exit(EXIT_SUCCESS);
