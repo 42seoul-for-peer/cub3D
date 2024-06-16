@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/14 14:29:26 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:28:48 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	dev_print_mapformat(t_map *map) //map 출력
 	ft_printf("east : %06d\n", map->east);
 	ft_printf("floor : %d %d %d\n", map->floor[0], map->floor[1], map->floor[2]);
 	ft_printf("ceiling : %d %d %d\n", map->ceiling[0], map->ceiling[1], map->ceiling[2]);
-	ft_printf("player pos : %d %d %c\n", map->player_pos[0], map->player_pos[1], map->player_pos[2]);
 	ft_printf("map format : \n");
 	while (idx < map->height)
 	{

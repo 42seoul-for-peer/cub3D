@@ -18,19 +18,19 @@ typedef struct s_img
 	int		height;
 }	t_img;
 
-typedef struct s_texture
+typedef struct s_tex
 {
 	char	*path;
 	int		*texture;
 	double	width;
 	double	height;
-}	t_texture;
+}	t_tex;
 
 typedef struct s_info
 {
-	t_texture	tex[4];
-	t_mlx		*mlx;
-	t_img		*img;
+	t_tex	tex[4];
+	t_mlx	*mlx;
+	t_img	*img;
 }	t_info;
 
 int	*load_image_malloc(t_info *info, char *path, t_img *img, int i)
