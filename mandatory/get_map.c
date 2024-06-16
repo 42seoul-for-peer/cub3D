@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 17:25:43 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:26:13 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ bool	check_color_format(char *str)
 		while (ft_isdigit(*str))
 			str++;
 	}
-	
 	return (true);
 }
 
