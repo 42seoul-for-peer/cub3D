@@ -6,17 +6,93 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/14 15:48:14 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/14 15:48:24 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+# define KEY_ESC 53
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
 
 typedef struct s_vector
 {
     double x;
     double y;
 }   t_vector;
+
+int dev_close(int key, void *temp) //mlx key hook (ESC)
+{
+	temp = 0;
+	if (key == 53)
+		exit(0);
+	return (0);
+}
+
+int	key_press(int key, void *data)
+{
+    data = 0;
+	if (key == KEY_ESC)
+		dev_close(53, 0);
+    if (key == KEY_W)
+    {
+
+    }
+    else if (key == KEY_S)
+    {
+
+    }
+    else if (key == KEY_A)
+    {
+
+    }
+    else if (key == KEY_D)
+    {
+
+    }
+    return (0);
+    /* 이동하기 위해 필요한 변수
+    map, posX, posY, dirX, dirY, moveSpeed, rotSpeed, planeX, planeY
+
+    if (keyDown(SDLK_UP))
+    {
+        if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
+        if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;
+    }
+    //move backwards if no wall behind you
+    if (keyDown(SDLK_DOWN))
+    {
+        if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
+        if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;
+    }
+    //rotate to the right
+    if (keyDown(SDLK_RIGHT))
+    {
+      //both camera direction and camera plane must be rotated
+        double oldDirX = dirX;
+        dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
+        dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
+        double oldPlaneX = planeX;
+        planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
+        planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
+    }
+    //rotate to the left
+    if (keyDown(SDLK_LEFT))
+    {
+        //both camera direction and camera plane must be rotated
+        double oldDirX = dirX;
+        dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
+        dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
+        double oldPlaneX = planeX;
+        planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
+        planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
+    }
+    */
+	return (0);
+}
 
 t_vector    init_dir_vector(char flag)
 {
@@ -51,26 +127,20 @@ t_vector    init_plane_vector(t_vector dir)
 
     if (dir.x == 0)
     {
-        plane.x = 1;
+        plane.x = 2;
         plane.y = 0;
     }
     else
     {
         plane.x = 0;
-        plane.y = 1;
+        plane.y = 2;
     }
     return (plane);
 }
 
-void print_color(t_info *info, int width, int h_start, int h_end, int color)
+int create_color(int *colorset)
 {
-    while (h_start < h_end)
-    {
-        // if (dir == 'E')
-        //     mlx_put_image_to_window(info->mlx, info->win, info->texture->east, 96 * po.x, 96 * po.y);
-        mlx_pixel_put(info->mlx, info->win, width, h_start, color);
-        h_start++;
-    }
+    return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
 
 #include <stdio.h>
@@ -79,7 +149,6 @@ void    tutorial(t_info *info)
 {
     t_vector    pos;        // 플레이어의 시작 위치
     t_vector    dir;        // 초기 방향 벡터(불변)
-    dir = init_dir_vector(info->map->player_pos[2]);
     t_vector    plane;      // 플레이어가 바라보는 카메라 평면(출력 화면, 불변)
     t_vector    rayDir;     // 광선의 방향 벡터
 
@@ -90,6 +159,9 @@ void    tutorial(t_info *info)
     double  deltaDistX;     // [x면] -> [다음 x면] 까지의 광선 이동거리
     double  deltaDistY;     // [y면] -> [다음 y면] 까지의 광선 이동거리
     double  perpWallDist;   // 광선의 총 이동거리
+    double  wallX;          //벽과 부딪힌 자리의 X좌표
+    double  step;
+    double  texPos;
 
     int     idx_x;          // 출력 화면의 x좌표
     int     mapX;           // 현재 가리키는 맵의 x좌표
@@ -104,13 +176,18 @@ void    tutorial(t_info *info)
     int     drawStart;      // 화면에 그려기 위한 높이의 start값
     int     drawEnd;        // 화면에 그리기 위한 높이의 end값      (둘이 합하면 화면 출력 높이(height))
     int     color;          // Color값
+    int     texX;
+    int     texY;
 
+    int     print_height;
+
+    dir = init_dir_vector(info->map->player_pos[2]);
     info->img->img = mlx_new_image(info->mlx, 1920, 1080); //화면에 씌울 이미지 생성 (image buffer)
     info->img->addr = (int *) mlx_get_data_addr(info->img->img, &(info->img->bpp), \
 									&(info->img->line), &(info->img->endian));
                                     
-    pos.x = info->map->player_pos[0];
-    pos.y = info->map->player_pos[1];
+    pos.x = info->map->player_pos[0] + 0.5;
+    pos.y = info->map->player_pos[1] + 0.5;
 
     plane = init_plane_vector(dir);
     idx_x = 0;
@@ -177,27 +254,32 @@ void    tutorial(t_info *info)
         if (drawEnd >= 1080)
             drawEnd = 1080 - 1;
 
-        double wallX; //벽과 부딪힌 자리의 X좌표
         if (side == 0)
             wallX = pos.y + perpWallDist * rayDir.y;
         else
             wallX = pos.x + perpWallDist * rayDir.x;
         wallX -= floor((wallX));
 
-        int texX = (int) (wallX * (double)(425));
+        texX = (int) (wallX * (double)(425));
         if (side == 0 && rayDir.x > 0)
             texX = 425 - texX - 1;
         if (side == 1 && rayDir.y < 0)
             texX = 425 - texX - 1;
 
-        double step = 1.0 * 425 / lineHeight;
-        double texPos = (drawStart - 1080 / 2 + lineHeight / 2) * step;
+        step = 1.0 * 425 / lineHeight;
+        texPos = (drawStart - 1080 / 2 + lineHeight / 2) * step;
 
-        ft_printf("drawstart & end: %d ~ %d\n", drawStart, drawEnd);
-        int prev_color = 0;
-        for (int y = drawStart; y < drawEnd; y++) // y: 화면상의 픽셀 좌표
+        /* 화면의 색깔을 불러오는 부분*/
+        print_height = 0;
+        while (print_height < drawStart)
         {
-            int texY = (int)texPos % 425;
+            color = create_color(info->map->ceiling);
+            *(info->img->addr + print_height * 1920 + idx_x) = color;
+            print_height++;
+        }
+        while (print_height < drawEnd)
+        {
+            texY = (int)texPos % 425;
             texPos += step;
             if (side == 0)
             {
@@ -213,22 +295,20 @@ void    tutorial(t_info *info)
                 else
                     color = info->texture->south->addr[info->texture->south->height * texY + texX];
             }
-            if (prev_color == 0)
-            {
-                ft_printf("now focusing on texPos(%d, %d) for (%d, %d) ", texX, texY, idx_x, y);
-                ft_printf(" %X \n",color);
-                prev_color = color;
-            }
-            if (prev_color != 0 && color != prev_color)
-            {
-                ft_printf("now focusing on (%d, %d) for (%d, %d) ", texX, texY, idx_x, y);
-                ft_printf(" %X \n",color);
-                prev_color = color;
-            }
-            *(info->img->addr + y * 1920 + idx_x) = color;
+            *(info->img->addr + print_height * 1920 + idx_x) = color;
+            print_height++;
         }
-        ft_printf("\n");
+        while (print_height < 1080)
+        {
+            color = create_color(info->map->floor);
+            *(info->img->addr + print_height * 1920 + idx_x) = color;
+            print_height++;
+        }
+
         mlx_put_image_to_window(info->mlx, info->win, info->img->img, 0, 0);
         idx_x++;
     }
+    mlx_hook(info->win, 17, 0, &dev_close, 0);
+	mlx_hook(info->win, 2, 0, &key_press, &data);
+    mlx_loop(info->mlx);
 }
