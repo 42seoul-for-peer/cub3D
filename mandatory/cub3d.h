@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/14 14:31:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/16 14:56:54 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include "libft.h"
 
 /* ************************************************************************** */
+# define X 0
+# define Y 1
+
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
+
 typedef enum e_type
 {
 	north = 0,
@@ -38,10 +44,23 @@ typedef	enum e_error
 	sys_call,
 	map_data,
 	map_file,
-	argument
+	argument,
+	lib_mlx
 }	t_error;
 
 /* ************************************************************************** */
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}	t_vec;
+
+typedef struct s_coodinate
+{
+	int	x;
+	int	y;
+}	t_coor;
+
 typedef struct s_img
 {
 	void	*img;
@@ -60,7 +79,7 @@ typedef struct	s_texture
 	t_img	*south;
 	t_img	*west;
 	t_img	*east;
-}	t_texture;
+}	t_tex;
 
 typedef struct s_map
 {
@@ -70,21 +89,21 @@ typedef struct s_map
 	char	*east;
 	int		*floor;
 	int		*ceiling;
-	int		*player_pos; //x, y, dir.
 	int		width;
 	int		height;
 	char	**scene;
+	t_coor	pos;
+	char	player_dir;
 }	t_map;
 
 
 typedef struct s_info
 {
-	t_map		*map;
-	t_texture	*texture;
-	t_img		*img;
-	void    	*mlx;
-    void    	*win;
-	int			win_size[2];
+	t_map	*map;
+	t_tex	*texture;
+	t_img	*img;
+	void    *mlx;
+    void    *win;
 }	t_info;
 
 //init_info.c
