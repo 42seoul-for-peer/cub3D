@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_format.c                                       :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:13:43 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:12:23 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	*get_texture_data(t_info *info, char *path)
 		print_error(sys_call, __func__, __LINE__);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, path, \
 											&texture->width, &texture->height);
+	ft_printf("path: %s\n", path);
 	if (!texture->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
 	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
@@ -82,10 +83,10 @@ bool	is_map_valid(t_map *map)
 	int		y;
 
 	y = 0;
-	while (map->scene[y])
+	while (y < map->height)
 	{
 		x = 0;
-		while (map->scene[y][x])
+		while (x < map->width && map->scene[y][x])
 		{
 			elem = map->scene[y][x];
 			if (elem == 'N' || elem == 'S' || elem == 'W' || elem == 'E')
@@ -95,7 +96,7 @@ bool	is_map_valid(t_map *map)
 				map->player_dir = elem;
 				map->scene[y][x] = 'P';
 			}
-			else if (elem == '0' && !is_surrounded(map, x, y))
+			else if (elem != ' ' && elem != '1' && !is_surrounded(map, x, y))
 				return (false);
 			x++;
 		}
@@ -121,6 +122,10 @@ t_info	*init_info(char *file, int *map_size)
 	if (!info->map || !info->texture || !info->screen)
 		print_error(sys_call, __func__, __LINE__);
 	get_map(info->map, fd, map_size);
+	int idx = 0;
+	ft_printf("map size : (%d, %d)\n", info->map->width, info->map->height);
+	while (info->map->scene[idx])
+		ft_printf("[%s]\n", info->map->scene[idx++]);
 	if (is_map_valid(info->map) == false)
 		print_error(map_data, __func__, __LINE__);
 	get_mlx_data(info);

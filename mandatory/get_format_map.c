@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:33:03 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:22:23 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	get_map_texture(t_map *map, char *str, char type)
 	path = ft_strtrim(str, "\n");
 	if (!path)
 		print_error(sys_call, __func__, __LINE__);
+	ft_printf("%c, %s\n", type, path);
 	if (type == 'N')
 		map->north = path;
 	else if (type == 'S')
@@ -58,12 +59,12 @@ void	get_map_texture(t_map *map, char *str, char type)
 void	get_map_scene(t_map *map, int fd, int *map_size)
 {
 	int		idx_y;
+	int		len;
+	int		len_strlcpy;
 	char	*line;
 	char	**scene;
 
 	idx_y = 0;
-	map->height = map_size[X];
-	map->width = map_size[Y];
 	scene = ft_calloc(map_size[Y] + 1, sizeof(char *));
 	if (!scene)
 		print_error(sys_call, __func__, __LINE__);
@@ -75,7 +76,10 @@ void	get_map_scene(t_map *map, int fd, int *map_size)
 			scene[idx_y] = ft_calloc(map_size[X] + 1, sizeof(char));
 			if (!scene[idx_y])
 				print_error(sys_call, __func__, __LINE__);
-			ft_strlcpy(scene[idx_y], line, ft_strlen(line));
+			len = ft_strlen(line);
+			if (line[len - 1] == '\n')
+				len--;
+			len_strlcpy = ft_strlcpy(scene[idx_y], line, len + 1);
 			idx_y++;
 		}
 		free(line);
@@ -89,6 +93,8 @@ void	get_map(t_map *map, int fd, int *map_size)
 	char	*line;
 
 	idx = 0;
+	map->width = map_size[X];
+	map->height = map_size[Y];
 	while (idx < 6)
 	{
 		line = get_next_line(fd);
