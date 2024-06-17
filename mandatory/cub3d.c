@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:17:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:34:13 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ void	dev_print_info(t_info *info, int *map_size)
 	ft_printf("Ceiling : (%d, %d, %d)\n", info->map->ceiling[0], info->map->ceiling[1], info->map->ceiling[2]);
 }
 
-bool	check_file_format(char *path)
+bool	check_file_format(char *name)
 {
-	char	*file_name;
+	char	*name;
 
-	if (ft_strrchr(path, '/'))
-		file_name = ft_strrchr(path, '/') + 1;
+	if (ft_strrchr(name, '/'))
+		name = ft_strrchr(name, '/') + 1;
 	else
-		file_name = path;
-	if (ft_strlen(file_name) < 5)
+		name = name;
+	if (ft_strlen(name) < 5)
 		return (false);
-	if (ft_strchr(file_name, '.') != ft_strrchr(file_name, '.'))
+	if (ft_strchr(name, '.') != ft_strrchr(name, '.'))
 		return (false);
-	if (ft_strnstr(file_name, ".cub", ft_strlen(file_name)) == 0)
+	if (ft_strnstr(name, ".cub", ft_strlen(name)) == 0)
 		return (false);
-	if (ft_strncmp(ft_strnstr(file_name, ".cub", ft_strlen(file_name)), ".cub", 5))
+	if (ft_strncmp(ft_strnstr(name, ".cub", ft_strlen(name)), ".cub", 5))
 		return (false);
 	return (true);
 }
@@ -47,7 +47,7 @@ int	main(int argc, char *argv[])
 	t_info	*info;
 
 	// 1. 인자 개수 확인
-	if (argc != 2)
+	if (argc != 2 || check_file_format(argv[1]))
 		print_error(argument, __func__);
 	map_size = NULL;
 	map_size = check_format(argv[1]);
