@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:05:31 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:46:07 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ void	check_scene(char *line, int *scene)
 			print_error(map_data, __func__, __LINE__);
 		idx++;
 	}
-	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
-		print_error(map_data, __func__, __LINE__);
 }
 
 void	check_map_data(int fd, int *map_size)
@@ -106,10 +104,14 @@ void	check_map_data(int fd, int *map_size)
 			else
 				check_scene(line, scene);
 		}
+		else if (*line == '\n' && (scene[1] || scene[2]))
+			print_error(map_data, __func__, __LINE__);
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (elem[0] * elem[1] * elem[2] * elem[3] * elem[4] * elem[5] != 1)
+		print_error(map_data, __func__, __LINE__);
+	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
 		print_error(map_data, __func__, __LINE__);
 	map_size[0] = scene[1];
 	map_size[1] = scene[2];

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:07:16 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:12:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char *argv[])
 	// 2. map_size == NULL : 맵 파일 포맷 문제, map_size != NULL : 맵 파일 포맷 이상 없음
 	// if (map_size == NULL)
 	// 	print_error(map_file, __func__, __LINE__);
-	info = get_format(argv[1], map_size);
+	info = init_info(argv[1], map_size);
 	// 3. info == NULL : get_format 중 문제 발생(calloc?)
 	if (info == 0)
 		print_error(map_file, __func__, __LINE__);

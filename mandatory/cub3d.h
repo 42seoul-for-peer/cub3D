@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:18 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:13:51 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,6 @@ typedef struct s_info
     void    *win;
 }	t_info;
 
-//init_info.c
-t_info	*init_info(int fd);
-
-// //check_map.c
-// bool	check_map_format(t_map *map);
-
 // checker.c
 void	check_format(char *file, int *map_size);
 
@@ -124,7 +118,7 @@ void	print_error(t_error flag, const char *func, int line);
 void	tutorial(t_info *info);
 
 // get_format.c
-t_info	*get_format(char *file, int *map_size);
+t_info	*init_info(char *file, int *map_size);
 
 // get_format_map.c
 void    get_map(t_map *map, int fd, int *map_size);

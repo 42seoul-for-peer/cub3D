@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/17 15:57:14 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/17 16:28:30 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ MAN_DIR = ./mandatory
 
 src_m = cub3d.c\
 		checker.c\
-		get_format.c\
+		init.c\
 		get_format_map.c\
 		raycasting_tutorial.c\
 		error.c\
