@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:07:47 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ bool	is_surrounded(t_map *map, int x, int y)
 	elem_right = map->scene[y][x - 1];
 	if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
 		return (false);
-	if (elem_up == ' ' || elem_down == ' ' || elem_right == ' ' || elem_left == ' ')
+	if (elem_up == ' ' || elem_down == ' ' || \
+			elem_right == ' ' || elem_left == ' ')
 		return (false);
 	return (true);
 }
