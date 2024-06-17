@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   format_checker.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 14:47:06 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:37:21 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	check_file(char *file, int *fd)
-{
-	char	*name;
-
-	if (ft_strrchr(file, '/'))
-		name = ft_strrchr(file, '/') + 1;
-	if (ft_strlen(name) < 5)
-		print_error(map_file, __func__);
-	if (ft_strchr(name, '.') != ft_strrchr(name, '.'))
-		print_error(map_file, __func__);
-	if (ft_strnstr(name, ".cub", ft_strlen(name) == 0))
-		print_error(map_file, __func__);
-	if (ft_strncmp(ft_strnstr(name, ".cub", ft_strlen(name)), ".cub", 5))
-		print_error(map_file, __func__);
-	*fd = open(file, O_RDONLY);
-	if (*fd < 0)
-		print_error(sys_call, __func__);
-}
 
 void	check_color(char *line)
 {
