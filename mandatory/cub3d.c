@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:34:13 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:37:04 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	dev_print_info(t_info *info, int *map_size)
 	ft_printf("Ceiling : (%d, %d, %d)\n", info->map->ceiling[0], info->map->ceiling[1], info->map->ceiling[2]);
 }
 
-bool	check_file_format(char *name)
+bool	check_file(char *name)
 {
 	char	*name;
 
