@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:07:47 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:13:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	is_map_valid(t_map *map)
 	return (true);
 }
 
-t_info	*get_format(char *file, int *map_size)
+t_info	*init_info(char *file, int *map_size)
 {
 	t_info	*info;
 	int		fd;
