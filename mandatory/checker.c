@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:46:07 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 19:58:52 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,22 @@ void	check_color(char *line)
 
 	comma_cnt = 0;
 	num_cnt = 0;
+	if (ft_strchr(line, '-'))
+		print_error(map_data, __func__, __LINE__);
 	while (*line)
 	{
-		if (ft_isdigit(*line))
+		if (*line == '+' || ft_isdigit(*line))
 		{
 			num_cnt++;
 			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
 				print_error(map_data, __func__, __LINE__);
-			while (ft_isdigit(*line))
+			while (*line == '+' || ft_isdigit(*line))
 				line++;
 		}
 		if (*line == ',')
 			comma_cnt++;
+		if (*line == 0)
+			break ;
 		line++;
 	}
 	if (comma_cnt > 2 || num_cnt > 3)
@@ -65,14 +69,17 @@ void	check_elem(char *line, int *elem)
 	idx++;
 }
 
-void	check_scene(char *line, int *scene)
+bool	check_scene(char *line, int *scene)
 {
 	int	len;
 	int	idx;
 
 	len = ft_strlen(line);
-	if (scene[1] < len)
-		scene[1] = len;
+	if (!ft_strchr(line, 'N') && !ft_strchr(line, 'S') && !ft_strchr(line, 'W') \
+	&& !ft_strchr(line, 'E') && !ft_strchr(line, '1') && !ft_strchr(line, '0'))
+		return (false);
+	if (line[len - 1] == '\n')
+		len--;
 	scene[2] += 1;
 	idx = 0;
 	while (idx < len - 1)
@@ -80,10 +87,15 @@ void	check_scene(char *line, int *scene)
 		if (line[idx] == 'N' || line[idx] == 'S' || \
 			line[idx] == 'W' || line[idx] == 'E')
 			scene[0] += 1;
-		else if (line[idx] != '0' && line[idx] != '1')
+		else if (line[idx] != '0' && line[idx] != '1' && line[idx] != ' ')
 			print_error(map_data, __func__, __LINE__);
+		if (line[idx] == ' ' && !ft_strchr(line + idx, '0') && !ft_strchr(line + idx, '1'))
+			len = idx;
 		idx++;
 	}
+	if (scene[1] < len)
+		scene[1] = len;
+	return (true);
 }
 
 void	check_map_data(int fd, int *map_size)
@@ -97,14 +109,11 @@ void	check_map_data(int fd, int *map_size)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (*line != '\n')
-		{
-			if (ft_isalpha(*line))
-				check_elem(line, elem);
-			else
-				check_scene(line, scene);
-		}
-		else if (*line == '\n' && (scene[1] || scene[2]))
+		if (*line != '\n' && ft_isalpha(*line))
+			check_elem(line, elem);
+		else if (*line != '\n' && check_scene(line, scene) == false)
+			print_error(map_data, __func__, __LINE__);
+		if ((scene[1] || scene[2]) && *line == '\n') // 유효 지도들 사이에 개행만 있는 경우
 			print_error(map_data, __func__, __LINE__);
 		free(line);
 		line = get_next_line(fd);

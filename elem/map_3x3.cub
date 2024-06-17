@@ -1,12 +1,16 @@
-NO     ./elem/north.xpm
-SO      ./elem/south.xpm
+NO ./elem/north.xpm
+SO     ./elem/south.xpm
 WE           ./elem/west.xpm
 EA     ./elem/east.xpm
-F 255 , 22 , 251
-C      130 ,  240 , 255        
+F 255 , 22, 1
+C      130 ,  240 , 25
 
-11111
-10001
-10W01
-10001
-11111
+111    
+101                      
+111                 
+         111
+         1W1
+         111
+             111
+             101
+             111
