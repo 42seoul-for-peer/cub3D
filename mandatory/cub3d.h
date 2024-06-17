@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 16:21:28 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:59:44 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ typedef	enum e_error
 	map_data,
 	map_file,
 	argument,
-	lib_mlx
+	lib_mlx,
+	tex
 }	t_error;
 
 /* ************************************************************************** */
@@ -110,18 +111,11 @@ typedef struct s_info
 //init_info.c
 t_info	*init_info(int fd);
 
-//check_map.c
-bool	check_map_format(t_map *map);
+// //check_map.c
+// bool	check_map_format(t_map *map);
 
-//get_map.c
-void	set_map_data(t_map *map, int fd);
-void	get_map_color(t_map *map, char *str, t_type line_type);
-void	get_map_texture(t_map *map, char *str, t_type line_type);
-void	get_map_scene(t_map *map, char *str, int fd);
-t_type get_map_line_type(char *line);
-
-//parse_map.c
-t_map *parse_map(int fd);
+// checker.c
+int		*check_format(char *file);
 
 //error.c
 void	print_error(t_error flag, const char *func);
@@ -129,4 +123,9 @@ void	print_error(t_error flag, const char *func);
 //raycasting_tutorial.c
 void	tutorial(t_info *info);
 
+// get_format.c
+t_info	*get_format(char *file, int *map_size);
+
+// get_format_map.c
+void    get_map(t_map *map, int fd, int *map_size);
 #endif

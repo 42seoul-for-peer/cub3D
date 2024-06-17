@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/16 15:25:37 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:31:25 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void    tutorial(t_info *info)
     dir = init_dir_vector(info->map->player_dir);
     pos.x = info->map->pos.x + 0.5;
     pos.y = info->map->pos.y + 0.5;
+	printf("position(%f, %f)\n", pos.x, pos.y);
 
 	plane = init_plane_vector(dir);
     while (screen.x < 1920)
@@ -223,7 +224,7 @@ void    tutorial(t_info *info)
                 side = 1;
             }
 			//광선이 벽과 만났는지 확인
-            if (info->map->scene[map.y][map.x] == '1' || info->map->scene[map.y][map.x] == '2')
+            if (info->map->scene[map.y][map.x] == '1')
                 hit = true;
         }
         if (side == 0)  // y축에 평행하게 벽에 충돌
@@ -288,7 +289,6 @@ void    tutorial(t_info *info)
             *(info->screen->addr + screen.y * 1920 + screen.x) = color;
             screen.y++;
         }
-
         mlx_put_image_to_window(info->mlx, info->win, info->screen->ptr, 0, 0);
         screen.x++;
     }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_error.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:31:46 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/12 16:48:57 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:28:04 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,9 @@ void	print_error(t_error flag, const char *func)
 		ft_putendl_fd("invalid map file type", STDERR_FILENO);
 	else if (flag == argument)
 		ft_putendl_fd("\n\tusage: ./cub3d x.cub", STDERR_FILENO);
+	else if (flag == lib_mlx)
+		ft_putendl_fd("mlx error", STDERR_FILENO);
+	else if (flag == tex)
+		ft_putendl_fd("invalid texture path", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }

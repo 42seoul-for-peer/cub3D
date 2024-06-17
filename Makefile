@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/16 15:28:24 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/17 14:21:56 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,9 +44,9 @@ DEPS = $(COMP_SRCS:.c=.d)
 MAN_DIR = ./mandatory
 
 src_m = cub3d.c\
-		init_info.c\
-		check_map.c\
-		get_map.c\
+		checker.c\
+		get_format.c\
+		get_format_map.c\
 		raycasting_tutorial.c\
 		error.c\
 
