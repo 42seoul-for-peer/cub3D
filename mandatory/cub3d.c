@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:07:16 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	dev_print_info(t_info *info, int *map_size)
 {
-	int idx= 0;
+	int	idx;
+
+	idx = 0;
 	ft_printf("map_size[Y] : %d\n", map_size[Y]);
 	while (idx < map_size[Y])
 		ft_printf("%s\n", info->map->scene[idx++]);

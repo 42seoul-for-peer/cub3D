@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:02:40 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:05:31 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_color(char *line)
 		print_error(map_data, __func__, __LINE__);
 }
 
-void	check_elem(char *line, int *elem_arr)
+void	check_elem(char *line, int *elem)
 {
 	static int	idx;
 	int			fd;
@@ -45,7 +45,7 @@ void	check_elem(char *line, int *elem_arr)
 
 	if (idx > 5)
 		print_error(map_data, __func__, __LINE__);
-	elem_arr[idx] += 1;
+	elem[idx] += 1;
 	if (idx < 4)
 	{
 		line += 2;
@@ -65,26 +65,26 @@ void	check_elem(char *line, int *elem_arr)
 	idx++;
 }
 
-void	check_scene(char *line, int *scene_arr)
+void	check_scene(char *line, int *scene)
 {
 	int	len;
 	int	idx;
 
 	len = ft_strlen(line);
-	if (scene_arr[1] < len)
-		scene_arr[1] = len;
-	scene_arr[2] += 1;
+	if (scene[1] < len)
+		scene[1] = len;
+	scene[2] += 1;
 	idx = 0;
 	while (idx < len - 1)
 	{
 		if (line[idx] == 'N' || line[idx] == 'S' || \
 			line[idx] == 'W' || line[idx] == 'E')
-			scene_arr[0] += 1;
+			scene[0] += 1;
 		else if (line[idx] != '0' && line[idx] != '1')
 			print_error(map_data, __func__, __LINE__);
 		idx++;
 	}
-	if (scene_arr[0] > 1)
+	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
 		print_error(map_data, __func__, __LINE__);
 }
 
@@ -109,9 +109,7 @@ void	check_map_data(int fd, int *map_size)
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (elem[0] & elem[1] & elem[2] & elem[3] & elem[4] & elem[5] != 1)
-		print_error(map_data, __func__, __LINE__);
-	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
+	if (elem[0] * elem[1] * elem[2] * elem[3] * elem[4] * elem[5] != 1)
 		print_error(map_data, __func__, __LINE__);
 	map_size[0] = scene[1];
 	map_size[1] = scene[2];
