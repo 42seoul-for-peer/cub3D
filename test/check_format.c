@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   check_format.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:51:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/16 16:25:11 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ char    **get_copied_scene(t_map *map)
     idx = 0;
     scene_copy = ft_calloc(map->height + 1, sizeof(char *));
     if (!scene_copy)
-        print_error(sys_call, __func__);
+        print_error(sys_call, __func__, __LINE__);
     while (idx < map->height)
     {
         scene_copy[idx] = ft_calloc(map->width + 1, sizeof(char *));
         if (!scene_copy[idx])
-            print_error(sys_call, __func__);
+            print_error(sys_call, __func__, __LINE__);
         ft_strlcpy(scene_copy[idx], map->scene[idx], map->width + 1);
         idx++;
     }

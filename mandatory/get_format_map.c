@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:17:33 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	get_map_color(t_map *map, char *line, t_type line_type)
 
 	rgb = ft_calloc(3, sizeof(int));
 	if (!rgb)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	idx = 0;
 	while (*line && idx < 3)
 	{
@@ -65,13 +65,13 @@ void get_map_texture(t_map *map, char *line)
 
     path = ft_substr(line, 3, len - 4);
     if (!path)
-        print_error(sys_call, __func__);
+        print_error(sys_call, __func__, __LINE__);
 	idx = 0;
 	while (path[idx] == ' ')
 		idx++;
 	path_trim = ft_strdup(path + idx);
 	if (!path_trim)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	free(path);
 	if (map->north == 0)
 		map->north = path_trim;
@@ -93,12 +93,12 @@ void    get_map_scene(t_map *map, char *line, int fd, int *map_size)
 	map->width = map_size[Y];
     scene = ft_calloc(map_size[Y] + 1, sizeof(char *));
     if (!scene)
-        print_error(sys_call, __func__);
+        print_error(sys_call, __func__, __LINE__);
     while (idx_y < map_size[Y])
     {
         scene[idx_y] = ft_calloc(map_size[X] + 1, sizeof(char));
         if (!scene[idx_y])
-            print_error(sys_call, __func__);
+            print_error(sys_call, __func__, __LINE__);
         ft_strlcpy(scene[idx_y], line, ft_strlen(line));
         idx_y++;
         free(line);

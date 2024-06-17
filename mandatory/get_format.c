@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:30:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	*get_texture_data(t_info *info, char *path)
 
 	texture = ft_calloc(1, sizeof(t_img));
 	if (!texture)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, path, \
 											&texture->width, &texture->height);
 	if (!texture->ptr)
-		print_error(lib_mlx, __func__);
+		print_error(lib_mlx, __func__, __LINE__);
 	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
 											&texture->line, &texture->endian);
 	if (!texture->addr)
-		print_error(lib_mlx, __func__);
+		print_error(lib_mlx, __func__, __LINE__);
 	return (texture);
 }
 
@@ -37,15 +37,15 @@ void	get_mlx_data(t_info *info)
 	scr = info->screen;
 	info->mlx = mlx_init();
 	if (!info->mlx)
-		print_error(lib_mlx, __func__);
+		print_error(lib_mlx, __func__, __LINE__);
 	info->win = mlx_new_window(info->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	scr->ptr = mlx_new_image(info->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!info->win || !scr->ptr)
-		print_error(lib_mlx, __func__);
+		print_error(lib_mlx, __func__, __LINE__);
 	scr->addr = (int *) mlx_get_data_addr(scr->ptr, &(scr->bpp), \
 											&(scr->line), &(scr->endian));
 	if (!scr->ptr)
-		print_error(lib_mlx, __func__);
+		print_error(lib_mlx, __func__, __LINE__);
 	info->texture->north = get_texture_data(info, info->map->north);
 	info->texture->south = get_texture_data(info, info->map->south);
 	info->texture->west = get_texture_data(info, info->map->west);
@@ -110,18 +110,18 @@ t_info	*get_format(char *file, int *map_size)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	info = ft_calloc(1, sizeof(t_info));
 	if (!info)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	info->map = ft_calloc(1, sizeof(t_map));
 	info->texture = ft_calloc(1, sizeof(t_tex));
 	info->screen = ft_calloc(1, sizeof(t_img));
 	if (!info->map || !info->texture || !info->screen)
-		print_error(sys_call, __func__);
+		print_error(sys_call, __func__, __LINE__);
 	get_map(info->map, fd, map_size);
 	if (is_map_valid(info->map) == false)
-		print_error(map_data, __func__);
+		print_error(map_data, __func__, __LINE__);
 	get_mlx_data(info);
 	return (info);
 }

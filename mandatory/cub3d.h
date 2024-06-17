@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 14:59:44 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 15:59:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ t_info	*init_info(int fd);
 // bool	check_map_format(t_map *map);
 
 // checker.c
-int		*check_format(char *file);
+void	check_format(char *file, int *map_size);
 
 //error.c
-void	print_error(t_error flag, const char *func);
+void	print_error(t_error flag, const char *func, int line);
 
 //raycasting_tutorial.c
 void	tutorial(t_info *info);
