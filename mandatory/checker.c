@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:41 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:02:40 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_elem(char *line, int *elem_arr)
 
 	if (idx > 5)
 		print_error(map_data, __func__, __LINE__);
-		elem_arr[idx] += 1;
+	elem_arr[idx] += 1;
 	if (idx < 4)
 	{
 		line += 2;
