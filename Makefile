@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/17 19:27:27 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/18 18:49:39 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ src_m = cub3d.c\
 		get_format_map.c\
 		raycasting_tutorial.c\
 		error.c\
+		util.c\
 
 SRCS_M = $(addprefix $(MAN_DIR)/,$(src_m))
 OBJS_M = $(SRCS_M:.c=.o)
