@@ -6,120 +6,116 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 19:58:52 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/18 22:21:39 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_color(char *line)
+void	check_color(char *line, char type, int *elem_cnt)
 {
-	int	comma_cnt;
-	int	num_cnt;
+	static int	color_cnt[2];
+	char		**arr;
 
-	comma_cnt = 0;
-	num_cnt = 0;
-	if (ft_strchr(line, '-'))
+	if (type == 'F' && color_cnt[0] == 0 && ft_strncmp(line, "F ", 2) == 0)
+		color_cnt[0] = 1;
+	else if (type == 'C' && color_cnt[1] == 0 && ft_strncmp(line, "C ", 2) == 0)
+		color_cnt[1] = 1;
+	else
 		print_error(map_data, __func__, __LINE__);
-	while (*line)
-	{
-		if (*line == '+' || ft_isdigit(*line))
-		{
-			num_cnt++;
-			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
-				print_error(map_data, __func__, __LINE__);
-			while (*line == '+' || ft_isdigit(*line))
-				line++;
-		}
-		if (*line == ',')
-			comma_cnt++;
-		if (*line == 0)
-			break ;
-		line++;
-	}
-	if (comma_cnt > 2 || num_cnt > 3)
+	line += 2;
+	arr = ft_split(line, ',');
+	if (!arr)
+		print_error(sys_call, __func__, __LINE__);
+	if (ft_atoi(arr[0]) < 0 || ft_atoi(arr[0]) > 255 || \
+		ft_atoi(arr[1]) < 0 || ft_atoi(arr[1]) > 255 || \
+		ft_atoi(arr[2]) < 0 || ft_atoi(arr[2]) > 255 || arr[3])
 		print_error(map_data, __func__, __LINE__);
+	free(arr[0]);
+	free(arr[1]);
+	free(arr[2]);
+	free(arr);
+	*elem_cnt += 1;
 }
 
-void	check_elem(char *line, int *elem)
+void	check_texture(char *line, char type, int *elem_cnt)
 {
-	static int	idx;
-	int			fd;
+	static int	tex_cnt[4];
 	char		*path;
+	int			fd;
 
-	if (idx > 5)
+	if (type == 'N' && tex_cnt[0] == 0 && ft_strncmp(line, "NO ", 3) == 0)
+		tex_cnt[0] = 1;
+	else if (type == 'S' && tex_cnt[1] == 0 && ft_strncmp(line, "SO ", 3) == 0)
+		tex_cnt[1] = 1;
+	else if (type == 'W' && tex_cnt[2] == 0 && ft_strncmp(line, "WE ", 3) == 0)
+		tex_cnt[2] = 1;
+	else if (type == 'E' && tex_cnt[3] == 0 && ft_strncmp(line, "EA ", 3) == 0)
+		tex_cnt[3] = 1;
+	else
 		print_error(map_data, __func__, __LINE__);
-	elem[idx] += 1;
-	if (idx < 4)
+	path = ft_strtrim(line + 3, " \n");
+	if (!path)
+		print_error(sys_call, __func__, __LINE__);
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
+		print_error(tex, __func__, __LINE__);
+	if (close(fd) < 0)
+		print_error(sys_call, __func__, __LINE__);
+	*elem_cnt += 1;
+}
+
+void	check_scene(char *line, int *scene)
+{
+	static int	flag;
+
+	if (ft_strchr(line, '1'))
 	{
-		line += 2;
-		while (ft_isspace(*line))
-			line++;
-		path = ft_strtrim(line, "\n");
-		if (!path)
-			print_error(sys_call, __func__, __LINE__);
-		fd = open(path, O_RDONLY);
-		free(path);
-		if (fd < 0)
-			print_error(tex, __func__, __LINE__);
-		close(fd);
+		ft_printf("%s", line);
+		if (flag == 0)
+			flag = 1;
+		else if (flag == 2)
+			print_error(map_data, __func__, __LINE__);
+		scene[2] += 1;
+		if (get_rtrim_len(line, " \n") > scene[1])
+			scene[1] = get_rtrim_len(line, " \n");
+		if (ft_strchr(line, 'N') || ft_strchr(line, 'S') || \
+			ft_strchr(line, 'W') || ft_strchr(line, 'E'))
+			scene[0] += 1;
 	}
 	else
-		check_color(line);
-	idx++;
-}
-
-bool	check_scene(char *line, int *scene)
-{
-	int	len;
-	int	idx;
-
-	len = ft_strlen(line);
-	if (!ft_strchr(line, 'N') && !ft_strchr(line, 'S') && !ft_strchr(line, 'W') \
-	&& !ft_strchr(line, 'E') && !ft_strchr(line, '1') && !ft_strchr(line, '0'))
-		return (false);
-	if (line[len - 1] == '\n')
-		len--;
-	scene[2] += 1;
-	idx = 0;
-	while (idx < len - 1)
+		if (flag == 1)
+			flag = 2;
+	while (*line)
 	{
-		if (line[idx] == 'N' || line[idx] == 'S' || \
-			line[idx] == 'W' || line[idx] == 'E')
-			scene[0] += 1;
-		else if (line[idx] != '0' && line[idx] != '1' && line[idx] != ' ')
+		if (!ft_strchr("NSWE10", *line))
 			print_error(map_data, __func__, __LINE__);
-		if (line[idx] == ' ' && !ft_strchr(line + idx, '0') && !ft_strchr(line + idx, '1'))
-			len = idx;
-		idx++;
+		line++;
 	}
-	if (scene[1] < len)
-		scene[1] = len;
-	return (true);
 }
 
 void	check_map_data(int fd, int *map_size)
 {
 	char	*line;
-	int		elem[6];
 	int		scene[3];
+	int		elem_cnt;
 
-	ft_memset(elem, 0, sizeof(int) * 6);
-	ft_memset(scene, 0, sizeof(int) * 3);
+	elem_cnt = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (*line != '\n' && ft_isalpha(*line))
-			check_elem(line, elem);
-		else if (*line != '\n' && check_scene(line, scene) == false)
-			print_error(map_data, __func__, __LINE__);
-		if ((scene[1] || scene[2]) && *line == '\n') // 유효 지도들 사이에 개행만 있는 경우
-			print_error(map_data, __func__, __LINE__);
+		if (elem_cnt < 6)
+		{
+			if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
+				check_texture(line, *line, &elem_cnt);
+			else if (*line == 'F' || *line == 'C')
+				check_color(line, *line, &elem_cnt);
+		}
+		else
+			check_scene(line, scene);
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (elem[0] * elem[1] * elem[2] * elem[3] * elem[4] * elem[5] != 1)
-		print_error(map_data, __func__, __LINE__);
 	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
 		print_error(map_data, __func__, __LINE__);
 	map_size[0] = scene[1];
@@ -137,15 +133,14 @@ void	check_format(char *path, int *map_size)
 		name = path;
 	if (ft_strlen(name) < 5)
 		print_error(map_file, __func__, __LINE__);
-	else if (ft_strchr(name, '.') != ft_strrchr(name, '.'))
+	else if (!ft_strchr(name, '.'))
 		print_error(map_file, __func__, __LINE__);
-	else if (ft_strnstr(name, ".cub", ft_strlen(name)) == 0)
-		print_error(map_file, __func__, __LINE__);
-	else if (ft_strncmp(ft_strnstr(name, ".cub", ft_strlen(name)), ".cub", 5))
+	else if (ft_strncmp(ft_strchr(name, '.'), ".cub", 5))
 		print_error(map_file, __func__, __LINE__);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		print_error(sys_call, __func__, __LINE__);
 	check_map_data(fd, map_size);
-	close(fd);
+	if (close(fd) < 0)
+		print_error(sys_call, __func__, __LINE__);
 }

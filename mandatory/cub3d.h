@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 16:13:51 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:26:34 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,7 @@ t_info	*init_info(char *file, int *map_size);
 
 // get_format_map.c
 void    get_map(t_map *map, int fd, int *map_size);
+
+//util.c
+int	get_rtrim_len(char *str, char *set);
 #endif
