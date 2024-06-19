@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 13:31:31 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:08:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_color(char *line, char type, int *elem_cnt)
 {
 	static int	color_cnt[2];
-	char		**arr;
+	int			comma_cnt;
 
 	if (type == 'F' && color_cnt[0] == 0 && ft_strncmp(line, "F ", 2) == 0)
 		color_cnt[0] = 1;
@@ -24,17 +24,20 @@ void	check_color(char *line, char type, int *elem_cnt)
 	else
 		print_error(map_data, __func__, __LINE__);
 	line += 2;
-	arr = ft_split(line, ',');
-	if (!arr)
-		print_error(sys_call, __func__, __LINE__);
-	if (ft_atoi(arr[0]) < 0 || ft_atoi(arr[0]) > 255 || \
-		ft_atoi(arr[1]) < 0 || ft_atoi(arr[1]) > 255 || \
-		ft_atoi(arr[2]) < 0 || ft_atoi(arr[2]) > 255 || arr[3])
+	comma_cnt = 0;
+	while (line && *line)
+	{
+		if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
+			print_error(map_data, __func__, __LINE__);
+		line = ft_strchr(line, ',');
+		if (line)
+		{
+			comma_cnt++;
+			line += 1;
+		}
+	}
+	if (comma_cnt > 2)
 		print_error(map_data, __func__, __LINE__);
-	free(arr[0]);
-	free(arr[1]);
-	free(arr[2]);
-	free(arr);
 	*elem_cnt += 1;
 }
 
