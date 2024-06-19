@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/19 18:04:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:32 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,19 +141,20 @@ t_vec    *init_dir_vector(char flag)
     return (dir);
 }
 
-t_vec    init_plane_vector(t_vec dir)
+t_vec    *init_plane_vector(t_vec *dir)
 {
-    t_vec    plane;
+    t_vec    *plane;
 
+    plane = ft_calloc(1, sizeof(t_vec));
     if (dir->x == 0)
     {
-        plane.x = 1;
-        plane.y = 0;
+        plane->x = 1;
+        plane->y = 0;
     }
     else
     {
-        plane.x = 0;
-        plane.y = 1;
+        plane->x = 0;
+        plane->y = 1;
     }
     return (plane);
 }
@@ -168,7 +169,7 @@ void    tutorial(t_info *info)
     t_vec    *pos;        // 플레이어의 시작 위치
     t_vec    *dir;        // 초기 방향 벡터(불변)
     t_vec    *plane;      // 플레이어가 바라보는 카메라 평면(출력 화면, 불변)
-    t_vec    rayDir;     // 광선의 방향 벡터
+    t_vec    raydir;     // 광선의 방향 벡터
 
     double  cameraX;        // x축 0부터 1920까지 광선을 쏠 때, 그 광선의 카메라 평면 x좌표
     double  side_dist[2];   // [시작점] -> [첫번째 x또는 y면] 까지의 광선 이동거리
@@ -197,7 +198,7 @@ void    tutorial(t_info *info)
 		print_error(sys_call, __func__, __LINE__);
     pos = ft_calloc(1, sizeof(t_vec));
     dir = ft_calloc(1, sizeof(t_vec));
-    plane = ft_calloc(1, sizeof(t_vec));
+    plane = init_plane_vector(dir);
     tmp->info = info;
     tmp->pos = pos;
     tmp->dir = dir;
@@ -205,35 +206,34 @@ void    tutorial(t_info *info)
 
     screen.x = 0;
     dir = init_dir_vector(info->map->player_dir);
-    pos->x = info->map->pos->x + 0.5;
-    pos->y = info->map->pos->y + 0.5;
+    pos->x = info->map->pos.x + 0.5;
+    pos->y = info->map->pos.y + 0.5;
 	printf("position(%f, %f)\n", pos->x, pos->y);
 
-	plane = init_plane_vector(dir);
     while (screen.x < 1920)
     {
         hit = false;
 
         cameraX = 2 * screen.x / (double)1920 - 1; //카메라 평면에서의 x좌표
-        raydir->x = dir->x + plane.x * cameraX;
-        raydir->y = dir->y + plane.y * cameraX;
+        raydir.x = dir->x + plane->x * cameraX;
+        raydir.y = dir->y + plane->y * cameraX;
 
 		//플레이어가 위치한 격자의 좌표
         map.x = pos->x;
         map.y = pos->y;
-        delta_dist[X] = fabs(1 / raydir->x); //x가 1 증가할 때 광선의 이동 거리
-        delta_dist[Y] = fabs(1 / raydir->y); //y가 1 증가할 때 광선의 이동 거리
-        if (raydir->x < 0) //왼쪽으로 이동하다 처음 만나는 x면까지의 거리
+        delta_dist[X] = fabs(1 / raydir.x); //x가 1 증가할 때 광선의 이동 거리
+        delta_dist[Y] = fabs(1 / raydir.y); //y가 1 증가할 때 광선의 이동 거리
+        if (raydir.x < 0) //왼쪽으로 이동하다 처음 만나는 x면까지의 거리
         {
             step.x = -1;
             side_dist[X] = (pos->x - map.x) * delta_dist[X];
         }
-        else // side_dist[X] : raydir->x> 0인 경우 광선의 시작부터 오른쪽으로 이동하다 처음 만나는 x면까지의 거리
+        else // side_dist[X] : raydir.x> 0인 경우 광선의 시작부터 오른쪽으로 이동하다 처음 만나는 x면까지의 거리
         {
             step.x = 1;
             side_dist[X] = (map.x + 1.0 - pos->x) * delta_dist[X];
         }
-        if (raydir->y < 0)
+        if (raydir.y < 0)
         {
             step.y = -1;
             side_dist[Y] = (pos->y - map.y) * delta_dist[Y];
@@ -262,9 +262,9 @@ void    tutorial(t_info *info)
                 hit = true;
         }
         if (side == 0)  // y축에 평행하게 벽에 충돌
-            perpWallDist = (map.x - pos->x + (1 - step.x) / 2) / raydir->x;
+            perpWallDist = (map.x - pos->x + (1 - step.x) / 2) / raydir.x;
         else            // x축에 평행하게 벽에 충돌
-            perpWallDist = (map.y - pos->y + (1 - step.y) / 2) / raydir->y;
+            perpWallDist = (map.y - pos->y + (1 - step.y) / 2) / raydir.y;
         lineHeight = (int)(1080 / perpWallDist); //화면에 그려야하는 선의 길이
         drawStart = -lineHeight / 2 + 1080 / 2;
         if (drawStart < 0)
@@ -274,15 +274,15 @@ void    tutorial(t_info *info)
             drawEnd = 1080 - 1;
 
         if (side == 0)
-            wallX = pos->y + perpWallDist * raydir->y;
+            wallX = pos->y + perpWallDist * raydir.y;
         else
-            wallX = pos->x + perpWallDist * raydir->x;
+            wallX = pos->x + perpWallDist * raydir.x;
         wallX -= floor((wallX));
 
         tex.x = (int) (wallX * (double)(425));
-        if (side == 0 && raydir->x > 0)
+        if (side == 0 && raydir.x > 0)
             tex.x = 425 - tex.x - 1;
-        if (side == 1 && raydir->y < 0)
+        if (side == 1 && raydir.y < 0)
             tex.x = 425 - tex.x - 1;
 
         ratio = 1.0 * 425 / lineHeight;
@@ -302,14 +302,14 @@ void    tutorial(t_info *info)
             texPos += ratio;
             if (side == 0)
             {
-                if (raydir->x >= 0)
+                if (raydir.x >= 0)
                     color = info->texture->west->addr[info->texture->west->height * tex.y + tex.x];
                 else
                     color = info->texture->east->addr[info->texture->east->height * tex.y + tex.x];
             }
             else
             {
-                if (raydir->y >= 0)
+                if (raydir.y >= 0)
                     color = info->texture->north->addr[info->texture->north->height * tex.y + tex.x];
                 else
                     color = info->texture->south->addr[info->texture->south->height * tex.y + tex.x];
