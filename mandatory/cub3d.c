@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 18:05:00 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:23:47 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char *argv[])
 	// 3-1. dev_print
 	dev_print_info(info, map_size);
 	// 4. raycasting 시작
-	//tutorial(info);
+	tutorial(info);
 	// 5. info, map_size 메모리 해제
 	free(info->map);	// need to change;
 	exit(EXIT_SUCCESS);
