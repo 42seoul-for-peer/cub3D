@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 16:55:43 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:32:19 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	check_color(char *line, char type, int *elem_cnt)
+static void	check_color(char *line, char type, int *elem_cnt)
 {
 	static int	color_cnt[2];
 	int			comma_cnt;
@@ -41,7 +41,7 @@ void	check_color(char *line, char type, int *elem_cnt)
 	*elem_cnt += 1;
 }
 
-void	check_texture(char *line, char type, int *elem_cnt)
+static void	check_texture(char *line, char type, int *elem_cnt)
 {
 	static int	tex_cnt[4];
 	char		*path;
@@ -69,7 +69,7 @@ void	check_texture(char *line, char type, int *elem_cnt)
 	*elem_cnt += 1;
 }
 
-void	check_scene(char *line, int *scene)
+static void	check_scene(char *line, int *scene)
 {
 	static int	flag;
 
@@ -90,16 +90,15 @@ void	check_scene(char *line, int *scene)
 		flag = 2;
 	if (flag != 1 && get_rtrim_len(line, " \n") != 0)
 		print_error(map_data, __func__, __LINE__);
-	// while (*line)
-	// {
-	// 	if (!ft_strchr("NSWE10 \n", *line))
-	// 		print_error(map_data, __func__, __LINE__);
-	// 	line++;
-	// }
+	while (*line)
+	{
+		if (!ft_strchr("NSWE10 \n", *line))
+			print_error(map_data, __func__, __LINE__);
+		line++;
+	}
 }
 
-
-void	check_map_data(int fd, int *map_size)
+static void	check_map_data(int fd, int *map_size)
 {
 	char	*line;
 	int		scene[3];

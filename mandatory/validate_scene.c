@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 16:57:08 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:33:33 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	is_surrounded(t_map *map, int x, int y)
+static bool	is_surrounded(t_map *map, int x, int y)
 {
 	char	elem_up;
 	char	elem_down;

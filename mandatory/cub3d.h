@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 16:29:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:33:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ typedef struct s_info
 }	t_info;
 
 // checker.c
+// static void	check_color(char *line, char type, int *elem_cnt);
+// static void	check_texture(char *line, char type, int *elem_cnt);
+// static void	check_scene(char *line, int *scene);
+// static void	check_map_data(int fd, int *map_size);
 void	check_format(char *file, int *map_size);
-
-//raycasting_tutorial.c
-void	tutorial(t_info *info);
 
 // init.c
 // static void	init_mlx_data(t_info *info);
@@ -109,15 +110,16 @@ void	set_map_texture(t_info *info, char *str, char type);
 void	set_map_scene(t_map *map, int fd);
 
 // validate_scene.c
-bool	is_surrounded(t_map *map, int x, int y);
+// static bool	is_surrounded(t_map *map, int x, int y);
 bool	is_map_valid(t_map *map);
-
 
 // util.c
 int		get_rtrim_len(char *str, char *set);
-bool	check_line(char *str);
 
 //error.c
 void	print_error(t_error flag, const char *func, int line);
+
+//raycasting_tutorial.c
+void	tutorial(t_info *info);
 
 #endif
