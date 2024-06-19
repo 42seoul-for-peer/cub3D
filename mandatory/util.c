@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 18:46:58 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 16:37:31 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:33:04 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,3 @@ int	get_rtrim_len(char *str, char *set)
 		idx++;
 	return (len - idx);
 }
-
-// bool	check_line(char *str)
-// {
-// 	if (!str)
-// 		return (false);
-// 	while (*str)
-// 	{
-// 		if (*str != '1' && *str != '0' && *str != 'N' && *str != 'S' && \
-// 			*str != 'W' && *str != 'E' && *str != ' ' && *str != '\n')
-// 			return (false);
-// 		str++;
-// 	}
-// 	return (true);
-// }

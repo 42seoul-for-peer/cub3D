@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 15:44:17 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:33:42 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,6 @@ t_info	*init_info(char *file, int *map_size)
 		print_error(sys_call, __func__, __LINE__);
 	init_mlx_data(info);
 	init_map_data(info, file, map_size);
-	// int idx = 0;
-	ft_printf("map size : (%d, %d)\n", info->map->width, info->map->height);
-	// while (info->map->scene[idx])
-	// 	ft_printf("[%s]\n", info->map->scene[idx++]);
 	if (is_map_valid(info->map) == false)
 		print_error(map_data, __func__, __LINE__);
 	return (info);
