@@ -6,23 +6,23 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:52:14 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:29:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	dev_print_info(t_info *info, int *map_size)
-{
-	int	idx;
+// void	dev_print_info(t_info *info, int *map_size)
+// {
+// 	int	idx;
 
-	idx = 0;
-	ft_printf("map_size : (%d, %d)\n", map_size[0], map_size[1]);
-	ft_printf("Floor : (%d, %d, %d)\n", info->map->floor[0], info->map->floor[1], info->map->floor[2]);
-	ft_printf("Ceiling : (%d, %d, %d)\n\n", info->map->ceiling[0], info->map->ceiling[1], info->map->ceiling[2]);
-	while (idx < map_size[Y])
-		ft_printf("%s\n", info->map->scene[idx++]);
-}
+// 	idx = 0;
+// 	ft_printf("map_size : (%d, %d)\n", map_size[0], map_size[1]);
+// 	ft_printf("Floor : (%d, %d, %d)\n", info->map->floor[0], info->map->floor[1], info->map->floor[2]);
+// 	ft_printf("Ceiling : (%d, %d, %d)\n\n", info->map->ceiling[0], info->map->ceiling[1], info->map->ceiling[2]);
+// 	while (idx < map_size[Y])
+// 		ft_printf("%s\n", info->map->scene[idx++]);
+// }
 
 int	main(int argc, char *argv[])
 {
@@ -41,9 +41,9 @@ int	main(int argc, char *argv[])
 	if (info == 0)
 		print_error(map_file, __func__, __LINE__);
 	// 3-1. dev_print
-	dev_print_info(info, map_size);
+	// dev_print_info(info, map_size);
 	// 4. raycasting 시작
-	tutorial(info);
+	// tutorial(info);
 	// 5. info, map_size 메모리 해제
 	free(info->map);	// need to change;
 	exit(EXIT_SUCCESS);

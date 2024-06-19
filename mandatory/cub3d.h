@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:47:33 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:49:09 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,12 @@ typedef struct	s_texture
 	t_img	*south;
 	t_img	*west;
 	t_img	*east;
+	int		*floor;
+	int		*ceiling;
 }	t_tex;
 
 typedef struct s_map
 {
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	int		*floor;
-	int		*ceiling;
 	int		width;
 	int		height;
 	char	**scene;
@@ -98,19 +94,29 @@ typedef struct s_info
 
 // checker.c
 void	check_format(char *file, int *map_size);
-//checker_util.c
-int	get_rtrim_len(char *str, char *set);
-
-//error.c
-void	print_error(t_error flag, const char *func, int line);
 
 //raycasting_tutorial.c
 void	tutorial(t_info *info);
 
-// get_format.c
+// init.c
+// static void	init_mlx_data(t_info *info);
+// static void	init_map_data(t_info *info, char *file, int *map_size);
 t_info	*init_info(char *file, int *map_size);
 
-// get_format_map.c
-void    set_map(t_map *map, char *file, int *map_size);
+// set_map_data.c
+void	set_map_color(t_info *info, char *line, char type);
+void	set_map_texture(t_info *info, char *str, char type);
+void	set_map_scene(t_map *map, int fd);
+
+// validate_scene.c
+bool	is_surrounded(t_map *map, int x, int y);
+bool	is_map_valid(t_map *map);
+
+
+// util.c
+int		get_rtrim_len(char *str, char *set);
+
+//error.c
+void	print_error(t_error flag, const char *func, int line);
 
 #endif

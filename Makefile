@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/19 12:55:35 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/19 15:44:33 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,10 +45,11 @@ MAN_DIR = ./mandatory
 
 src_m = cub3d.c\
 		checker.c\
-		checker_util.c\
 		init.c\
-		get_format_map.c\
+		set_map_data.c\
+		validate_scene.c\
 		raycasting_tutorial.c\
+		util.c\
 		error.c\
 
 SRCS_M = $(addprefix $(MAN_DIR)/,$(src_m))
