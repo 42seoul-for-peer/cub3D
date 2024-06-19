@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/19 18:06:32 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:06:52 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_vec    *init_dir_vector(char flag)
 {
     t_vec    *dir;
 
+    dir = ft_calloc(1, sizeof(t_vec));
     if (flag == 'N')
     {
         dir->x = 0;
