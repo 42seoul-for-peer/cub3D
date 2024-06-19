@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:08:18 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:31:37 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	check_texture(char *line, char type, int *elem_cnt)
 		print_error(tex, __func__, __LINE__);
 	if (close(fd) < 0)
 		print_error(sys_call, __func__, __LINE__);
+	free(path);
 	*elem_cnt += 1;
 }
 

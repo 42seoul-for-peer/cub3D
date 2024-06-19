@@ -2,7 +2,7 @@ NO ./elem/north.xpm
 SO     ./elem/south.xpm
 WE           ./elem/west.xpm
 EA     ./elem/east.xpm
-F 255 , 22, 253,
+F 255 , 22, 253
 C      130 ,  240 , 25
 
 111    
