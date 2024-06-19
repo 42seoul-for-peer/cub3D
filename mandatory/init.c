@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:32:14 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:48:49 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*get_texture_data(t_info *info, char *path)
 	return (texture);
 }
 
-void	get_mlx_data(t_info *info)
+void	set_mlx_data(t_info *info)
 {
 	t_img	*scr;
 
@@ -108,11 +108,7 @@ bool	is_map_valid(t_map *map)
 t_info	*init_info(char *file, int *map_size)
 {
 	t_info	*info;
-	int		fd;
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-		print_error(sys_call, __func__, __LINE__);
 	info = ft_calloc(1, sizeof(t_info));
 	if (!info)
 		print_error(sys_call, __func__, __LINE__);
@@ -121,13 +117,13 @@ t_info	*init_info(char *file, int *map_size)
 	info->screen = ft_calloc(1, sizeof(t_img));
 	if (!info->map || !info->texture || !info->screen)
 		print_error(sys_call, __func__, __LINE__);
-	get_map(info->map, fd, map_size);
+	set_map(info->map, file, map_size);
 	int idx = 0;
 	ft_printf("map size : (%d, %d)\n", info->map->width, info->map->height);
 	while (info->map->scene[idx])
 		ft_printf("[%s]\n", info->map->scene[idx++]);
 	if (is_map_valid(info->map) == false)
 		print_error(map_data, __func__, __LINE__);
-	get_mlx_data(info);
+	set_mlx_data(info);
 	return (info);
 }

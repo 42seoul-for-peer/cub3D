@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 12:55:26 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:47:33 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,6 @@
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 
-typedef enum e_type
-{
-	error = -1,
-	north,
-	south,
-	west,
-	east,
-	floor_color,
-	ceiling_color,
-	scene
-}	t_type;
-
 typedef	enum e_error
 {
 	sys_call,
@@ -57,7 +45,7 @@ typedef struct s_vector
 	double	y;
 }	t_vec;
 
-typedef struct s_coodinate
+typedef struct s_coordinate
 {
 	int	x;
 	int	y;
@@ -123,6 +111,6 @@ void	tutorial(t_info *info);
 t_info	*init_info(char *file, int *map_size);
 
 // get_format_map.c
-void    get_map(t_map *map, int fd, int *map_size);
+void    set_map(t_map *map, char *file, int *map_size);
 
 #endif

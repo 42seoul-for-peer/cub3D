@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/19 12:54:56 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:36:04 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,13 @@ t_vec    init_plane_vector(t_vec dir)
 
     if (dir.x == 0)
     {
-        plane.x = 2;
+        plane.x = 1;
         plane.y = 0;
     }
     else
     {
         plane.x = 0;
-        plane.y = 2;
+        plane.y = 1;
     }
     return (plane);
 }
