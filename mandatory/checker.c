@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 12:53:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:03:00 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	check_scene(char *line, int *scene)
 
 	if (ft_strchr(line, '1'))
 	{
-		ft_printf("%s", line);
 		if (flag == 0)
 			flag = 1;
 		else if (flag == 2)
