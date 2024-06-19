@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 15:40:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:06:15 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	set_map_texture(t_info *info, char *str, char type)
 void	set_map_scene(t_map *map, int fd)
 {
 	int		idx_h;
-	int		len;
 	char	*line;
 	char	**scene;
 
@@ -79,13 +78,14 @@ void	set_map_scene(t_map *map, int fd)
 	while (idx_h < map->height)
 	{
 		line = get_next_line(fd);
+		if (!line)
+			break ;
 		if (ft_strchr(line, '1'))
 		{
 			scene[idx_h] = ft_calloc(map->width + 1, sizeof(char));
 			if (!scene[idx_h])
 				print_error(sys_call, __func__, __LINE__);
-			len = get_rtrim_len(line, " \n");
-			ft_strlcpy(scene[idx_h], line, len + 1);
+			ft_strlcpy(scene[idx_h], line, get_rtrim_len(line, " \n") + 1);
 			idx_h++;
 		}
 		free(line);
