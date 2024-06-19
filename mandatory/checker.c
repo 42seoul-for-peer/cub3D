@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/18 22:21:39 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:53:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	check_scene(char *line, int *scene)
 			flag = 2;
 	while (*line)
 	{
-		if (!ft_strchr("NSWE10", *line))
+		if (!ft_strchr("NSWE10 \n", *line))
 			print_error(map_data, __func__, __LINE__);
 		line++;
 	}
