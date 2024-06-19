@@ -6,32 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:48:49 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:44:17 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	*get_texture_data(t_info *info, char *path)
-{
-	t_img	*texture;
-
-	texture = ft_calloc(1, sizeof(t_img));
-	if (!texture)
-		print_error(sys_call, __func__, __LINE__);
-	texture->ptr = mlx_xpm_file_to_image(info->mlx, path, \
-											&texture->width, &texture->height);
-	ft_printf("path: %s\n", path);
-	if (!texture->ptr)
-		print_error(lib_mlx, __func__, __LINE__);
-	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
-											&texture->line, &texture->endian);
-	if (!texture->addr)
-		print_error(lib_mlx, __func__, __LINE__);
-	return (texture);
-}
-
-void	set_mlx_data(t_info *info)
+static void	init_mlx_data(t_info *info)
 {
 	t_img	*scr;
 
@@ -47,62 +28,33 @@ void	set_mlx_data(t_info *info)
 											&(scr->line), &(scr->endian));
 	if (!scr->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
-	info->texture->north = get_texture_data(info, info->map->north);
-	info->texture->south = get_texture_data(info, info->map->south);
-	info->texture->west = get_texture_data(info, info->map->west);
-	info->texture->east = get_texture_data(info, info->map->east);
 }
 
-bool	is_surrounded(t_map *map, int x, int y)
+static void	init_map_data(t_info *info, char *file, int *map_size)
 {
-	char	elem_up;
-	char	elem_down;
-	char	elem_left;
-	char	elem_right;
+	char	*line;
+	int		fd;
+	int		elem_cnt;
 
-	if (y == 0 || y == map->height - 1)
-		return (false);
-	if (x == 0 || x == map->width - 1)
-		return (false);
-	elem_up = map->scene[y - 1][x];
-	elem_down = map->scene[y + 1][x];
-	elem_left = map->scene[y][x + 1];
-	elem_right = map->scene[y][x - 1];
-	if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
-		return (false);
-	if (elem_up == ' ' || elem_down == ' ' || \
-			elem_right == ' ' || elem_left == ' ')
-		return (false);
-	return (true);
-}
-
-bool	is_map_valid(t_map *map)
-{
-	char	elem;
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < map->height)
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		print_error(sys_call, __func__, __LINE__);
+	info->map->width = map_size[X];
+	info->map->height = map_size[Y];
+	elem_cnt = 0;
+	while (elem_cnt < 6)
 	{
-		x = 0;
-		while (x < map->width && map->scene[y][x])
-		{
-			elem = map->scene[y][x];
-			if (elem == 'N' || elem == 'S' || elem == 'W' || elem == 'E')
-			{
-				map->pos.x = x;
-				map->pos.y = y;
-				map->player_dir = elem;
-				map->scene[y][x] = 'P';
-			}
-			else if (elem != ' ' && elem != '1' && !is_surrounded(map, x, y))
-				return (false);
-			x++;
-		}
-		y++;
+		line = get_next_line(fd);
+		if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
+			set_map_texture(info, line + 2, *line);
+		else if (*line == 'F' || *line == 'C')
+			set_map_color(info, line, *line);
+		elem_cnt++;
+		free(line);
 	}
-	return (true);
+	set_map_scene(info->map, fd);
+	if (close(fd))
+		print_error(sys_call, __func__, __LINE__);
 }
 
 t_info	*init_info(char *file, int *map_size)
@@ -117,13 +69,13 @@ t_info	*init_info(char *file, int *map_size)
 	info->screen = ft_calloc(1, sizeof(t_img));
 	if (!info->map || !info->texture || !info->screen)
 		print_error(sys_call, __func__, __LINE__);
-	set_map(info->map, file, map_size);
-	int idx = 0;
+	init_mlx_data(info);
+	init_map_data(info, file, map_size);
+	// int idx = 0;
 	ft_printf("map size : (%d, %d)\n", info->map->width, info->map->height);
-	while (info->map->scene[idx])
-		ft_printf("[%s]\n", info->map->scene[idx++]);
+	// while (info->map->scene[idx])
+	// 	ft_printf("[%s]\n", info->map->scene[idx++]);
 	if (is_map_valid(info->map) == false)
 		print_error(map_data, __func__, __LINE__);
-	set_mlx_data(info);
 	return (info);
 }
