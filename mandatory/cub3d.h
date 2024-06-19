@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/18 21:26:34 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 12:55:26 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct s_info
 
 // checker.c
 void	check_format(char *file, int *map_size);
+//checker_util.c
+int	get_rtrim_len(char *str, char *set);
 
 //error.c
 void	print_error(t_error flag, const char *func, int line);
@@ -123,6 +125,4 @@ t_info	*init_info(char *file, int *map_size);
 // get_format_map.c
 void    get_map(t_map *map, int fd, int *map_size);
 
-//util.c
-int	get_rtrim_len(char *str, char *set);
 #endif
