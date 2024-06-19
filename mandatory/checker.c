@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 13:03:00 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 13:31:31 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	check_map_data(int fd, int *map_size)
 	int		elem_cnt;
 
 	elem_cnt = 0;
+	ft_memset(scene, 0, sizeof(int) * 3);
 	line = get_next_line(fd);
 	while (line)
 	{
