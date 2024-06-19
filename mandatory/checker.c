@@ -73,8 +73,7 @@ void	check_scene(char *line, int *scene)
 {
 	static int	flag;
 
-	if (ft_strchr(line, '1') || ft_strchr(line, '0') || ft_strchr(line, 'N') \
-		|| ft_strchr(line, 'S') || ft_strchr(line, 'W') || ft_strchr(line, 'E'))
+	if (ft_strchr(line, '1'))
 	{
 		if (flag == 0)
 			flag = 1;
@@ -87,15 +86,16 @@ void	check_scene(char *line, int *scene)
 			ft_strchr(line, 'W') || ft_strchr(line, 'E'))
 			scene[0] += 1;
 	}
-	else
-		if (flag == 1)
-			flag = 2;
-	while (*line)
-	{
-		if (!ft_strchr("NSWE10 \n", *line))
-			print_error(map_data, __func__, __LINE__);
-		line++;
-	}
+	else if (flag == 1)
+		flag = 2;
+	if (flag != 1 && get_rtrim_len(line, " \n") != 0)
+		print_error(map_data, __func__, __LINE__);
+	// while (*line)
+	// {
+	// 	if (!ft_strchr("NSWE10 \n", *line))
+	// 		print_error(map_data, __func__, __LINE__);
+	// 	line++;
+	// }
 }
 
 
