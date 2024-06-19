@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 19:22:23 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:48:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	get_map_color(t_map *map, char *line, char type)
+void	set_map_color(t_map *map, char *line, char type)
 {
 	int		idx;
 	int		*rgb;
@@ -36,7 +36,7 @@ void	get_map_color(t_map *map, char *line, char type)
 		map->ceiling = rgb;
 }
 
-void	get_map_texture(t_map *map, char *str, char type)
+void	set_map_texture(t_map *map, char *str, char type)
 {
 	char	*path;
 
@@ -87,11 +87,15 @@ void	get_map_scene(t_map *map, int fd, int *map_size)
 	map->scene = scene;
 }
 
-void	get_map(t_map *map, int fd, int *map_size)
+void	set_map(t_map *map, char *file, int *map_size)
 {
 	int		idx;
 	char	*line;
+	int		fd;
 
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		print_error(sys_call, __func__, __LINE__);
 	idx = 0;
 	map->width = map_size[X];
 	map->height = map_size[Y];
@@ -101,12 +105,13 @@ void	get_map(t_map *map, int fd, int *map_size)
 		if (line && *line != '\n')
 		{
 			if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
-				get_map_texture(map, line + 3, *line);
+				set_map_texture(map, line + 3, *line);
 			else if (*line == 'F' || *line == 'C')
-				get_map_color(map, line, *line);
+				set_map_color(map, line, *line);
 			idx++;
 		}
 		free(line);
 	}
 	get_map_scene(map, fd, map_size);
+	close(file);
 }
