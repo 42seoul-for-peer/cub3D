@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 15:49:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:29:09 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ bool	is_map_valid(t_map *map);
 
 // util.c
 int		get_rtrim_len(char *str, char *set);
+bool	check_line(char *str);
 
 //error.c
 void	print_error(t_error flag, const char *func, int line);

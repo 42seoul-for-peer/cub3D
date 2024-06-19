@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 14:54:28 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/19 16:55:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	check_scene(char *line, int *scene)
 {
 	static int	flag;
 
-	if (ft_strchr(line, '1'))
+	if (ft_strchr(line, '1') || ft_strchr(line, '0') || ft_strchr(line, 'N') \
+		|| ft_strchr(line, 'S') || ft_strchr(line, 'W') || ft_strchr(line, 'E'))
 	{
 		if (flag == 0)
 			flag = 1;
@@ -96,6 +97,7 @@ void	check_scene(char *line, int *scene)
 		line++;
 	}
 }
+
 
 void	check_map_data(int fd, int *map_size)
 {
