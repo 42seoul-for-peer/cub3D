@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 17:33:27 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:58:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdbool.h>
 # include <math.h>
 # include "libft.h"
+# include "key.h"
 
 /* ************************************************************************** */
 # define X 0
@@ -82,6 +83,33 @@ typedef struct s_map
 	char	player_dir;
 }	t_map;
 
+// map, posX, posY, dirX, dirY, moveSpeed, rotSpeed, planeX, planeY
+typedef struct	s_data
+{
+	t_vec	*pos; // 플레이어 위치 벡터
+	t_vec	*dir; //초기 플레이어의 단위 방향 벡터
+	t_vec	*plane; //카메라 평면에 수평인 벡터 (dir와 plane은 수직)
+	t_vec	*ray; // 광선의 방향 벡터 (단위)
+	t_coor	*side_dist;
+	t_coor	*delta_dist;
+	t_coor	*map;
+	t_coor	*step;
+	double	perp_wall_dist;
+	int		line_height;
+	int		side;
+}	t_data;
+
+typedef struct	s_draw
+{
+	t_coor	texture;
+	double	ratio;
+	double	tex_height_unit;
+	int		start_height;
+	int		end_height;
+	int		screen_width;
+	int		wall_x;
+	int		side;
+}	t_draw;
 
 typedef struct s_info
 {
@@ -90,6 +118,9 @@ typedef struct s_info
 	t_img	*screen;
 	void    *mlx;
     void    *win;
+	// 1) 변수가 따로 들어감
+	// 2) 출력에 필요한 데이터가 포함된 구조체
+	t_data	*calc;
 }	t_info;
 
 // checker.c
@@ -119,7 +150,12 @@ int		get_rtrim_len(char *str, char *set);
 //error.c
 void	print_error(t_error flag, const char *func, int line);
 
-//raycasting_tutorial.c
-void	tutorial(t_info *info);
+//draw && calc
+void	calc(t_info *info, t_data *calc, double cam_x);
+void    draw(t_info *info, int screen_width);
 
+// ray_loop.c
+int		dev_close(int key, void *tmp);
+int		key_press(int key, void *tmp);
+void	raycasting_loop(t_info *info);
 #endif

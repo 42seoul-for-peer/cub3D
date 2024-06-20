@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/19 15:44:33 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/20 15:51:31 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,9 @@ src_m = cub3d.c\
 		init.c\
 		set_map_data.c\
 		validate_scene.c\
-		raycasting_tutorial.c\
+		ray_loop.c\
+		draw.c\
+		calc.c\
 		util.c\
 		error.c\
 

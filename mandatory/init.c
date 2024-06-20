@@ -6,11 +6,68 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 17:33:42 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:49:56 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+/*
+N : dir(0, -1), plane(-1, 0)
+S : dir(0, 1), plane(1, 0)
+E : dir(1, 0), plane(0, -1)
+W : dir(-1, 0) plane(0, 1)
+*/
+static void	init_vector(t_info *info, char p_dir)
+{
+	t_data	*tmp_data;
+
+	tmp_data = info->calc;
+	if (p_dir == 'N')
+	{
+		tmp_data->dir->y = -1;
+		tmp_data->plane->x = 1;
+	}
+	else if (p_dir == 'S')
+	{
+		tmp_data->dir->y = 1;
+		tmp_data->plane->x = 1;
+	}
+	else if (p_dir == 'W')
+	{
+		tmp_data->dir->x = -1;
+		tmp_data->plane->y = 1;
+	}
+	else
+	{
+		tmp_data->dir->x = 1;
+		tmp_data->plane->y = 1;
+	}
+}
+
+static void	init_calc(t_info *info)
+{
+	t_vec	*vec_arr;
+	t_coor	*coor_arr;
+	t_data	*tmp;
+
+	vec_arr = ft_calloc(4, sizeof(t_vec));
+	coor_arr = ft_calloc(4, sizeof(t_coor));
+	if (!vec_arr || !coor_arr)
+		print_error(sys_call, __func__, __LINE__);
+	tmp = info->calc;
+	tmp->pos = vec_arr + 0;
+	tmp->dir = vec_arr + 1;
+	tmp->plane = vec_arr + 2;
+	tmp->ray = vec_arr + 3;
+	tmp->pos->x = info->map->pos.x + 0.5;
+	tmp->pos->y = info->map->pos.y + 0.5;
+	init_vector(info, info->map->player_dir);
+	tmp->side_dist = coor_arr + 0;
+	tmp->delta_dist = coor_arr + 1;
+	tmp->map = coor_arr + 2;
+	tmp->step = coor_arr + 3;
+}
 
 static void	init_mlx_data(t_info *info)
 {
@@ -67,11 +124,13 @@ t_info	*init_info(char *file, int *map_size)
 	info->map = ft_calloc(1, sizeof(t_map));
 	info->texture = ft_calloc(1, sizeof(t_tex));
 	info->screen = ft_calloc(1, sizeof(t_img));
-	if (!info->map || !info->texture || !info->screen)
+	info->calc = ft_calloc(1, sizeof(t_data));
+	if (!info->map || !info->texture || !info->screen || !info->calc)
 		print_error(sys_call, __func__, __LINE__);
 	init_mlx_data(info);
 	init_map_data(info, file, map_size);
 	if (is_map_valid(info->map) == false)
 		print_error(map_data, __func__, __LINE__);
+	init_calc(info);
 	return (info);
 }
