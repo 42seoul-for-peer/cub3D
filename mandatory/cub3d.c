@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 15:56:50 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:29:15 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char *argv[])
 	info = init_info(argv[1], map_size);
 	// 3. raycasting 시작
 	raycasting_loop(info);
-	mlx_hook(info->win, 17, 0, dev_close, info);
+	mlx_hook(info->win, 17, 0, dev_close, 0);
 	mlx_hook(info->win, 2, 0, key_press, info);
     mlx_loop(info->mlx);
 	free(info->map);

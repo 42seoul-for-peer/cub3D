@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 15:58:27 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:53:21 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ typedef struct	s_data
 	t_vec	*dir; //초기 플레이어의 단위 방향 벡터
 	t_vec	*plane; //카메라 평면에 수평인 벡터 (dir와 plane은 수직)
 	t_vec	*ray; // 광선의 방향 벡터 (단위)
-	t_coor	*side_dist;
-	t_coor	*delta_dist;
 	t_coor	*map;
 	t_coor	*step;
+	double	side_dist[2];
+	double	delta_dist[2];
 	double	perp_wall_dist;
 	int		line_height;
 	int		side;
@@ -104,10 +104,10 @@ typedef struct	s_draw
 	t_coor	texture;
 	double	ratio;
 	double	tex_height_unit;
+	double	wall_x;
 	int		start_height;
 	int		end_height;
 	int		screen_width;
-	int		wall_x;
 	int		side;
 }	t_draw;
 

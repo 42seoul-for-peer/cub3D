@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 15:49:56 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:39:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ static void	init_vector(t_info *info, char p_dir)
 	else if (p_dir == 'S')
 	{
 		tmp_data->dir->y = 1;
-		tmp_data->plane->x = 1;
+		tmp_data->plane->x = -1;
 	}
 	else if (p_dir == 'W')
 	{
 		tmp_data->dir->x = -1;
-		tmp_data->plane->y = 1;
+		tmp_data->plane->y = -1;
 	}
-	else
+	else	// dir = 'E'
 	{
 		tmp_data->dir->x = 1;
 		tmp_data->plane->y = 1;
@@ -52,7 +52,7 @@ static void	init_calc(t_info *info)
 	t_data	*tmp;
 
 	vec_arr = ft_calloc(4, sizeof(t_vec));
-	coor_arr = ft_calloc(4, sizeof(t_coor));
+	coor_arr = ft_calloc(2, sizeof(t_coor));
 	if (!vec_arr || !coor_arr)
 		print_error(sys_call, __func__, __LINE__);
 	tmp = info->calc;
@@ -63,10 +63,8 @@ static void	init_calc(t_info *info)
 	tmp->pos->x = info->map->pos.x + 0.5;
 	tmp->pos->y = info->map->pos.y + 0.5;
 	init_vector(info, info->map->player_dir);
-	tmp->side_dist = coor_arr + 0;
-	tmp->delta_dist = coor_arr + 1;
-	tmp->map = coor_arr + 2;
-	tmp->step = coor_arr + 3;
+	tmp->map = coor_arr + 0;
+	tmp->step = coor_arr + 1;
 }
 
 static void	init_mlx_data(t_info *info)

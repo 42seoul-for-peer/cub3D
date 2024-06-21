@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:52:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 15:53:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:39:11 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 void	set_dist(t_data *calc)
 {
-	calc->delta_dist->x = fabs(1 / calc->ray->x);
-	calc->delta_dist->y = fabs(1 / calc->ray->y);
+	calc->delta_dist[X] = fabs(1 / calc->ray->x);
+	calc->delta_dist[Y] = fabs(1 / calc->ray->y);
 	if (calc->ray->x < 0)
 	{
 		calc->step->x = -1;
-		calc->side_dist->x = (calc->pos->x - calc->map->x) * calc->delta_dist->x;
+		calc->side_dist[X] = (calc->pos->x - calc->map->x) * calc->delta_dist[X];
 	}
 	else
 	{
 		calc->step->x = 1;
-		calc->side_dist->x = (calc->map->x + 1.0 - calc->pos->x) * calc->delta_dist->x;
+		calc->side_dist[X] = (calc->map->x + 1.0 - calc->pos->x) * calc->delta_dist[X];
 	}
 	if (calc->ray->y < 0)
 	{
 		calc->step->y = -1;
-		calc->side_dist->y = (calc->pos->y - calc->map->y) * calc->delta_dist->y;
+		calc->side_dist[Y] = (calc->pos->y - calc->map->y) * calc->delta_dist[Y];
 	}
 	else
 	{
 		calc->step->y = 1;
-		calc->side_dist->y = (calc->map->y + 1.0 - calc->pos->y) * calc->delta_dist->y;
+		calc->side_dist[Y] = (calc->map->y + 1.0 - calc->pos->y) * calc->delta_dist[Y];
 	}
 }
 
@@ -46,15 +46,15 @@ int	hit_loop(t_info *info, t_data *calc)
 	hit = false;
 	while (hit == false)
 	{
-		if (calc->side_dist->x < calc->side_dist->y)
+		if (calc->side_dist[X] < calc->side_dist[Y])
 		{
-			calc->side_dist->x += calc->delta_dist->x;
+			calc->side_dist[X] += calc->delta_dist[X];
 			calc->map->x += calc->step->x;
 			side = X;
 		}
 		else
 		{
-			calc->side_dist->y += calc->delta_dist->y;
+			calc->side_dist[Y] += calc->delta_dist[Y];
 			calc->map->y += calc->step->y;
 			side = Y;
 		}

@@ -6,14 +6,15 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/20 16:10:37 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:00:51 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 
-# define MOVE_SPEED 1
+# define MOVE_SPEED 0.1
+# define ROT_SPEED 0.2
+
 
 int dev_close(int key, void *tmp) //mlx key hook (ESC)
 {
@@ -34,65 +35,53 @@ int	key_press(int key, void	*tmp)
 	map = info->map;
 	if (key == KEY_ESC)
 		dev_close(53, 0);
-    if (key == KEY_W)
+    else if (key == KEY_W)
     {
-        if(map->scene[(int) calc->pos->y][(int) (calc->pos->x + calc->dir->x * MOVE_SPEED)] != '1')
+        if (map->scene[(int) calc->pos->y][(int) (calc->pos->x + calc->dir->x * MOVE_SPEED)] != '1')
             calc->pos->x += calc->dir->x * MOVE_SPEED;
-        if(map->scene[(int) (calc->pos->y + calc->dir->y * MOVE_SPEED)][(int) calc->pos->x] != '1')
+        if (map->scene[(int) (calc->pos->y + calc->dir->y * MOVE_SPEED)][(int) calc->pos->x] != '1')
             calc->pos->y += calc->dir->y * MOVE_SPEED;
     }
-    // else if (key == KEY_S)
-    // {
-
-    // }
-    // else if (key == KEY_A)
-    // {
-
-    // }
-    // else if (key == KEY_D)
-    // {
-        
-    // }
+    else if (key == KEY_S)
+    {
+        if (map->scene[(int) calc->pos->y][(int) (calc->pos->x - calc->dir->x * MOVE_SPEED)] != '1')
+            calc->pos->x -= calc->dir->x * MOVE_SPEED;
+        if (map->scene[(int) (calc->pos->y - calc->dir->y * MOVE_SPEED)][(int) calc->pos->x] != '1')
+            calc->pos->y -= calc->dir->y * MOVE_SPEED;
+    }
+    else if (key == KEY_A)
+    {
+        if (map->scene[(int) (calc->pos->y)][(int) (calc->pos->x + calc->dir->y * MOVE_SPEED)] != '1')
+            calc->pos->x += calc->dir->y * MOVE_SPEED;
+        if (map->scene[(int) (calc->pos->y - calc->dir->x * MOVE_SPEED)][(int) (calc->pos->x)] != '1')
+            calc->pos->y -= calc->dir->x * MOVE_SPEED;
+    }
+    else if (key == KEY_D)
+    {
+        if (map->scene[(int) (calc->pos->y)][(int) (calc->pos->x - calc->dir->y * MOVE_SPEED)] != '1')
+		    calc->pos->x -= calc->dir->y * MOVE_SPEED;
+        if (map->scene[(int) (calc->pos->y + calc->dir->x * MOVE_SPEED)][(int) (calc->pos->x)] != '1')
+            calc->pos->y += calc->dir->x * MOVE_SPEED;
+    }
+    else if (key == KEY_LEFT)
+    {
+        double old_dir_x = calc->dir->x;
+        calc->dir->x = calc->dir->x * cos(-ROT_SPEED) - calc->dir->y * sin(-ROT_SPEED);
+        calc->dir->y = old_dir_x * sin(-ROT_SPEED) + calc->dir->y * cos(-ROT_SPEED);
+        double oldPlaneX = calc->plane->x;
+        calc->plane->x = calc->plane->x * cos(-ROT_SPEED) - calc->plane->y * sin(-ROT_SPEED);
+        calc->plane->y = oldPlaneX * sin(-ROT_SPEED) + calc->plane->y * cos(-ROT_SPEED);
+    }
+    else if (key == KEY_RIGHT)
+    {
+        double old_dir_x = calc->dir->x;
+        calc->dir->x = calc->dir->x * cos(ROT_SPEED) - calc->dir->y * sin(ROT_SPEED);
+        calc->dir->y = old_dir_x * sin(ROT_SPEED) + calc->dir->y * cos(ROT_SPEED);
+        double oldPlaneX = calc->plane->x;
+        calc->plane->x = calc->plane->x * cos(ROT_SPEED) - calc->plane->y * sin(ROT_SPEED);
+        calc->plane->y = oldPlaneX * sin(ROT_SPEED) + calc->plane->y * cos(ROT_SPEED);
+    }
 	raycasting_loop(info);
-    return (0);
-    /* 이동하기 위해 필요한 변수
-    map, posX, posY, dirX, dirY, moveSpeed, rotSpeed, planeX, planeY
-
-    if (keyDown(SDLK_UP))
-    {
-        if(worldMap[int(posX + dirX * moveSpeed)][int(posY)] == false) posX += dirX * moveSpeed;
-        if(worldMap[int(posX)][int(posY + dirY * moveSpeed)] == false) posY += dirY * moveSpeed;
-    }
-    //move backwards if no wall behind you
-    if (keyDown(SDLK_DOWN))
-    {
-        if(worldMap[int(posX - dirX * moveSpeed)][int(posY)] == false) posX -= dirX * moveSpeed;
-        if(worldMap[int(posX)][int(posY - dirY * moveSpeed)] == false) posY -= dirY * moveSpeed;
-    }
-    //rotate to the right
-    if (keyDown(SDLK_RIGHT))
-    {
-      //both camera direction and camera plane must be rotated
-        double oldDirX = dirX;
-        dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
-        dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
-        double oldPlaneX = planeX;
-        planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
-        planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
-    }
-    //rotate to the left
-    if (keyDown(SDLK_LEFT))
-    {
-        //both camera direction and camera plane must be rotated
-        double oldDirX = dirX;
-        dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
-        dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
-        double oldPlaneX = planeX;
-        planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
-        planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
-    }
-    */
-	// tutorial(info);
 	return (0);
 }
 
@@ -103,10 +92,11 @@ void	raycasting_loop(t_info *info)
 
 	screen_width = 0;
 	while (screen_width < WIN_WIDTH)
-	{
+    {
 		cam_x = screen_width * 2 / (double) WIN_WIDTH - 1;
 		calc(info, info->calc, cam_x);
         draw(info, screen_width);
 		screen_width++;
 	}
+    mlx_put_image_to_window(info->mlx, info->win, info->screen->ptr, 0, 0);
 }

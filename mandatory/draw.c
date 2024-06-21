@@ -6,11 +6,12 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 16:23:17 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:09:41 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
 int get_color_from_colorset(int *colorset)
 {
@@ -71,12 +72,12 @@ t_draw  get_draw_data(t_data *calc, int screen_width)
     if (draw.side == X)
         draw.wall_x = calc->pos->y + calc->perp_wall_dist * calc->ray->y;
     else
-        draw.wall_x = calc->pos->x + calc->perp_wall_dist * calc->ray->x;
+        draw.wall_x = calc->pos->x + calc->perp_wall_dist * calc->ray->x; 
     draw.wall_x -= floor((draw.wall_x));
     draw.texture.x = (int) (draw.wall_x * (double) 425);
-    if (draw.side == X && calc->ray->x > 0)
+    if (draw.side == X && calc->ray->x < 0)
         draw.texture.x = 425 - draw.texture.x - 1;
-    if (draw.side == Y && calc->ray->y < 0)
+    if (draw.side == Y && calc->ray->y > 0)
         draw.texture.x = 425 - draw.texture.x - 1;
     draw.ratio = 1.0 * 425 / calc->line_height;
     draw.tex_height_unit = (draw.start_height - WIN_HEIGHT / 2 + calc->line_height / 2) * draw.ratio;
@@ -89,5 +90,4 @@ void    draw(t_info *info, int screen_width)
 
     draw = get_draw_data(info->calc, screen_width);
     set_screen_color(info, draw);
-    mlx_put_image_to_window(info->mlx, info->win, info->screen->ptr, 0, 0);
 }
