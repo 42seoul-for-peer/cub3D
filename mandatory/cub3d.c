@@ -6,17 +6,23 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 18:29:15 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:25:56 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	check_leak(void)
+{
+	system("leaks cub3D");
+}
 
 int	main(int argc, char *argv[])
 {
 	int		map_size[2];
 	t_info	*info;
 
+	atexit(check_leak);
 	// 1. 맵 파일 인자, 파일 내부 포맷 확인
 	if (argc != 2)
 		print_error(argument, __func__, __LINE__);

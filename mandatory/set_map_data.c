@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 16:06:15 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/22 14:28:08 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,15 @@ void	set_map_color(t_info *info, char *line, char type)
 
 void	set_map_texture(t_info *info, char *str, char type)
 {
-	char	*path;
 	t_img	*texture;
 
-	path = ft_strtrim(str, " \n");
-	if (!path)
+	str = ft_strtrim(str, " \n");
+	if (!str)
 		print_error(sys_call, __func__, __LINE__);
 	texture = ft_calloc(1, sizeof(t_img));
 	if (!texture)
 		print_error(sys_call, __func__, __LINE__);
-	texture->ptr = mlx_xpm_file_to_image(info->mlx, path, \
+	texture->ptr = mlx_xpm_file_to_image(info->mlx, str, \
 											&texture->width, &texture->height);
 	if (!texture->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
@@ -63,6 +62,7 @@ void	set_map_texture(t_info *info, char *str, char type)
 		info->texture->west = texture;
 	else if (type == 'E')
 		info->texture->east = texture;
+	free(str);
 }
 
 void	set_map_scene(t_map *map, int fd)
