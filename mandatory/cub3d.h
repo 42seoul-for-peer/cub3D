@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 15:11:22 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:54:22 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define MOVE_SPEED 0.1
-# define ROT_SPEED 0.2
+# define ROT_ANGLE 30
 /* ************************************************************************** */
 typedef	enum e_error
 {
