@@ -76,5 +76,5 @@ void	calc(t_info *info, t_data *calc, double cam_x)
 		calc->perp_wall_dist = (calc->map->x - calc->pos->x + (1 - calc->step->x) / 2) / calc->ray->x;
 	else
 		calc->perp_wall_dist = (calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y;
-	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
+	calc->line_height = (int)(WIN_HEIGHT / calc->perp_wall_dist);
 }
