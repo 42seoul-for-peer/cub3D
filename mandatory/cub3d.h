@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 14:52:47 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:11:22 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ typedef struct	s_data
 	t_vec	*ray;
 	t_coor	*map;
 	t_coor	*step;
-	double	side_dist[2];
-	double	delta_dist[2];
+	double	side[2];
+	double	delta[2];
 	double	perp_wall_dist;
 	int		line_height;
-	int		side;
+	int		hit_side;
 }	t_data;
 
 typedef struct s_draw

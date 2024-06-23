@@ -6,15 +6,21 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 14:56:40 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:36:07 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#define EVENT_DESTROY_NOTIFY 17
 
 void	check_leak(void)
 {
 	system("leaks cub3D");
+}
+
+int	close_mlx(void)
+{
+	exit(EXIT_SUCCESS);
 }
 
 	// atexit(check_leak);
@@ -28,8 +34,8 @@ int	main(int argc, char *argv[])
 	check_format(argv[1], map_size);
 	info = init_info(argv[1], map_size);
 	raycasting_loop(info);
-	mlx_hook(info->win, 17, 0, dev_close, 0);
 	mlx_hook(info->win, 2, 0, key_press, info);
+	mlx_hook(info->win, EVENT_DESTROY_NOTIFY, 0, close_mlx, info);
 	mlx_loop(info->mlx);
 	free(info->map);
 	exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 14:43:18 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:12:28 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_draw	get_draw_data(t_data *calc, int screen_width)
 	t_draw	draw;
 
 	draw.screen_width = screen_width;
-	draw.side = calc->side;
+	draw.side = calc->hit_side;
 	draw.start_height = -calc->line_height / 2 + WIN_HEIGHT / 2;
 	if (draw.start_height < 0)
 		draw.start_height = 0;
