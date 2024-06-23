@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:52:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 15:20:59 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:13:41 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,3 @@ void	calc(t_info *info, t_data *calc, double cam_x)
 			(calc->map->y - pos->y + (1 - step->y) / 2) / calc->ray->y;
 	calc->line_height = (int)(WIN_HEIGHT / calc->perp_wall_dist);
 }
-	// if (calc->perp_wall_dist < 0.01)
-	// 	calc->line_height = (int) (WIN_HEIGHT / 0.01);
-	// else
-	// 	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
-// #include <stdio.h>
-	//check perp
-	// printf("map (%d, %d) pos (%f, %f) ", calc->map->x, calc->map->y, calc->pos->x, calc->pos->y);
-	// printf("step (%d %d) ",  calc->step->x, calc->step->y);
-	// printf("ray (%f, %f)\n", calc->ray->x, calc->ray->y);
-	// printf("1 - step / 2: (%d, %d)\n", (1 - calc->step->x) / 2, (1 - calc->step->x) / 2);
-	// printf("map - pos + (1 - step) /2: (%f, %f)\n", calc->map->x - calc->pos->x + (1 - calc->step->x), calc->map->y - calc->pos->y + (1 - calc->step->y) / 2);
-	// if (calc->side == X)
-	// 	printf("->x perp %f\n", (calc->map->x - calc->pos->x + (1 - calc->step->x) / 2) / calc->ray->x);
-	// else
-	// 	printf("->y perp %f\n", (calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y);
-	// printf("-------------\n");

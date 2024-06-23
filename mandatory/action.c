@@ -6,11 +6,10 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/23 17:56:45 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:14:12 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "cub3d.h"
 
 int	dev_close(int key, void *tmp)
@@ -28,7 +27,6 @@ void	action_rotate(int key, t_vec *dir, t_vec *plane)
 	double	rad;
 
 	rad = ROT_ANGLE * acos(-1) / 180;
-
 	old_plane_x = plane->x;
 	old_dir_x = dir->x;
 	if (key == KEY_LEFT)
@@ -47,7 +45,6 @@ void	action_rotate(int key, t_vec *dir, t_vec *plane)
 	}
 }
 
-
 bool	is_movable(t_map *map, double target_x, double target_y)
 {
 	if (floor(target_x) != floor(target_x + 0.000001))
@@ -60,7 +57,6 @@ bool	is_movable(t_map *map, double target_x, double target_y)
 		return (false);
 	return (true);
 }
-
 
 void	action_move(int key, t_data *calc, t_map *map)
 {

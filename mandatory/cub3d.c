@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 15:36:07 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:16:54 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ int	main(int argc, char *argv[])
 	mlx_hook(info->win, 2, 0, key_press, info);
 	mlx_hook(info->win, EVENT_DESTROY_NOTIFY, 0, close_mlx, info);
 	mlx_loop(info->mlx);
-	free(info->map);
 	exit(EXIT_SUCCESS);
 }

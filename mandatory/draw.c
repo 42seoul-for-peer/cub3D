@@ -6,12 +6,11 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 15:12:28 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:13:45 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 
 int	get_color_from_colorset(int *colorset)
 {

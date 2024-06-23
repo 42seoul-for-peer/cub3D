@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 17:54:22 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:14:55 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define MOVE_SPEED 0.1
 # define ROT_ANGLE 30
 /* ************************************************************************** */
-typedef	enum e_error
+typedef enum e_error
 {
 	sys_call,
 	map_data,
@@ -64,7 +64,7 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct	s_texture
+typedef struct s_texture
 {
 	t_img	*north;
 	t_img	*south;
@@ -83,7 +83,7 @@ typedef struct s_map
 	char	player_dir;
 }	t_map;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_vec	*pos;
 	t_vec	*dir;

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 16:24:46 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:13:07 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	init_calc(t_info *info)
 	tmp->plane = vec_arr + 2;
 	tmp->ray = vec_arr + 3;
 	tmp->pos->x = info->map->pos.x + 0.5;
-	tmp->pos->y = info->map->pos.y + 0.5;
+	tmp->pos->y = info->map->pos.y + 0.5l;
 	init_vector(info, info->map->player_dir);
 	tmp->map = coor_arr + 0;
 	tmp->step = coor_arr + 1;
