@@ -158,7 +158,9 @@ void	calc(t_info *info, t_data *calc, double cam_x);
 void    draw(t_info *info, int screen_width);
 
 // ray_loop.c
+void	raycasting_loop(t_info *info);
+
+// action.c
 int		dev_close(int key, void *tmp);
 int		key_press(int key, void *tmp);
-void	raycasting_loop(t_info *info);
 #endif

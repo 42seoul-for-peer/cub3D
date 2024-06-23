@@ -51,6 +51,7 @@ src_m = cub3d.c\
 		ray_loop.c\
 		draw.c\
 		calc.c\
+		action.c\
 		util.c\
 		error.c\
 

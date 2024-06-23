@@ -20,19 +20,21 @@ int	get_color_from_colorset(int *colorset)
 
 void	set_screen_color(t_info *info, t_draw draw)
 {
-	int	screen_height;
-	int	color;
+	t_coor	tex_pos;
+	int		screen_height;
+	int		color;
 
 	screen_height = 0;
+	tex_pos = draw.texture;
 	while (screen_height < WIN_HEIGHT)
 	{
 		if (screen_height < draw.start_height)
 			color = get_color_from_colorset(info->texture->ceiling);
 		else if (screen_height < draw.end_height)
 		{
-			draw.texture.y = (int) draw.tex_height_unit % draw.img->height;
+			tex_pos.y = (int) draw.tex_height_unit % draw.img->height;
 			draw.tex_height_unit += draw.ratio;
-			color = draw.img->addr[draw.img->height * draw.texture.y + draw.texture.x];
+			color = draw.img->addr[draw.img->height * tex_pos.y + tex_pos.x];
 		}
 		else
 			color = get_color_from_colorset(info->texture->floor);
