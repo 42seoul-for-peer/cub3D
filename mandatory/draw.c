@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 19:09:41 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/22 19:07:11 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void    set_screen_color(t_info *info, t_draw draw)
         screen_height++;
     }
 }
-
+#include <stdio.h>
 t_draw  get_draw_data(t_data *calc, int screen_width)
 {
     t_draw  draw;
@@ -72,7 +72,7 @@ t_draw  get_draw_data(t_data *calc, int screen_width)
     if (draw.side == X)
         draw.wall_x = calc->pos->y + calc->perp_wall_dist * calc->ray->y;
     else
-        draw.wall_x = calc->pos->x + calc->perp_wall_dist * calc->ray->x; 
+        draw.wall_x = calc->pos->x + calc->perp_wall_dist * calc->ray->x;
     draw.wall_x -= floor((draw.wall_x));
     draw.texture.x = (int) (draw.wall_x * (double) 425);
     if (draw.side == X && calc->ray->x < 0)
