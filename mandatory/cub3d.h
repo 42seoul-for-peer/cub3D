@@ -28,6 +28,8 @@
 
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
+# define MOVE_SPEED 0.1
+# define ROT_SPEED 0.2
 
 typedef	enum e_error
 {
@@ -102,6 +104,7 @@ typedef struct	s_data
 typedef struct	s_draw
 {
 	t_coor	texture;
+	t_img	*img;
 	double	ratio;
 	double	tex_height_unit;
 	double	wall_x;
@@ -155,7 +158,9 @@ void	calc(t_info *info, t_data *calc, double cam_x);
 void    draw(t_info *info, int screen_width);
 
 // ray_loop.c
+void	raycasting_loop(t_info *info);
+
+// action.c
 int		dev_close(int key, void *tmp);
 int		key_press(int key, void *tmp);
-void	raycasting_loop(t_info *info);
 #endif

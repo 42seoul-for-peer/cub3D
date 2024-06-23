@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/22 14:34:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:34:17 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,10 @@ int	main(int argc, char *argv[])
 	t_info	*info;
 
 	// atexit(check_leak);
-	// 1. 맵 파일 인자, 파일 내부 포맷 확인
 	if (argc != 2)
 		print_error(argument, __func__, __LINE__);
 	check_format(argv[1], map_size);
-	// 2. info 초기화
 	info = init_info(argv[1], map_size);
-	// 3. raycasting 시작
 	raycasting_loop(info);
 	mlx_hook(info->win, 17, 0, dev_close, 0);
 	mlx_hook(info->win, 2, 0, key_press, info);
