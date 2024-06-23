@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 14:33:51 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:43:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ int	get_color_from_colorset(int *colorset)
 void	set_screen_color(t_info *info, t_draw draw)
 {
 	t_coor	tex_pos;
-	int		screen_height;
+	int		height;
 	int		color;
 
-	screen_height = 0;
+	height = 0;
 	tex_pos = draw.texture;
-	while (screen_height < WIN_HEIGHT)
+	while (height < WIN_HEIGHT)
 	{
-		if (screen_height < draw.start_height)
+		if (height < draw.start_height)
 			color = get_color_from_colorset(info->texture->ceiling);
-		else if (screen_height < draw.end_height)
+		else if (height < draw.end_height)
 		{
 			tex_pos.y = (int) draw.tex_height_unit % draw.img->height;
 			draw.tex_height_unit += draw.ratio;
@@ -38,8 +38,8 @@ void	set_screen_color(t_info *info, t_draw draw)
 		}
 		else
 			color = get_color_from_colorset(info->texture->floor);
-		*(info->screen->addr + screen_height * WIN_WIDTH + draw.screen_width) = color;
-		screen_height++;
+		*(info->screen->addr + height * WIN_WIDTH + draw.screen_width) = color;
+		height++;
 	}
 }
 
@@ -59,7 +59,8 @@ void	set_image_data(t_draw *draw, t_data *calc, t_tex *texture)
 	if (draw->side == Y && calc->ray->y > 0)
 		draw->texture.x = draw->img->width - draw->texture.x - 1;
 	draw->ratio = 1.0 * draw->img->height / calc->line_height;
-	draw->tex_height_unit = (draw->start_height - WIN_HEIGHT / 2 + calc->line_height / 2) * draw->ratio;
+	draw->tex_height_unit = \
+	(draw->start_height - WIN_HEIGHT / 2 + calc->line_height / 2) * draw->ratio;
 }
 
 t_draw	get_draw_data(t_data *calc, int screen_width)

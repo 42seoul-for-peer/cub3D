@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/22 14:28:08 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:55:44 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	set_map_texture(t_info *info, char *str, char type)
 	if (!texture->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
 	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
-												&texture->line, &texture->endian);
+											&texture->line, &texture->endian);
 	if (!texture->addr)
 		print_error(lib_mlx, __func__, __LINE__);
 	if (type == 'N')

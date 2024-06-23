@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/20 19:00:51 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:56:40 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	key_press(int key, void	*tmp)
 	calc = info->calc;
 	map = info->map;
 	if (key == KEY_ESC)
-		dev_close(53, 0);
+		dev_close(key, 0);
 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
 		action_move(key, calc, map->scene);
 	else if (key == KEY_LEFT || key == KEY_RIGHT)

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:52:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 14:33:17 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:50:49 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	calc(t_info *info, t_data *calc, double cam_x)
 	// else
 	// 	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
 	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
+}
+	//check perp
 	// printf("map (%d, %d) pos (%f, %f) ", calc->map->x, calc->map->y, calc->pos->x, calc->pos->y);
 	// printf("step (%d %d) ",  calc->step->x, calc->step->y);
 	// printf("ray (%f, %f)\n", calc->ray->x, calc->ray->y);
@@ -91,4 +93,3 @@ void	calc(t_info *info, t_data *calc, double cam_x)
 	// else
 	// 	printf("->y perp %f\n", (calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y);
 	// printf("-------------\n");
-}

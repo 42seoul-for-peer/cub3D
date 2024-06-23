@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 18:53:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:52:47 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <math.h>
 # include "libft.h"
 # include "key.h"
-
 /* ************************************************************************** */
 # define X 0
 # define Y 1
@@ -30,7 +29,7 @@
 # define WIN_HEIGHT 1080
 # define MOVE_SPEED 0.1
 # define ROT_SPEED 0.2
-
+/* ************************************************************************** */
 typedef	enum e_error
 {
 	sys_call,
@@ -64,8 +63,7 @@ typedef struct s_img
 	int		line;
 	int		endian;
 }	t_img;
-// bpp: bits per pixel 픽셀 하나를 표현하는 데 필요한 비트 수
-// line: 이미지의 너비
+
 typedef struct	s_texture
 {
 	t_img	*north;
@@ -85,13 +83,12 @@ typedef struct s_map
 	char	player_dir;
 }	t_map;
 
-// map, posX, posY, dirX, dirY, moveSpeed, rotSpeed, planeX, planeY
 typedef struct	s_data
 {
-	t_vec	*pos; // 플레이어 위치 벡터
-	t_vec	*dir; //초기 플레이어의 단위 방향 벡터
-	t_vec	*plane; //카메라 평면에 수평인 벡터 (dir와 plane은 수직)
-	t_vec	*ray; // 광선의 방향 벡터 (단위)
+	t_vec	*pos;
+	t_vec	*dir;
+	t_vec	*plane;
+	t_vec	*ray;
 	t_coor	*map;
 	t_coor	*step;
 	double	side_dist[2];
@@ -101,7 +98,7 @@ typedef struct	s_data
 	int		side;
 }	t_data;
 
-typedef struct	s_draw
+typedef struct s_draw
 {
 	t_coor	texture;
 	t_img	*img;
@@ -116,14 +113,12 @@ typedef struct	s_draw
 
 typedef struct s_info
 {
+	t_data	*calc;
 	t_map	*map;
 	t_tex	*texture;
 	t_img	*screen;
-	void    *mlx;
-    void    *win;
-	// 1) 변수가 따로 들어감
-	// 2) 출력에 필요한 데이터가 포함된 구조체
-	t_data	*calc;
+	void	*mlx;
+	void	*win;
 }	t_info;
 
 // checker.c
@@ -155,7 +150,7 @@ void	print_error(t_error flag, const char *func, int line);
 
 //draw && calc
 void	calc(t_info *info, t_data *calc, double cam_x);
-void    draw(t_info *info, int screen_width);
+void	draw(t_info *info, int screen_width);
 
 // ray_loop.c
 void	raycasting_loop(t_info *info);

@@ -6,18 +6,12 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 17:39:27 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/23 14:41:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/*
-N : dir(0, -1), plane(-1, 0)
-S : dir(0, 1), plane(1, 0)
-E : dir(1, 0), plane(0, -1)
-W : dir(-1, 0) plane(0, 1)
-*/
 static void	init_vector(t_info *info, char p_dir)
 {
 	t_data	*tmp_data;
@@ -38,7 +32,7 @@ static void	init_vector(t_info *info, char p_dir)
 		tmp_data->dir->x = -1;
 		tmp_data->plane->y = -1;
 	}
-	else	// dir = 'E'
+	else
 	{
 		tmp_data->dir->x = 1;
 		tmp_data->plane->y = 1;
