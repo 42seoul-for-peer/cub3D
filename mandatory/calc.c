@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:52:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:35:22 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:33:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	set_dist(t_data *calc)
+void	set_dist(t_ray *calc)
 {
 	calc->delta[X] = fabs(1 / calc->ray->x);
 	calc->delta[Y] = fabs(1 / calc->ray->y);
@@ -38,7 +38,7 @@ static void	set_dist(t_data *calc)
 	}
 }
 
-static int	hit_loop(t_info *info, t_data *calc)
+int	hit_loop(t_info *info, t_ray *calc)
 {
 	int		side;
 	bool	hit;
@@ -64,15 +64,28 @@ static int	hit_loop(t_info *info, t_data *calc)
 	return (side);
 }
 
-void	calculator(t_info *info, t_data *calc)
+double	get_perp_wall_dist(t_ray *calc)
 {
-	set_dist(info->calc);
-	calc->hit_side = hit_loop(info, info->calc);
+	double	res;
+
 	if (calc->hit_side == X)
-		calc->perp_wall_dist = \
-			(calc->map->x - calc->pos->x + (1 - calc->step->x) / 2) / calc->ray->x;
+		res = (calc->map->x - calc->pos->x + (1 - calc->step->x) / 2) / calc->ray->x;
 	else
-		calc->perp_wall_dist = \
-			(calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y;
-	calc->line_height = (int)(WIN_HEIGHT / calc->perp_wall_dist);
+		res = (calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y;
+	return (res);
+}
+
+void	calc(t_info *info, t_ray *calc, int screen_x)
+{
+	double	cam_x;
+
+	cam_x = screen_x * 2 / (double) WIN_WIDTH - 1;
+	calc->ray->x = calc->dir->x + calc->plane->x * cam_x;
+	calc->ray->y = calc->dir->y + calc->plane->y * cam_x;
+	calc->map->x = (int) calc->pos->x;
+	calc->map->y = (int) calc->pos->y;
+	set_dist(calc);
+	calc->hit_side = hit_loop(info, calc);
+	calc->perp_wall_dist = get_perp_wall_dist(calc);
+	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
 }

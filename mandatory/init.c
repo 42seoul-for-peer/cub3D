@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:22:30 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:33:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	init_vector(t_info *info, char p_dir)
 {
-	t_data	*tmp_data;
+	t_ray	*tmp_data;
 
 	tmp_data = info->calc;
 	if (p_dir == 'N')
@@ -43,7 +43,7 @@ static void	init_calc(t_info *info)
 {
 	t_vec	*vec_arr;
 	t_coor	*coor_arr;
-	t_data	*tmp;
+	t_ray	*tmp;
 
 	vec_arr = ft_calloc(4, sizeof(t_vec));
 	coor_arr = ft_calloc(2, sizeof(t_coor));
@@ -73,7 +73,7 @@ static void	init_mlx_data(t_info *info)
 	scr->ptr = mlx_new_image(info->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!info->win || !scr->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
-	scr->addr = (int *) mlx_get_data_addr(scr->ptr, &(scr->bpp), \
+	scr->addr = (int *) mlx_get_ray_addr(scr->ptr, &(scr->bpp), \
 											&(scr->line), &(scr->endian));
 	if (!scr->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
@@ -117,7 +117,7 @@ t_info	*init_info(char *file, int *map_size)
 	info->map = ft_calloc(1, sizeof(t_map));
 	info->texture = ft_calloc(1, sizeof(t_tex));
 	info->screen = ft_calloc(1, sizeof(t_img));
-	info->calc = ft_calloc(1, sizeof(t_data));
+	info->calc = ft_calloc(1, sizeof(t_ray));
 	if (!info->map || !info->texture || !info->screen || !info->calc)
 		print_error(sys_call, __func__, __LINE__);
 	init_mlx_data(info);

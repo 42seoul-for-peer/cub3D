@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 15:34:58 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:36:45 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,36 @@ void	action_rotate(int key, t_vec *dir, t_vec *plane)
 	}
 }
 
-#include <stdio.h>
-bool	is_movable(t_map *map, double target_x, double target_y)
+bool	is_movable(t_map *map, t_vec *pos, double delta, int dir_flag)
 {
-	printf("before| target : (%f, %f)\n", target_x, target_y);
-	if (floor(target_x) != floor(target_x + 0.000001))
-		target_x = ceil(target_x);
-	if (floor(target_y) != floor(target_y + 0.000001))
-		target_y = ceil(target_y);
-	printf("after| target : (%f, %f)\n", target_x, target_y);
-	if (target_x > map->width - 1 || target_y > map->height - 1)
+	t_vec	target;
+
+	target.x = pos->x;
+	target.y = pos->y;
+	if (dir_flag == X)
+		target.x += delta;
+	else
+		target.y += delta;
+	if (target.x < 0 || target.x > map->width - 1 || \
+		target.y < 0 || target.y > map->height - 1)
 		return (false);
-	if (map->scene[(int)target_y][(int)target_x] == '1')
+	if (map->scene[(int)target.y][(int)target.x] == '1' || \
+		map->scene[(int)target.y][(int)target.x] == ' ')
 		return (false);
-	if (map->scene[(int)target_y][(int)target_x] == ' ')
+	if (dir_flag == X)
+		target.x += delta * 0.000001;
+	else
+		target.y += delta * 0.000001;
+	if (target.x < 0 || target.x > map->width - 1 || \
+		target.y < 0 || target.y > map->height - 1)
+		return (false);
+	if (map->scene[(int)target.y][(int)target.x] == '1' || \
+		map->scene[(int)target.y][(int)target.x] == ' ')
 		return (false);
 	return (true);
 }
 
-void	action_move(int key, t_data *calc, t_map *map)
+void	action_move(int key, t_ray *calc, t_map *map)
 {
 	double	move_x;
 	double	move_y;
@@ -81,16 +92,16 @@ void	action_move(int key, t_data *calc, t_map *map)
 		move_y *= -1;
 	move_x *= MOVE_SPEED;
 	move_y *= MOVE_SPEED;
-	if (is_movable(map, calc->pos->x + move_x, calc->pos->y))
+	if (is_movable(map, calc->pos, move_x, X))
 		calc->pos->x += move_x;
-	if (is_movable(map, calc->pos->x, calc->pos->y + move_y))
+	if (is_movable(map, calc->pos, move_y, Y))
 		calc->pos->y += move_y;
 }
 
 int	key_press(int key, void	*tmp)
 {
 	t_info	*info;
-	t_data	*calc;
+	t_ray	*calc;
 	t_map	*map;
 
 	info = tmp;

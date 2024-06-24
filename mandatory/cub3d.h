@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:11:06 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 17:36:57 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,22 @@ typedef struct s_map
 	char	player_dir;
 }	t_map;
 
-typedef struct s_data
+typedef struct s_ray
 {
+	double	perp_wall_dist;
+	int		line_height;
+	int		hit_side;
+	double	wall_point;
+	double	wall_range[2];
+	double	side[2];
+	double	delta[2];
 	t_vec	*pos;
 	t_vec	*dir;
 	t_vec	*plane;
 	t_vec	*ray;
 	t_coor	*map;
 	t_coor	*step;
-	double	side[2];
-	double	delta[2];
-	double	perp_wall_dist;
-	int		line_height;
-	int		hit_side;
-}	t_data;
+}	t_ray;
 
 typedef struct s_draw
 {
@@ -107,13 +109,13 @@ typedef struct s_draw
 	double	wall_x;
 	int		start_height;
 	int		end_height;
-	int		screen_width;
+	int		screen_x;
 	int		side;
 }	t_draw;
 
 typedef struct s_info
 {
-	t_data	*calc;
+	t_ray	*calc;
 	t_map	*map;
 	t_tex	*texture;
 	t_img	*screen;
@@ -149,13 +151,14 @@ bool	is_map_valid(t_map *map);
 void	raycasting_loop(t_info *info);
 
 // calculator.c
-// static void	set_dist(t_data *calc);
-// static int	hit_loop(t_info *info, t_data *calc);
-void	calculator(t_info *info, t_data *calc);
+void	set_dist(t_ray *calc);
+double	get_perp_wall_dist(t_ray *calc);
+int		hit_loop(t_info *info, t_ray *calc);
+void	calc(t_info *info, t_ray *calc, int screen_x);
 
 // draw.c
-// static t_draw	get_draw_data(t_data *calc, int screen_width);
-// static void		set_image_data(t_draw *draw, t_data *calc, t_tex *texture);
+// static t_draw	get_draw_data(t_ray *calc, int screen_width);
+// static void		set_image_data(t_draw *draw, t_ray *calc, t_tex *texture);
 // static void		set_screen_color(t_info *info, t_draw draw);
 // int				get_color_from_colorset(int *colorset);
 void	draw(t_info *info, int screen_width);
