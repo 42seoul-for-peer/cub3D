@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:10:08 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_map_color(t_info *info, char *line, char type)
 
 	rgb = ft_calloc(3, sizeof(int));
 	if (!rgb)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	idx = 0;
 	while (*line && idx < 3)
 	{
@@ -42,18 +42,18 @@ void	set_map_texture(t_info *info, char *str, char type)
 
 	str = ft_strtrim(str, " \n");
 	if (!str)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	texture = ft_calloc(1, sizeof(t_img));
 	if (!texture)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, str, \
 											&texture->w, &texture->h);
 	if (!texture->ptr)
-		print_error(lib_mlx, __func__, __LINE__);
+		exit_with_error(lib_mlx);
 	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
 											&texture->line, &texture->endian);
 	if (!texture->addr)
-		print_error(lib_mlx, __func__, __LINE__);
+		exit_with_error(lib_mlx);
 	if (type == 'N')
 		info->texture->north = texture;
 	else if (type == 'S')
@@ -74,7 +74,7 @@ void	set_map_scene(t_map *map, int fd)
 	idx_h = 0;
 	scene = ft_calloc(map->h + 1, sizeof(char *));
 	if (!scene)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	while (idx_h < map->h)
 	{
 		line = get_next_line(fd);
@@ -84,7 +84,7 @@ void	set_map_scene(t_map *map, int fd)
 		{
 			scene[idx_h] = ft_calloc(map->w + 1, sizeof(char));
 			if (!scene[idx_h])
-				print_error(sys_call, __func__, __LINE__);
+				exit_with_error(sys_call);
 			ft_strlcpy(scene[idx_h], line, get_rtrim_len(line, " \n") + 1);
 			idx_h++;
 		}

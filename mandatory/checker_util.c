@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 20:28:28 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:43:48 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_color_value(char *line)
 		{
 			color_cnt += 1;
 			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
-				print_error(map_data, __func__, __LINE__);
+				exit_with_error(map_data);
 			while (ft_isdigit(*line))
 				line++;
 		}
@@ -34,7 +34,7 @@ void	check_color_value(char *line)
 		line++;
 	}
 	if (comma_cnt != 2 || color_cnt != 3)
-		print_error(map_data, __func__, __LINE__);
+		exit_with_error(map_data);
 }
 
 void	check_scene_line(char *line, int *player, int *map_size)
@@ -46,7 +46,7 @@ void	check_scene_line(char *line, int *player, int *map_size)
 		if (flag == 0)
 			flag = 1;
 		else if (flag == 2)
-			print_error(map_data, __func__, __LINE__);
+			exit_with_error(map_data);
 		map_size[1] += 1;
 		if (get_rtrim_len(line, " \n") > map_size[0])
 			map_size[0] = get_rtrim_len(line, " \n");
@@ -57,11 +57,11 @@ void	check_scene_line(char *line, int *player, int *map_size)
 	else if (flag == 1)
 		flag = 2;
 	if (flag != 1 && get_rtrim_len(line, " \n") != 0)
-		print_error(map_data, __func__, __LINE__);
+		exit_with_error(map_data);
 	while (*line)
 	{
 		if (!ft_strchr("NSWE10 \n", *line))
-			print_error(map_data, __func__, __LINE__);
+			exit_with_error(map_data);
 		line++;
 	}
 }

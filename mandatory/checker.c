@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:14:58 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:08:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	check_color(char *line, int *elem_cnt)
 	else if (color[1] == 0 && ft_strncmp(line, "C ", 2) == 0)
 		color[1] = 1;
 	else
-		print_error(map_data, __func__, __LINE__);
+		exit_with_error(map_data);
 	check_color_value(line);
 	*elem_cnt += 1;
 }
@@ -41,15 +41,15 @@ static void	check_texture(char *line, int *elem_cnt)
 	else if (tex_cnt[3] == 0 && ft_strncmp(line, "EA ", 3) == 0)
 		tex_cnt[3] = 1;
 	else
-		print_error(map_data, __func__, __LINE__);
+		exit_with_error(map_data);
 	path = ft_strtrim(line + 3, " \n");
 	if (!path)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		print_error(tex, __func__, __LINE__);
+		exit_with_error(tex);
 	if (close(fd) < 0)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	free(path);
 	*elem_cnt += 1;
 }
@@ -62,7 +62,7 @@ static int	*check_scene(int fd)
 
 	map_size = ft_calloc(2, sizeof(int));
 	if (!map_size)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	line = get_next_line(fd);
 	player = 0;
 	while (line)
@@ -72,7 +72,7 @@ static int	*check_scene(int fd)
 		line = get_next_line(fd);
 	}
 	if (player != 1 || map_size[0] < 3 || map_size[1] < 3)
-		print_error(map_data, __func__, __LINE__);
+		exit_with_error(map_data);
 	return (map_size);
 }
 
@@ -86,14 +86,14 @@ static int	check_file_name(char *path)
 	else
 		name = path;
 	if (ft_strlen(name) < 5)
-		print_error(map_file, __func__, __LINE__);
+		exit_with_error(map_file);
 	else if (!ft_strchr(name, '.'))
-		print_error(map_file, __func__, __LINE__);
+		exit_with_error(map_file);
 	else if (ft_strncmp(ft_strchr(name, '.'), ".cub", 5))
-		print_error(map_file, __func__, __LINE__);
+		exit_with_error(map_file);
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	return (fd);
 }
 
@@ -117,6 +117,6 @@ int	*check_format(char *path)
 	}
 	map_size = check_scene(fd);
 	if (close(fd) < 0)
-		print_error(sys_call, __func__, __LINE__);
+		exit_with_error(sys_call);
 	return (map_size);
 }

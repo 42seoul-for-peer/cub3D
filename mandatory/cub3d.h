@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 21:40:27 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:10:19 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,6 @@ int		get_rtrim_len(char *str, char *set);
 
 // exit.c
 int		close_mlx(void);
-void	print_error(t_error flag, const char *func, int line);
+void	exit_with_error(t_error flag);
 
 #endif

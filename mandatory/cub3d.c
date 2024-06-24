@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 21:11:55 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:09:20 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
 	t_info	*info;
 
 	if (argc != 2)
-		print_error(argument, __func__, __LINE__);
+		exit_with_error(argument);
 	map_size = check_format(argv[1]);
 	info = init_info(argv[1], map_size);
 	raycasting_loop(info);

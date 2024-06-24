@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/24 21:30:41 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/24 22:10:43 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ src_m = cub3d.c\
 		action.c\
 		action_util.c\
 		util.c\
-		error.c\
+		exit.c\
 
 SRCS_M = $(addprefix $(MAN_DIR)/,$(src_m))
 OBJS_M = $(SRCS_M:.c=.o)
