@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:14:45 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:25:31 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	check_color_value(char *line)
 			color_cnt += 1;
 			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
 				print_error(map_data, __func__, __LINE__);
-			while  (ft_isdigit(*line))
+			while (ft_isdigit(*line))
 				line++;
 		}
 		if (*line == ',')
@@ -65,6 +65,3 @@ void	check_scene_line(char *line, int *player, int *map_size)
 		line++;
 	}
 }
-
-
-
