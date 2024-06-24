@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:24:39 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:30:15 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	get_color_from_colorset(int *colorset)
 {
 	return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
-
+#include <stdio.h>
 static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 {
 	int		scr_y;
@@ -26,9 +26,7 @@ static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 	double	tex_h_unit;
 
 	tex_h_unit = \
-		(ray->wall_rng[0] - WIN_H / 2 + ray->line_len / 2) * ray->tex_rate;
-	// tex_h_unit = \
-	// 	(ray->wall_rng[0] - (ray->line_len - WIN_H) / 2) * ray->tex_rate;
+		(ray->wall_rng[0] + (ray->line_len - WIN_H) / 2) * ray->tex_rate;
 	scr_y = 0;
 	while (scr_y < WIN_H)
 	{
