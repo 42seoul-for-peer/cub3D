@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:25:31 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:06:30 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	check_color_value(char *line)
 	if (comma_cnt != 2 || color_cnt != 3)
 		print_error(map_data, __func__, __LINE__);
 }
-
+#include <stdio.h>
 void	check_scene_line(char *line, int *player, int *map_size)
 {
 	static int	flag;
@@ -48,7 +48,7 @@ void	check_scene_line(char *line, int *player, int *map_size)
 		else if (flag == 2)
 			print_error(map_data, __func__, __LINE__);
 		map_size[1] += 1;
-		if (get_rtrim_len(line, " \n") > map_size[1])
+		if (get_rtrim_len(line, " \n") > map_size[0])
 			map_size[0] = get_rtrim_len(line, " \n");
 		if (ft_strchr(line, 'N') || ft_strchr(line, 'S') || \
 			ft_strchr(line, 'W') || ft_strchr(line, 'E'))

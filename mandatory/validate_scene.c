@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:16:36 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static bool	is_surrounded(t_map *map, int x, int y)
 	char	elem_left;
 	char	elem_right;
 
-	if (map->scene[y][x] == '1')
+	ft_printf("x, y : (%d, %d)\n", x, y);
+	if (map->scene[y][x] == '1' || map->scene[y][x] == ' ')
 		return (true);
 	if (y == 0 || y == map->h - 1)
 		return (false);
@@ -31,6 +32,9 @@ static bool	is_surrounded(t_map *map, int x, int y)
 	elem_right = map->scene[y][x - 1];
 	if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
 		return (false);
+	if (elem_up == ' ' || elem_down == ' ' || \
+		elem_right == ' ' || elem_left == ' ')
+		return (false);
 	return (true);
 }
 
@@ -41,6 +45,7 @@ bool	is_map_valid(t_map *map)
 	int		y;
 
 	y = 0;
+	ft_printf("map size : (%d, %d)\n", map->w, map->h);
 	while (y < map->h)
 	{
 		x = 0;

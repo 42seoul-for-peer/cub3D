@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 19:15:07 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:54:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	action_rotate(int key, t_vec *dir, t_vec *plane)
 	}
 }
 
+#include <stdio.h>
 bool	is_movable(t_map *map, t_vec *pos, double delta, int dir_flag)
 {
 	t_vec	target;
@@ -58,10 +59,22 @@ bool	is_movable(t_map *map, t_vec *pos, double delta, int dir_flag)
 	if (map->scene[(int)target.y][(int)target.x] == '1' || \
 		map->scene[(int)target.y][(int)target.x] == ' ')
 		return (false);
-	if (dir_flag == X)
-		target.x += delta * 0.000001;
-	else
-		target.y += delta * 0.000001;
+		
+	if ((int)target.x != (int)(target.x + 0.000001))
+		target.x += 0.000001;
+	else if ((int)target.x != (int)(target.x - 0.000001))
+		target.x -= 0.000001;
+	if (target.x < 0 || target.x > map->w - 1 || \
+		target.y < 0 || target.y > map->h - 1)
+		return (false);
+	if (map->scene[(int)target.y][(int)target.x] == '1' || \
+		map->scene[(int)target.y][(int)target.x] == ' ')
+		return (false);
+	
+	if ((int)target.y != (int)(target.y + 0.000001))
+		target.y += 0.000001;
+	else if ((int)target.y != (int)(target.y - 0.000001))
+		target.y -= 0.000001;
 	if (target.x < 0 || target.x > map->w - 1 || \
 		target.y < 0 || target.y > map->h - 1)
 		return (false);
