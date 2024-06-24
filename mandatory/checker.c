@@ -6,54 +6,39 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 17:32:19 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:14:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	check_color(char *line, char type, int *elem_cnt)
+static void	check_color(char *line, int *elem_cnt)
 {
-	static int	color_cnt[2];
-	int			comma_cnt;
+	static int	color[2];
 
-	if (type == 'F' && color_cnt[0] == 0 && ft_strncmp(line, "F ", 2) == 0)
-		color_cnt[0] = 1;
-	else if (type == 'C' && color_cnt[1] == 0 && ft_strncmp(line, "C ", 2) == 0)
-		color_cnt[1] = 1;
+	if (color[0] == 0 && ft_strncmp(line, "F ", 2) == 0)
+		color[0] = 1;
+	else if (color[1] == 0 && ft_strncmp(line, "C ", 2) == 0)
+		color[1] = 1;
 	else
 		print_error(map_data, __func__, __LINE__);
-	line += 2;
-	comma_cnt = 0;
-	while (line && *line)
-	{
-		if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
-			print_error(map_data, __func__, __LINE__);
-		line = ft_strchr(line, ',');
-		if (line)
-		{
-			comma_cnt++;
-			line += 1;
-		}
-	}
-	if (comma_cnt > 2)
-		print_error(map_data, __func__, __LINE__);
+	check_color_value(line);
 	*elem_cnt += 1;
 }
 
-static void	check_texture(char *line, char type, int *elem_cnt)
+static void	check_texture(char *line, int *elem_cnt)
 {
 	static int	tex_cnt[4];
 	char		*path;
 	int			fd;
 
-	if (type == 'N' && tex_cnt[0] == 0 && ft_strncmp(line, "NO ", 3) == 0)
+	if (tex_cnt[0] == 0 && ft_strncmp(line, "NO ", 3) == 0)
 		tex_cnt[0] = 1;
-	else if (type == 'S' && tex_cnt[1] == 0 && ft_strncmp(line, "SO ", 3) == 0)
+	else if (tex_cnt[1] == 0 && ft_strncmp(line, "SO ", 3) == 0)
 		tex_cnt[1] = 1;
-	else if (type == 'W' && tex_cnt[2] == 0 && ft_strncmp(line, "WE ", 3) == 0)
+	else if (tex_cnt[2] == 0 && ft_strncmp(line, "WE ", 3) == 0)
 		tex_cnt[2] = 1;
-	else if (type == 'E' && tex_cnt[3] == 0 && ft_strncmp(line, "EA ", 3) == 0)
+	else if (tex_cnt[3] == 0 && ft_strncmp(line, "EA ", 3) == 0)
 		tex_cnt[3] = 1;
 	else
 		print_error(map_data, __func__, __LINE__);
@@ -69,65 +54,29 @@ static void	check_texture(char *line, char type, int *elem_cnt)
 	*elem_cnt += 1;
 }
 
-static void	check_scene(char *line, int *scene)
+static int	*check_scene(int fd)
 {
-	static int	flag;
-
-	if (ft_strchr(line, '1'))
-	{
-		if (flag == 0)
-			flag = 1;
-		else if (flag == 2)
-			print_error(map_data, __func__, __LINE__);
-		scene[2] += 1;
-		if (get_rtrim_len(line, " \n") > scene[1])
-			scene[1] = get_rtrim_len(line, " \n");
-		if (ft_strchr(line, 'N') || ft_strchr(line, 'S') || \
-			ft_strchr(line, 'W') || ft_strchr(line, 'E'))
-			scene[0] += 1;
-	}
-	else if (flag == 1)
-		flag = 2;
-	if (flag != 1 && get_rtrim_len(line, " \n") != 0)
-		print_error(map_data, __func__, __LINE__);
-	while (*line)
-	{
-		if (!ft_strchr("NSWE10 \n", *line))
-			print_error(map_data, __func__, __LINE__);
-		line++;
-	}
-}
-
-static void	check_map_data(int fd, int *map_size)
-{
+	int		player;
+	int		*map_size;
 	char	*line;
-	int		scene[3];
-	int		elem_cnt;
 
-	elem_cnt = 0;
-	ft_memset(scene, 0, sizeof(int) * 3);
+	map_size = ft_calloc(2, sizeof(int));
+	if (!map_size)
+		print_error(sys_call, __func__, __LINE__);
 	line = get_next_line(fd);
+	player = 0;
 	while (line)
 	{
-		if (elem_cnt < 6)
-		{
-			if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
-				check_texture(line, *line, &elem_cnt);
-			else if (*line == 'F' || *line == 'C')
-				check_color(line, *line, &elem_cnt);
-		}
-		else
-			check_scene(line, scene);
+		check_scene_line(line, &player, map_size);
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (scene[0] != 1 || scene[1] < 3 || scene[2] < 3)
+	if (player != 1 || map_size[0] < 3 || map_size[1] < 3)
 		print_error(map_data, __func__, __LINE__);
-	map_size[0] = scene[1];
-	map_size[1] = scene[2];
+	return (map_size);
 }
 
-void	check_format(char *path, int *map_size)
+static int	check_file_name(char *path)
 {
 	int		fd;
 	char	*name;
@@ -145,7 +94,29 @@ void	check_format(char *path, int *map_size)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		print_error(sys_call, __func__, __LINE__);
-	check_map_data(fd, map_size);
+	return (fd);
+}
+
+int	*check_format(char *path)
+{
+	int		fd;
+	int		elem_cnt;
+	int		*map_size;
+	char	*line;
+
+	fd = check_file_name(path);
+	elem_cnt = 0;
+	while (elem_cnt < 6)
+	{
+		line = get_next_line(fd);
+		if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
+			check_texture(line, &elem_cnt);
+		else if (*line == 'F' || *line == 'C')
+			check_color(line, &elem_cnt);
+		free(line);
+	}
+	map_size = check_scene(fd);
 	if (close(fd) < 0)
 		print_error(sys_call, __func__, __LINE__);
+	return (map_size);
 }

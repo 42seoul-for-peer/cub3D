@@ -1,11 +1,12 @@
-NO ./elem/north.xpm 
+NO ./elem/grass.xpm
 SO     ./elem/south.xpm
 WE           ./elem/west.xpm
 EA     ./elem/east.xpm
 F 224,224,224
 C      119, 140, 218
 
-111
-101
-1S1
-111
+1111
+1001
+1N00
+1101
+1111

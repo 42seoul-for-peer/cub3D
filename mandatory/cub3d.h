@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 18:14:55 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:11:06 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,14 @@ typedef struct s_info
 }	t_info;
 
 // checker.c
-// static void	check_color(char *line, char type, int *elem_cnt);
-// static void	check_texture(char *line, char type, int *elem_cnt);
+// static void	check_color(char *line, int *elem_cnt);
+// static void	check_texture(char *line, int *elem_cnt);
 // static void	check_scene(char *line, int *scene);
 // static void	check_map_data(int fd, int *map_size);
-void	check_format(char *file, int *map_size);
+int		*check_format(char *file);
+// checker_util.c
+void	check_color_value(char *line);
+void	check_scene_line(char *line, int *player, int *map_size);
 
 // init.c
 // static void	init_mlx_data(t_info *info);
@@ -142,20 +145,29 @@ void	set_map_scene(t_map *map, int fd);
 // static bool	is_surrounded(t_map *map, int x, int y);
 bool	is_map_valid(t_map *map);
 
-// util.c
-int		get_rtrim_len(char *str, char *set);
-
-//error.c
-void	print_error(t_error flag, const char *func, int line);
-
-//draw && calc
-void	calc(t_info *info, t_data *calc, double cam_x);
-void	draw(t_info *info, int screen_width);
-
 // ray_loop.c
 void	raycasting_loop(t_info *info);
 
+// calculator.c
+// static void	set_dist(t_data *calc);
+// static int	hit_loop(t_info *info, t_data *calc);
+void	calculator(t_info *info, t_data *calc);
+
+// draw.c
+// static t_draw	get_draw_data(t_data *calc, int screen_width);
+// static void		set_image_data(t_draw *draw, t_data *calc, t_tex *texture);
+// static void		set_screen_color(t_info *info, t_draw draw);
+// int				get_color_from_colorset(int *colorset);
+void	draw(t_info *info, int screen_width);
+
 // action.c
-int		dev_close(int key, void *tmp);
+int		close_mlx(void);
 int		key_press(int key, void *tmp);
+
+// util.c
+int		get_rtrim_len(char *str, char *set);
+
+// error.c
+void	print_error(t_error flag, const char *func, int line);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 18:13:45 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:36:02 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_color_from_colorset(int *colorset)
 	return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
 
-void	set_screen_color(t_info *info, t_draw draw)
+static void	set_screen_color(t_info *info, t_draw draw)
 {
 	t_coor	tex_pos;
 	int		height;
@@ -42,7 +42,7 @@ void	set_screen_color(t_info *info, t_draw draw)
 	}
 }
 
-void	set_image_data(t_draw *draw, t_data *calc, t_tex *texture)
+static void	set_image_data(t_draw *draw, t_data *calc, t_tex *texture)
 {
 	if (draw->side == X && calc->ray->x >= 0)
 		draw->img = texture->west;
@@ -62,7 +62,7 @@ void	set_image_data(t_draw *draw, t_data *calc, t_tex *texture)
 	(draw->start_height - WIN_HEIGHT / 2 + calc->line_height / 2) * draw->ratio;
 }
 
-t_draw	get_draw_data(t_data *calc, int screen_width)
+static t_draw	get_draw_data(t_data *calc, int screen_width)
 {
 	t_draw	draw;
 

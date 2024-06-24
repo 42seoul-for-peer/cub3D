@@ -6,18 +6,15 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/23 18:14:12 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 14:15:23 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	dev_close(int key, void *tmp)
+int	close_mlx(void)
 {
-	(void)tmp;
-	if (key == 53)
-		exit(0);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
 
 void	action_rotate(int key, t_vec *dir, t_vec *plane)
@@ -54,6 +51,8 @@ bool	is_movable(t_map *map, double target_x, double target_y)
 	if (target_x > map->width - 1 || target_y > map->height - 1)
 		return (false);
 	if (map->scene[(int)target_y][(int)target_x] == '1')
+		return (false);
+	if (map->scene[(int)target_y][(int)target_x] == ' ')
 		return (false);
 	return (true);
 }
@@ -95,7 +94,7 @@ int	key_press(int key, void	*tmp)
 	calc = info->calc;
 	map = info->map;
 	if (key == KEY_ESC)
-		dev_close(key, 0);
+		close_mlx();
 	else if (key == KEY_W || key == KEY_A || key == KEY_S || key == KEY_D)
 		action_move(key, calc, map);
 	else if (key == KEY_LEFT || key == KEY_RIGHT)

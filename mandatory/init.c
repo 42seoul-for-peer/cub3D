@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/23 18:13:07 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:22:30 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ static void	init_map_data(t_info *info, char *file, int *map_size)
 	set_map_scene(info->map, fd);
 	if (close(fd))
 		print_error(sys_call, __func__, __LINE__);
+	free(map_size);
 }
 
 t_info	*init_info(char *file, int *map_size)

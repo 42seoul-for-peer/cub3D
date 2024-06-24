@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 17:33:33 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 13:53:25 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static bool	is_surrounded(t_map *map, int x, int y)
 	char	elem_left;
 	char	elem_right;
 
+	if (map->scene[y][x] == '1')
+		return (true);
 	if (y == 0 || y == map->height - 1)
 		return (false);
 	if (x == 0 || x == map->width - 1)
@@ -28,9 +30,6 @@ static bool	is_surrounded(t_map *map, int x, int y)
 	elem_left = map->scene[y][x + 1];
 	elem_right = map->scene[y][x - 1];
 	if (elem_up == 0 || elem_down == 0 || elem_right == 0 || elem_left == 0)
-		return (false);
-	if (elem_up == ' ' || elem_down == ' ' || \
-			elem_right == ' ' || elem_left == ' ')
 		return (false);
 	return (true);
 }
@@ -55,7 +54,7 @@ bool	is_map_valid(t_map *map)
 				map->player_dir = elem;
 				map->scene[y][x] = 'P';
 			}
-			else if (elem != ' ' && elem != '1' && !is_surrounded(map, x, y))
+			if (!is_surrounded(map, x, y))
 				return (false);
 			x++;
 		}

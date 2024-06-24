@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/20 18:32:50 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/24 15:22:52 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ MLX = mlx
 # **************************************************************************** #
 LIB_DIR = ./libs/libft
 
-CFLAGS = -Wall -Wextra -Werror -MMD -MP -O3
+CFLAGS = -Wall -Wextra -Werror -MMD -MP
 CPPFLAGS = -I$(LIB_DIR)
 
 LDFLAGS = -L$(LIB_DIR) -framework OpenGL -framework AppKit
@@ -45,6 +45,7 @@ MAN_DIR = ./mandatory
 
 src_m = cub3d.c\
 		checker.c\
+		checker_util.c\
 		init.c\
 		set_map_data.c\
 		validate_scene.c\
