@@ -6,16 +6,11 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 20:42:05 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:39:47 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	close_mlx(void)
-{
-	exit(EXIT_SUCCESS);
-}
 
 void	action_rotate(int key, t_vec *dir, t_vec *plane)
 {

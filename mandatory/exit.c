@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 17:31:46 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:58:47 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:41:45 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	print_error(t_error flag, const char *func, int line)
 {
 	ft_printf("func %s[%d]\n", func, line);
+	ft_putendl_fd("Error\n", STDERR_FILENO);
 	ft_putstr_fd("cub3d: ", STDERR_FILENO);
 	if (flag == sys_call)
 		ft_putendl_fd(strerror(errno), STDERR_FILENO);
@@ -29,4 +30,9 @@ void	print_error(t_error flag, const char *func, int line)
 	else if (flag == tex)
 		ft_putendl_fd("invalid texture path", STDERR_FILENO);
 	exit(EXIT_FAILURE);
+}
+
+int	close_mlx(void)
+{
+	exit(EXIT_SUCCESS);
 }

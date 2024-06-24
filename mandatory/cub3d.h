@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 21:33:41 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:40:27 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef enum e_error
 	lib_mlx,
 	tex
 }	t_error;
-
 /* ************************************************************************** */
 typedef struct s_vector
 {
@@ -112,7 +111,7 @@ typedef struct s_info
 	void	*mlx;
 	void	*win;
 }	t_info;
-
+/* ************************************************************************** */
 // checker.c
 // static void	check_color(char *line, int *elem_cnt);
 // static void	check_texture(char *line, int *elem_cnt);
@@ -156,7 +155,6 @@ void	calc(t_info *info, t_ray *calc, int scr_x);
 void	draw(t_info *info, int scr_w);
 
 // action.c
-int		close_mlx(void);
 int		key_press(int key, void *tmp);
 
 // action_util.c
@@ -166,7 +164,8 @@ bool	check_wall(t_map *map, t_vec target);
 // util.c
 int		get_rtrim_len(char *str, char *set);
 
-// error.c
+// exit.c
+int		close_mlx(void);
 void	print_error(t_error flag, const char *func, int line);
 
 #endif
