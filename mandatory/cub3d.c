@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 15:18:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:28:36 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char *argv[])
 	int		*map_size;
 	t_info	*info;
 
-	atexit(check_leak);
+	// atexit(check_leak);
 	if (argc != 2)
 		print_error(argument, __func__, __LINE__);
 	map_size = check_format(argv[1]);

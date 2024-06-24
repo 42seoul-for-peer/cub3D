@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 14:15:23 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:34:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,15 @@ void	action_rotate(int key, t_vec *dir, t_vec *plane)
 	}
 }
 
+#include <stdio.h>
 bool	is_movable(t_map *map, double target_x, double target_y)
 {
+	printf("before| target : (%f, %f)\n", target_x, target_y);
 	if (floor(target_x) != floor(target_x + 0.000001))
 		target_x = ceil(target_x);
 	if (floor(target_y) != floor(target_y + 0.000001))
 		target_y = ceil(target_y);
+	printf("after| target : (%f, %f)\n", target_x, target_y);
 	if (target_x > map->width - 1 || target_y > map->height - 1)
 		return (false);
 	if (map->scene[(int)target_y][(int)target_x] == '1')
