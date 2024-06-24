@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 18:46:58 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 17:22:05 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 18:56:30 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ int	get_rtrim_len(char *str, char *set)
 		idx++;
 	return (len - idx);
 }
-

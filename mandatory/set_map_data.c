@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 17:33:43 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	set_map_texture(t_info *info, char *str, char type)
 	if (!texture)
 		print_error(sys_call, __func__, __LINE__);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, str, \
-											&texture->width, &texture->height);
+											&texture->w, &texture->h);
 	if (!texture->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
-	texture->addr = (int *)mlx_get_ray_addr(texture->ptr, &texture->bpp, \
+	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
 											&texture->line, &texture->endian);
 	if (!texture->addr)
 		print_error(lib_mlx, __func__, __LINE__);
@@ -72,17 +72,17 @@ void	set_map_scene(t_map *map, int fd)
 	char	**scene;
 
 	idx_h = 0;
-	scene = ft_calloc(map->height + 1, sizeof(char *));
+	scene = ft_calloc(map->h + 1, sizeof(char *));
 	if (!scene)
 		print_error(sys_call, __func__, __LINE__);
-	while (idx_h < map->height)
+	while (idx_h < map->h)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
 		if (ft_strchr(line, '1'))
 		{
-			scene[idx_h] = ft_calloc(map->width + 1, sizeof(char));
+			scene[idx_h] = ft_calloc(map->w + 1, sizeof(char));
 			if (!scene[idx_h])
 				print_error(sys_call, __func__, __LINE__);
 			ft_strlcpy(scene[idx_h], line, get_rtrim_len(line, " \n") + 1);

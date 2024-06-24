@@ -6,82 +6,87 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 17:42:44 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:24:39 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <stdio.h>
 
-int	get_color_from_colorset(int *colorset)
+static int	get_color_from_colorset(int *colorset)
 {
 	return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
 
-static void	set_screen_color(t_info *info, t_draw draw)
+static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 {
-	t_coor	tex_pos;
-	int		height;
+	int		scr_y;
 	int		color;
+	int		*tex_addr;
+	double	tex_h_unit;
 
-	height = 0;
-	tex_pos = draw.texture;
-	while (height < WIN_HEIGHT)
+	tex_h_unit = \
+		(ray->wall_rng[0] - WIN_H / 2 + ray->line_len / 2) * ray->tex_rate;
+	// tex_h_unit = \
+	// 	(ray->wall_rng[0] - (ray->line_len - WIN_H) / 2) * ray->tex_rate;
+	scr_y = 0;
+	while (scr_y < WIN_H)
 	{
-		if (height < draw.start_height)
-			color = get_color_from_colorset(info->texture->ceiling);
-		else if (height < draw.end_height)
+		if (scr_y < ray->wall_rng[0])
+			color = get_color_from_colorset(tex->ceiling);
+		else if (scr_y < ray->wall_rng[1])
 		{
-			tex_pos.y = (int) draw.tex_height_unit % draw.img->height;
-			draw.tex_height_unit += draw.ratio;
-			color = draw.img->addr[draw.img->height * tex_pos.y + tex_pos.x];
+			ray->tex_pos->y = (int) tex_h_unit % ray->tex_ptr->h;
+			tex_h_unit += ray->tex_rate;
+			tex_addr = ray->tex_ptr->addr;
+			color = \
+				tex_addr[ray->tex_ptr->h * ray->tex_pos->y + ray->tex_pos->x];
 		}
 		else
-			color = get_color_from_colorset(info->texture->floor);
-		*(info->screen->addr + height * WIN_WIDTH + draw.screen_x) = color;
-		height++;
+			color = get_color_from_colorset(tex->floor);
+		*(scr->addr + scr_y * WIN_W + scr_x) = color;
+		scr_y++;
 	}
 }
 
-static t_img 	*set_texture_data(t_ray *calc, t_tex *texture)
+static void	set_texture_data(t_ray *ray, t_tex *texture)
 {
-	t_img	*tex_ptr;
-
-	if (calc->hit_side == X && calc->ray->x >= 0)
-		tex_ptr = texture->west;
-	else if (calc->hit_side == X && calc->ray->x < 0)
-		tex_ptr = texture->east;
-	else if (calc->hit_side == Y && calc->ray->y >= 0)
-		tex_ptr = texture->north;
-	else if (calc->hit_side == Y && calc->ray->y < 0)
-		tex_ptr = texture->south;
-	draw->texture.x = (int)(draw->wall_x * (double) draw->img->width);
-	if (calc->hit_side == X && calc->ray->x < 0)
-		draw->texture.x = draw->img->width - draw->texture.x - 1;
-	if (calc->hit_side == Y && calc->ray->y > 0)
-		draw->texture.x = draw->img->width - draw->texture.x - 1;
-	draw->ratio = 1.0 * draw->img->height / calc->line_height;
-	draw->tex_height_unit = \
-	(calc->wall_range[0] - WIN_HEIGHT / 2 + calc->line_height / 2) * draw->ratio;
+	if (ray->hit_side == X && ray->ray_dir->x >= 0)
+		ray->tex_ptr = texture->west;
+	else if (ray->hit_side == X && ray->ray_dir->x < 0)
+		ray->tex_ptr = texture->east;
+	else if (ray->hit_side == Y && ray->ray_dir->y >= 0)
+		ray->tex_ptr = texture->north;
+	else if (ray->hit_side == Y && ray->ray_dir->y < 0)
+		ray->tex_ptr = texture->south;
+	ray->tex_pos->x = (int)(ray->wall_point * (double) ray->tex_ptr->w);
+	if (ray->hit_side == X && ray->ray_dir->x < 0)
+		ray->tex_pos->x = ray->tex_ptr->w - ray->tex_pos->x - 1;
+	if (ray->hit_side == Y && ray->ray_dir->y > 0)
+		ray->tex_pos->x = ray->tex_ptr->w - ray->tex_pos->x - 1;
+	ray->tex_rate = (double) ray->tex_ptr->h / (double) ray->line_len;
 }
 
-static void	set_draw_data(t_ray *calc, int screen_x)
+static void	set_draw_data(t_ray *ray)
 {
-	calc->wall_range[0] = (WIN_HEIGHT - calc->line_height) / 2;
-	if (calc->wall_range[0] < 0)
-		calc->wall_range[0] = 0;
-	calc->wall_range[1] = (WIN_HEIGHT + calc->line_height) / 2;
-	if (calc->wall_range[1] > WIN_HEIGHT - 1);
-		calc->wall_range[1] = 0;
-	if (calc->hit_side == X)
-		calc->wall_point = calc->pos->y + calc->perp_wall_dist * calc->ray->y;
+	ray->wall_rng[0] = (WIN_H - ray->line_len) / 2;
+	if (ray->wall_rng[0] < 0)
+		ray->wall_rng[0] = 0;
+	ray->wall_rng[1] = (WIN_H + ray->line_len) / 2;
+	if (ray->wall_rng[1] > WIN_H - 1)
+		ray->wall_rng[1] = WIN_H - 1;
+	if (ray->hit_side == X)
+		ray->wall_point = \
+			ray->pl_pos->y + ray->perp_wall_dist * ray->ray_dir->y;
 	else
-		calc->wall_point = calc->pos->x + calc->perp_wall_dist * calc->ray->x;
-	calc->wall_point -= floor(calc->wall_point);
+		ray->wall_point = \
+			ray->pl_pos->x + ray->perp_wall_dist * ray->ray_dir->x;
+	ray->wall_point -= floor(ray->wall_point);
 }
 
-void	draw(t_info *info, int screen_x)
+void	draw(t_info *info, int scr_x)
 {
-	set_draw_data(info->calc, screen_x);
-	set_image_data(info->calc, info->texture);
-	set_screen_color(info, draw);
+	set_draw_data(info->ray);
+	set_texture_data(info->ray, info->texture);
+	set_scr_color(info->ray, info->texture, info->scr, scr_x);
 }

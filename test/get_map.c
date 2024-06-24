@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:06 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,24 @@ char	**get_map_scene_append(char **prev_scene, t_map *map, char *line)
 	char		**new_scene;
 	int			idx;
 
-	new_scene = ft_calloc(++map->height + 1, sizeof(char *));
+	new_scene = ft_calloc(++map->h + 1, sizeof(char *));
 	if (!new_scene)
 		print_error(sys_call, __func__, __LINE__);
-	if ((int) ft_strlen(line) > map->width)
-		map->width = ft_strlen(line);
+	if ((int) ft_strlen(line) > map->w)
+		map->w = ft_strlen(line);
 	idx = 0;
-	while (idx < map->height)
+	while (idx < map->h)
 	{
-		new_scene[idx] = ft_calloc(1, map->width + 1);
+		new_scene[idx] = ft_calloc(1, map->w + 1);
 		if (!new_scene[idx])
 			print_error(sys_call, __func__, __LINE__);
-		if (idx == map->height - 1)
+		if (idx == map->h - 1)
 			ft_strlcpy(new_scene[idx], line, ft_strlen(line) + 1);
-		else if (idx != map->height)
-			ft_strlcpy(new_scene[idx], prev_scene[idx], map->width + 1);
+		else if (idx != map->h)
+			ft_strlcpy(new_scene[idx], prev_scene[idx], map->w + 1);
 		idx++;
 	}
-	new_scene[map->height] = 0;
+	new_scene[map->h] = 0;
 	return (new_scene);
 }
 

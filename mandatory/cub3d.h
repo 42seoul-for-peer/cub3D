@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 17:36:57 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:13:56 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define X 0
 # define Y 1
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define WIN_W 1920
+# define WIN_H 1080
 # define MOVE_SPEED 0.1
 # define ROT_ANGLE 30
 /* ************************************************************************** */
@@ -57,8 +57,8 @@ typedef struct s_img
 {
 	void	*ptr;
 	int		*addr;
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 	int		bpp;
 	int		line;
 	int		endian;
@@ -76,8 +76,8 @@ typedef struct s_texture
 
 typedef struct s_map
 {
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 	char	**scene;
 	t_coor	pos;
 	char	player_dir;
@@ -86,39 +86,29 @@ typedef struct s_map
 typedef struct s_ray
 {
 	double	perp_wall_dist;
-	int		line_height;
+	int		line_len;
 	int		hit_side;
 	double	wall_point;
-	double	wall_range[2];
+	double	tex_rate;
+	int		wall_rng[2];
 	double	side[2];
 	double	delta[2];
-	t_vec	*pos;
-	t_vec	*dir;
+	t_vec	*pl_pos;
+	t_vec	*pl_dir;
 	t_vec	*plane;
-	t_vec	*ray;
+	t_vec	*ray_dir;
 	t_coor	*map;
 	t_coor	*step;
+	t_coor	*tex_pos;
+	t_img	*tex_ptr;
 }	t_ray;
-
-typedef struct s_draw
-{
-	t_coor	texture;
-	t_img	*img;
-	double	ratio;
-	double	tex_height_unit;
-	double	wall_x;
-	int		start_height;
-	int		end_height;
-	int		screen_x;
-	int		side;
-}	t_draw;
 
 typedef struct s_info
 {
-	t_ray	*calc;
+	t_ray	*ray;
 	t_map	*map;
 	t_tex	*texture;
-	t_img	*screen;
+	t_img	*scr;
 	void	*mlx;
 	void	*win;
 }	t_info;
@@ -129,6 +119,7 @@ typedef struct s_info
 // static void	check_scene(char *line, int *scene);
 // static void	check_map_data(int fd, int *map_size);
 int		*check_format(char *file);
+
 // checker_util.c
 void	check_color_value(char *line);
 void	check_scene_line(char *line, int *player, int *map_size);
@@ -136,6 +127,8 @@ void	check_scene_line(char *line, int *player, int *map_size);
 // init.c
 // static void	init_mlx_data(t_info *info);
 // static void	init_map_data(t_info *info, char *file, int *map_size);
+// static void	init_calc(t_info *info);
+// static void	init_vecdtor(t_info *info, char p_dir);
 t_info	*init_info(char *file, int *map_size);
 
 // set_map_data.c
@@ -150,18 +143,18 @@ bool	is_map_valid(t_map *map);
 // ray_loop.c
 void	raycasting_loop(t_info *info);
 
-// calculator.c
-void	set_dist(t_ray *calc);
-double	get_perp_wall_dist(t_ray *calc);
-int		hit_loop(t_info *info, t_ray *calc);
-void	calc(t_info *info, t_ray *calc, int screen_x);
+// calc.c
+// static void		set_dist(t_ray *calc);
+// static int		hit_loop(t_info *info, t_ray *calc);
+// static double	get_perp_wall_dist(t_ray *calc);
+void	calc(t_info *info, t_ray *calc, int scr_x);
 
 // draw.c
-// static t_draw	get_draw_data(t_ray *calc, int screen_width);
+// static t_draw	get_draw_data(t_ray *calc, int scr_w);
 // static void		set_image_data(t_draw *draw, t_ray *calc, t_tex *texture);
-// static void		set_screen_color(t_info *info, t_draw draw);
+// static void		set_scr_color(t_info *info, t_draw draw);
 // int				get_color_from_colorset(int *colorset);
-void	draw(t_info *info, int screen_width);
+void	draw(t_info *info, int scr_w);
 
 // action.c
 int		close_mlx(void);

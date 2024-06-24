@@ -6,39 +6,39 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:52:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 17:33:43 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:16:43 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	set_dist(t_ray *calc)
+static void	set_dist(t_ray *ray)
 {
-	calc->delta[X] = fabs(1 / calc->ray->x);
-	calc->delta[Y] = fabs(1 / calc->ray->y);
-	if (calc->ray->x < 0)
+	ray->delta[X] = fabs(1 / ray->ray_dir->x);
+	ray->delta[Y] = fabs(1 / ray->ray_dir->y);
+	if (ray->ray_dir->x < 0)
 	{
-		calc->step->x = -1;
-		calc->side[X] = (calc->pos->x - calc->map->x) * calc->delta[X];
+		ray->step->x = -1;
+		ray->side[X] = (ray->pl_pos->x - ray->map->x) * ray->delta[X];
 	}
 	else
 	{
-		calc->step->x = 1;
-		calc->side[X] = (calc->map->x + 1.0 - calc->pos->x) * calc->delta[X];
+		ray->step->x = 1;
+		ray->side[X] = (ray->map->x + 1.0 - ray->pl_pos->x) * ray->delta[X];
 	}
-	if (calc->ray->y < 0)
+	if (ray->ray_dir->y < 0)
 	{
-		calc->step->y = -1;
-		calc->side[Y] = (calc->pos->y - calc->map->y) * calc->delta[Y];
+		ray->step->y = -1;
+		ray->side[Y] = (ray->pl_pos->y - ray->map->y) * ray->delta[Y];
 	}
 	else
 	{
-		calc->step->y = 1;
-		calc->side[Y] = (calc->map->y + 1.0 - calc->pos->y) * calc->delta[Y];
+		ray->step->y = 1;
+		ray->side[Y] = (ray->map->y + 1.0 - ray->pl_pos->y) * ray->delta[Y];
 	}
 }
 
-int	hit_loop(t_info *info, t_ray *calc)
+static int	hit_loop(t_info *info, t_ray *ray)
 {
 	int		side;
 	bool	hit;
@@ -46,46 +46,56 @@ int	hit_loop(t_info *info, t_ray *calc)
 	hit = false;
 	while (hit == false)
 	{
-		if (calc->side[X] < calc->side[Y])
+		if (ray->side[X] < ray->side[Y])
 		{
-			calc->side[X] += calc->delta[X];
-			calc->map->x += calc->step->x;
+			ray->side[X] += ray->delta[X];
+			ray->map->x += ray->step->x;
 			side = X;
 		}
 		else
 		{
-			calc->side[Y] += calc->delta[Y];
-			calc->map->y += calc->step->y;
+			ray->side[Y] += ray->delta[Y];
+			ray->map->y += ray->step->y;
 			side = Y;
 		}
-		if (info->map->scene[calc->map->y][calc->map->x] == '1')
+		if (info->map->scene[ray->map->y][ray->map->x] == '1')
 			hit = true;
 	}
 	return (side);
 }
 
-double	get_perp_wall_dist(t_ray *calc)
+static double	get_perp_wall_dist(t_ray *ray)
 {
+	t_coor	*map;
+	t_coor	*step;
+	t_vec	*pl_pos;
+	t_vec	*ray_dir;
 	double	res;
 
-	if (calc->hit_side == X)
-		res = (calc->map->x - calc->pos->x + (1 - calc->step->x) / 2) / calc->ray->x;
+	map = ray->map;
+	step = ray->step;
+	pl_pos = ray->pl_pos;
+	ray_dir = ray->ray_dir;
+	if (ray->hit_side == X)
+		res = \
+			(map->x - pl_pos->x + (1 - step->x) / 2) / ray_dir->x;
 	else
-		res = (calc->map->y - calc->pos->y + (1 - calc->step->y) / 2) / calc->ray->y;
+		res = \
+			(map->y - pl_pos->y + (1 - step->y) / 2) / ray_dir->y;
 	return (res);
 }
 
-void	calc(t_info *info, t_ray *calc, int screen_x)
+void	calc(t_info *info, t_ray *ray, int scr_x)
 {
 	double	cam_x;
 
-	cam_x = screen_x * 2 / (double) WIN_WIDTH - 1;
-	calc->ray->x = calc->dir->x + calc->plane->x * cam_x;
-	calc->ray->y = calc->dir->y + calc->plane->y * cam_x;
-	calc->map->x = (int) calc->pos->x;
-	calc->map->y = (int) calc->pos->y;
-	set_dist(calc);
-	calc->hit_side = hit_loop(info, calc);
-	calc->perp_wall_dist = get_perp_wall_dist(calc);
-	calc->line_height = (int) (WIN_HEIGHT / calc->perp_wall_dist);
+	cam_x = scr_x * 2 / (double) WIN_W - 1;
+	ray->ray_dir->x = ray->pl_dir->x + ray->plane->x * cam_x;
+	ray->ray_dir->y = ray->pl_dir->y + ray->plane->y * cam_x;
+	ray->map->x = (int) ray->pl_pos->x;
+	ray->map->y = (int) ray->pl_pos->y;
+	set_dist(ray);
+	ray->hit_side = hit_loop(info, ray);
+	ray->perp_wall_dist = get_perp_wall_dist(ray);
+	ray->line_len = (int)(WIN_H / ray->perp_wall_dist);
 }

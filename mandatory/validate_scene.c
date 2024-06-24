@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 13:53:25 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static bool	is_surrounded(t_map *map, int x, int y)
 
 	if (map->scene[y][x] == '1')
 		return (true);
-	if (y == 0 || y == map->height - 1)
+	if (y == 0 || y == map->h - 1)
 		return (false);
-	if (x == 0 || x == map->width - 1)
+	if (x == 0 || x == map->w - 1)
 		return (false);
 	elem_up = map->scene[y - 1][x];
 	elem_down = map->scene[y + 1][x];
@@ -41,10 +41,10 @@ bool	is_map_valid(t_map *map)
 	int		y;
 
 	y = 0;
-	while (y < map->height)
+	while (y < map->h)
 	{
 		x = 0;
-		while (x < map->width && map->scene[y][x])
+		while (x < map->w && map->scene[y][x])
 		{
 			elem = map->scene[y][x];
 			if (elem == 'N' || elem == 'S' || elem == 'W' || elem == 'E')

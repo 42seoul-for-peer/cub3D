@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:22:39 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*init_texture(t_info *info, char *path)
 	if (!texture)
 		print_error(sys_call, __func__, __LINE__);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, path, \
-											&texture->width, &texture->height);
+											&texture->w, &texture->h);
 	if (!texture->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
 	texture->addr = (int *)mlx_get_data_addr(texture->ptr, &texture->bpp, \
@@ -48,16 +48,16 @@ void	init_mlx_info(t_info *info)
 	info->mlx = mlx_init();
 	if (!info->mlx)
 		print_error(lib_mlx, __func__, __LINE__);
-	info->screen = ft_calloc(1, sizeof(t_img));
-	if (!info->screen)
+	info->scr = ft_calloc(1, sizeof(t_img));
+	if (!info->scr)
 		print_error(sys_call, __func__, __LINE__);
-	info->win = mlx_new_window(info->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
-	info->screen->ptr = mlx_new_image(info->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!info->win || !info->screen->ptr)
+	info->win = mlx_new_window(info->mlx, WIN_W, WIN_H, "cub3D");
+	info->scr->ptr = mlx_new_image(info->mlx, WIN_W, WIN_H);
+	if (!info->win || !info->scr->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
-	info->screen->addr = (int *) mlx_get_data_addr(info->screen->ptr, &(info->screen->bpp), \
-									&(info->screen->line), &(info->screen->endian));
-	if (!info->screen->ptr)
+	info->scr->addr = (int *) mlx_get_data_addr(info->scr->ptr, &(info->scr->bpp), \
+									&(info->scr->line), &(info->scr->endian));
+	if (!info->scr->ptr)
 		print_error(lib_mlx, __func__, __LINE__);
 	info->texture = ft_calloc(1, sizeof(t_tex));
 	if (!info->texture)

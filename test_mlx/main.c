@@ -14,16 +14,16 @@ typedef struct s_img
 	int		bpp;
 	int		line;
 	int		endian;
-	int		width;
-	int		height;
+	int		w;
+	int		h;
 }	t_img;
 
 typedef struct s_tex
 {
 	char	*path;
 	int		*texture;
-	double	width;
-	double	height;
+	double	w;
+	double	h;
 }	t_tex;
 
 typedef struct s_info
@@ -39,16 +39,16 @@ int	*load_image_malloc(t_info *info, char *path, t_img *img, int i)
 	int	row;
 	int	*result;
 
-	img->img = mlx_xpm_file_to_image(info->mlx->mlx, path, &img->width, &img->height);
+	img->img = mlx_xpm_file_to_image(info->mlx->mlx, path, &img->w, &img->h);
 	if (!img->img)
 		exit(EXIT_FAILURE);
-	info->tex[i].width = img->width;
-	info->tex[i].height = img->height;
-	result = malloc(sizeof(int) * (img->width * img->height));
-	for(row = 0;row < img->height; row++)
+	info->tex[i].w = img->w;
+	info->tex[i].h = img->h;
+	result = malloc(sizeof(int) * (img->w * img->h));
+	for(row = 0;row < img->h; row++)
 	{
-		for (col = 0; col < img->width; col++)
-			result[img->width * row + col] = img->data[img->width * row + col];
+		for (col = 0; col < img->w; col++)
+			result[img->w * row + col] = img->data[img->w * row + col];
 	}
 	mlx_destroy_image(info->mlx->mlx, img->img);
 	return (result);
@@ -70,12 +70,12 @@ void	load_texture(t_info *info)
 int	find_color(t_info *info, int col, int row)
 {
 	int	color;
-	int height = info->tex[0].height;
-	int	width = info->tex[0].width;
-	int	result_row = height * row / 1920;
-	int	result_col = width * col / 1080;
+	int h = info->tex[0].h;
+	int	w = info->tex[0].w;
+	int	result_row = h * row / 1920;
+	int	result_col = w * col / 1080;
 
-	color = info->tex[0].texture[width * result_row + result_col];
+	color = info->tex[0].texture[w * result_row + result_col];
 	return (color);
 }
 
@@ -98,10 +98,10 @@ int	main()
 	info.tex[2].path = "../elem/west.xpm";
 	info.tex[3].path = "../elem/east.xpm";
 	load_texture(&info);
-	for (int row = 0; row < info.tex[0].height; row++)
+	for (int row = 0; row < info.tex[0].h; row++)
 	{
-		for (int col = 0; col < info.tex[0].width; col++)
-			info.img->data[(int)info.tex[0].height * row + col] = find_color(&info, col, row);
+		for (int col = 0; col < info.tex[0].w; col++)
+			info.img->data[(int)info.tex[0].h * row + col] = find_color(&info, col, row);
 	}
 	mlx_put_image_to_window(info.mlx->mlx, info.mlx->win, info.img->img, 0, 0);
 	mlx_loop(info.mlx->mlx);

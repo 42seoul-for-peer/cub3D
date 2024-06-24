@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 17:38:05 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:11:45 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	raycasting_loop(t_info *info)
 {
-	int		screen_x;
+	int		scr_x;
 
-	screen_x = 0;
-	while (screen_x < WIN_WIDTH)
+	scr_x = 0;
+	while (scr_x < WIN_W)
 	{
-		calc(info, info->calc, screen_x);
-		draw(info, screen_x);
-		screen_x++;
+		calc(info, info->ray, scr_x);
+		draw(info, scr_x);
+		scr_x++;
 	}
-	mlx_put_image_to_window(info->mlx, info->win, info->screen->ptr, 0, 0);
+	mlx_put_image_to_window(info->mlx, info->win, info->scr->ptr, 0, 0);
 }

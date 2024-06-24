@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:51:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/17 15:59:09 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ bool    check_map_elements(t_map *map)
     int     idx_w;
 
     idx_h = 0;
-    while (idx_h < map->height)
+    while (idx_h < map->h)
     {
         idx_w = 0;
-        while (idx_w < map->width && map->scene[idx_h][idx_w])
+        while (idx_w < map->w && map->scene[idx_h][idx_w])
         {
             elem = map->scene[idx_h][idx_w];
             if (elem == 'N' || elem == 'S' || elem == 'E' || elem == 'W')
@@ -64,18 +64,18 @@ char    **get_copied_scene(t_map *map)
     int     idx;
 
     idx = 0;
-    scene_copy = ft_calloc(map->height + 1, sizeof(char *));
+    scene_copy = ft_calloc(map->h + 1, sizeof(char *));
     if (!scene_copy)
         print_error(sys_call, __func__, __LINE__);
-    while (idx < map->height)
+    while (idx < map->h)
     {
-        scene_copy[idx] = ft_calloc(map->width + 1, sizeof(char *));
+        scene_copy[idx] = ft_calloc(map->w + 1, sizeof(char *));
         if (!scene_copy[idx])
             print_error(sys_call, __func__, __LINE__);
-        ft_strlcpy(scene_copy[idx], map->scene[idx], map->width + 1);
+        ft_strlcpy(scene_copy[idx], map->scene[idx], map->w + 1);
         idx++;
     }
-    scene_copy[map->height] = 0;
+    scene_copy[map->h] = 0;
     return (scene_copy);
 }
 
@@ -86,9 +86,9 @@ bool    check_void_nearby(t_map *map, int idx_h, int idx_w)
     char    elem_left;
     char    elem_right;
 
-    if (idx_h == 0 || idx_h == map->height - 1)
+    if (idx_h == 0 || idx_h == map->h - 1)
         return (false);
-    if (idx_w == 0 || idx_w == map->width - 1)
+    if (idx_w == 0 || idx_w == map->w - 1)
         return (false);
     elem_up = map->scene[idx_h - 1][idx_w];
     elem_down = map->scene[idx_h + 1][idx_w];
@@ -110,10 +110,10 @@ bool    check_map_surrounded(t_map *map)
 
     idx_h = 0;
     scene_backup = get_copied_scene(map);
-    while (idx_h < map->height)
+    while (idx_h < map->h)
     {
         idx_w = 0;
-        while (idx_w < map->width)
+        while (idx_w < map->w)
         {
             elem = map->scene[idx_h][idx_w];
             if (elem == '0' || elem == 'P')
