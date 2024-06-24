@@ -6,7 +6,7 @@
 #    By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/05 21:19:13 by hyeunkim          #+#    #+#              #
-#    Updated: 2024/06/24 15:22:52 by hyeunkim         ###   ########.fr        #
+#    Updated: 2024/06/24 21:30:41 by hyeunkim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ src_m = cub3d.c\
 		draw.c\
 		calc.c\
 		action.c\
+		action_util.c\
 		util.c\
 		error.c\
 

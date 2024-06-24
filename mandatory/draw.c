@@ -6,18 +6,17 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:30:15 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:34:55 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 
-static int	get_color_from_colorset(int *colorset)
+static int	get_color(int *colorset)
 {
 	return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
-#include <stdio.h>
+
 static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 {
 	int		scr_y;
@@ -31,7 +30,7 @@ static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 	while (scr_y < WIN_H)
 	{
 		if (scr_y < ray->wall_rng[0])
-			color = get_color_from_colorset(tex->ceiling);
+			color = get_color(tex->ceiling);
 		else if (scr_y < ray->wall_rng[1])
 		{
 			ray->tex_pos->y = (int) tex_h_unit % ray->tex_ptr->h;
@@ -41,13 +40,13 @@ static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 				tex_addr[ray->tex_ptr->h * ray->tex_pos->y + ray->tex_pos->x];
 		}
 		else
-			color = get_color_from_colorset(tex->floor);
+			color = get_color(tex->floor);
 		*(scr->addr + scr_y * WIN_W + scr_x) = color;
 		scr_y++;
 	}
 }
 
-static void	set_texture_data(t_ray *ray, t_tex *texture)
+static void	set_tex_data(t_ray *ray, t_tex *texture)
 {
 	if (ray->hit_side == X && ray->ray_dir->x >= 0)
 		ray->tex_ptr = texture->west;
@@ -85,6 +84,6 @@ static void	set_draw_data(t_ray *ray)
 void	draw(t_info *info, int scr_x)
 {
 	set_draw_data(info->ray);
-	set_texture_data(info->ray, info->texture);
+	set_tex_data(info->ray, info->texture);
 	set_scr_color(info->ray, info->texture, info->scr, scr_x);
 }

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 20:16:36 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 20:28:54 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ bool	is_map_valid(t_map *map)
 	int		y;
 
 	y = 0;
-	ft_printf("map size : (%d, %d)\n", map->w, map->h);
 	while (y < map->h)
 	{
 		x = 0;

@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:13:56 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:33:41 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,15 +150,18 @@ void	raycasting_loop(t_info *info);
 void	calc(t_info *info, t_ray *calc, int scr_x);
 
 // draw.c
-// static t_draw	get_draw_data(t_ray *calc, int scr_w);
-// static void		set_image_data(t_draw *draw, t_ray *calc, t_tex *texture);
+// static int		get_color(int *colorset);
+// static void		set_tex_data(t_draw *draw, t_ray *calc, t_tex *texture);
 // static void		set_scr_color(t_info *info, t_draw draw);
-// int				get_color_from_colorset(int *colorset);
 void	draw(t_info *info, int scr_w);
 
 // action.c
 int		close_mlx(void);
 int		key_press(int key, void *tmp);
+
+// action_util.c
+double	adjust_double(double target);
+bool	check_wall(t_map *map, t_vec target);
 
 // util.c
 int		get_rtrim_len(char *str, char *set);
