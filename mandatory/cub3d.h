@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 22:10:19 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:14:31 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,21 @@ typedef struct s_map
 
 typedef struct s_ray
 {
-	double	perp_wall_dist;
 	int		line_len;
 	int		hit_side;
 	double	wall_point;
 	double	tex_rate;
+	double	perp_wall_dist;
 	int		wall_rng[2];
 	double	side[2];
 	double	delta[2];
+	t_coor	*map;
+	t_coor	*step;
+	t_coor	*tex_pos;
 	t_vec	*pl_pos;
 	t_vec	*pl_dir;
 	t_vec	*plane;
 	t_vec	*ray_dir;
-	t_coor	*map;
-	t_coor	*step;
-	t_coor	*tex_pos;
 	t_img	*tex_ptr;
 }	t_ray;
 
