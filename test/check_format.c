@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:51:22 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 19:02:38 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 22:08:13 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ char    **get_copied_scene(t_map *map)
     idx = 0;
     scene_copy = ft_calloc(map->h + 1, sizeof(char *));
     if (!scene_copy)
-        print_error(sys_call, __func__, __LINE__);
+        exit_with_error(sys_call);
     while (idx < map->h)
     {
         scene_copy[idx] = ft_calloc(map->w + 1, sizeof(char *));
         if (!scene_copy[idx])
-            print_error(sys_call, __func__, __LINE__);
+            exit_with_error(sys_call);
         ft_strlcpy(scene_copy[idx], map->scene[idx], map->w + 1);
         idx++;
     }

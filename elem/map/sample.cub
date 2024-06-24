@@ -1,9 +1,9 @@
-NO     ./elem/n
-SO      ./elem/s
-WE           ./elem/w
-EA     ./elem/e
-F        220,  100,   0
-C        225,  30 ,   0
+NO ./elem/bound_north.xpm
+SO ./elem/bound_south.xpm
+WE ./elem/bound_west.xpm
+EA ./elem/bound_east.xpm
+F 220,  100,   0
+C 225,  30 ,   0
 
 
 111        1111111111111111111111111
