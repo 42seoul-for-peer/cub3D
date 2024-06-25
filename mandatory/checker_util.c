@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:56:33 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:03:58 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 void	check_color_value(char *line)
 {
-	int	flag;
-	int	cnt[2];
+	int		cnt;
+	char	*tmp;
 
-	ft_memset(cnt, 0, sizeof(int) * 2);
-	flag = 0;
-	while (line && *line)
+	if (!line)
+		exit_with_error(sys_call);
+	cnt = 0;
+	tmp = line;
+	while (*tmp && cnt < 3)
 	{
-		if (flag == 0)
-		{
-			flag = 1;
-			cnt[0] += 1;
-			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
-				exit_with_error(map_data);
-			while (ft_isdigit(*line))
-				line++;
-		}
-		if (flag == 1 && *line == ',')
-		{
-			flag = 0;
-			cnt[1] += 1;
-		}
-		line++;
+		while (ft_isspace(*tmp))
+			tmp++;
+		if (!ft_isdigit(*tmp) || ft_atoi(tmp) < 0 || ft_atoi(tmp) > 255)
+			exit_with_error(map_data);
+		while (ft_isdigit(*tmp))
+			tmp++;
+		while (ft_isspace(*tmp))
+			tmp++;
+		if (cnt < 2 && *tmp == ',')
+			tmp++;
+		cnt++;
 	}
-	if (cnt[0] != 3 || cnt[1] != 2)
+	if (cnt != 3 || *tmp)
 		exit_with_error(map_data);
+	free(line);
 }
 
 void	check_scene_line(char *line, int *player, int *map_size)
