@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 15:39:12 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 20:28:54 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:51:42 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static bool	is_surrounded(t_map *map, int x, int y)
 	char	elem_left;
 	char	elem_right;
 
-	ft_printf("x, y : (%d, %d)\n", x, y);
 	if (map->scene[y][x] == '1' || map->scene[y][x] == ' ')
 		return (true);
 	if (y == 0 || y == map->h - 1)
