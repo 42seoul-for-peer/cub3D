@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:22:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:36:59 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int		key_press(int key, void *tmp);
 
 // action_util.c
 double	adjust_double(double target);
-bool	check_wall(t_map *map, t_vec target);
+bool	is_wall(t_map *map, double target_x, double target_y);
 
 // util.c
 int		get_rtrim_len(char *str, char *set);
