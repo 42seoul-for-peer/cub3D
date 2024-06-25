@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:56:19 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:50:40 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	check_color(char *line, int *elem_cnt)
 		color[1] = 1;
 	else
 		exit_with_error(map_data);
-	check_color_value(line + 2);
+	check_color_value(ft_strtrim(line + 2, " \n"));
 	*elem_cnt += 1;
 }
 
