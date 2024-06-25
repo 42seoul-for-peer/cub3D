@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/18 18:46:58 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/19 17:33:04 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/24 21:30:23 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	get_rtrim_len(char *str, char *set)
 		return (0);
 	len = ft_strlen(str);
 	idx = 0;
-	while (idx < len && str[len - 1 - idx] && ft_strchr(set, str[len - 1 - idx]))
+	while (idx < len && str[len - 1 - idx] \
+			&& ft_strchr(set, str[len - 1 - idx]))
 		idx++;
 	return (len - idx);
 }

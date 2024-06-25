@@ -1,11 +1,11 @@
 #include <mlx.h>
 
-#define mapWidth 24
-#define mapHeight 24
-#define screenWidth 640
-#define screenHeight 480
+#define mapw 24
+#define maph 24
+#define scrw 640
+#define scrh 480
 
-int worldMap[mapWidth][mapHeight]=
+int worldMap[mapw][maph]=
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
