@@ -6,13 +6,13 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:38:30 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 22:10:08 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:24:04 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	set_map_color(t_info *info, char *line, char type)
+void	set_map_color(t_info *info, char *line, char type, int *elem_cnt)
 {
 	int		idx;
 	int		*rgb;
@@ -34,17 +34,16 @@ void	set_map_color(t_info *info, char *line, char type)
 		info->texture->floor = rgb;
 	else if (type == 'C')
 		info->texture->ceiling = rgb;
+	*elem_cnt += 1;
 }
 
-void	set_map_texture(t_info *info, char *str, char type)
+void	set_map_texture(t_info *info, char *str, char type, int *elem_cnt)
 {
 	t_img	*texture;
 
 	str = ft_strtrim(str, " \n");
-	if (!str)
-		exit_with_error(sys_call);
 	texture = ft_calloc(1, sizeof(t_img));
-	if (!texture)
+	if (!str || !texture)
 		exit_with_error(sys_call);
 	texture->ptr = mlx_xpm_file_to_image(info->mlx, str, \
 											&texture->w, &texture->h);
@@ -62,6 +61,7 @@ void	set_map_texture(t_info *info, char *str, char type)
 		info->texture->west = texture;
 	else if (type == 'E')
 		info->texture->east = texture;
+	*elem_cnt += 1;
 	free(str);
 }
 

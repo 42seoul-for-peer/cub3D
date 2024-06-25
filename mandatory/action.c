@@ -6,11 +6,12 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/24 21:39:47 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:10:41 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "key.h"
 
 void	action_rotate(int key, t_vec *dir, t_vec *plane)
 {

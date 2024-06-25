@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:31:45 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 22:09:47 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:24:18 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,9 @@ static void	init_map_data(t_info *info, char *file, int *map_size)
 	{
 		line = get_next_line(fd);
 		if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
-			set_map_texture(info, line + 2, *line);
+			set_map_texture(info, line + 2, *line, &elem_cnt);
 		else if (*line == 'F' || *line == 'C')
-			set_map_color(info, line, *line);
-		elem_cnt++;
+			set_map_color(info, line, *line, &elem_cnt);
 		free(line);
 	}
 	set_map_scene(info->map, fd);

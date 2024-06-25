@@ -6,12 +6,12 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:15 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 22:09:20 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:10:25 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#define EVENT_DESTROY_NOTIFY 17
+#include "key.h"
 
 int	main(int argc, char *argv[])
 {
