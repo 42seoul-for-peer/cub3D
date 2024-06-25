@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 21:29:55 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:35:59 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:50:16 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	is_wall(t_map *map, double target_x, double target_y)
 		target_x > map->w - 1 || target_y > map->h - 1)
 		return (true);
 	elem = map->scene[(int)target_y][(int)target_x];
-	if (elem == '1' || elem == ' ')
+	if (elem == '1')
 		return (true);
 	return (false);
 }

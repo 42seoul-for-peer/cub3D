@@ -1,7 +1,8 @@
-NO ./elem/north.xpm
+NO ./elem/ north.xpm
 SO ./elem/south.xpm
 WE ./elem/west.xpm
 EA ./elem/east.xpm
+C      119, 140, 218
 F 224,224, 224
 
 111111
@@ -9,4 +10,3 @@ F 224,224, 224
 1N0001 1
 110101
 111111
-C      119, 140, 218
