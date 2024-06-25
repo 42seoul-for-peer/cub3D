@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:28:54 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:48:51 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int	*check_format(char *path)
 			check_texture(line, &elem_cnt);
 		else if (*line == 'F' || *line == 'C')
 			check_color(line, &elem_cnt);
+		else
+			exit_with_error(map_data);
 		free(line);
 	}
 	map_size = check_scene(fd);
