@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:08:37 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:23:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:28:54 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	*check_format(char *path)
 	while (elem_cnt < 6)
 	{
 		line = get_next_line(fd);
-		if (!line && elem_cnt == 0)
+		if (!line)
 			exit_with_error(map_data);
 		if (*line == 'N' || *line == 'S' || *line == 'W' || *line == 'E')
 			check_texture(line, &elem_cnt);

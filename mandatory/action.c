@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:56:14 by seungjun          #+#    #+#             */
-/*   Updated: 2024/06/25 13:10:41 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:37:20 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,11 @@ bool	is_movable(t_map *map, t_vec *pos, double delta, int dir_flag)
 		target.x += delta;
 	else
 		target.y += delta;
-	if (check_wall(map, target) == true)
+	if (is_wall(map, target.x, target.y) == true)
 		return (false);
-	target.x = adjust_double(target.x);
-	if (check_wall(map, target) == true)
+	if (is_wall(map, adjust_double(target.x), target.y) == true)
 		return (false);
-	target.y = adjust_double(target.y);
-	if (check_wall(map, target) == true)
+	if (is_wall(map, target.x, adjust_double(target.y)) == true)
 		return (false);
 	return (true);
 }
