@@ -54,6 +54,8 @@ bool	is_movable(t_map *map, t_vec *pos, double delta, int dir_flag)
 		return (false);
 	if (is_wall(map, target.x, adjust_double(target.y)) == true)
 		return (false);
+	if (is_wall(map, adjust_double(target.x), adjust_double(target.y)) == true)
+		return (false);
 	return (true);
 }
 
