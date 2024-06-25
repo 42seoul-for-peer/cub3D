@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/25 13:17:26 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:56:33 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	check_color_value(char *line)
 	flag = 0;
 	while (line && *line)
 	{
-		if (flag == 0 && ft_isdigit(*line))
+		if (flag == 0)
 		{
 			flag = 1;
 			cnt[0] += 1;
