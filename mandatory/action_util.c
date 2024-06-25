@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 21:29:55 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 21:30:21 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:15:38 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	check_wall(t_map *map, t_vec target)
 		target.x > map->w - 1 || target.y > map->h - 1)
 		return (true);
 	elem = map->scene[(int)target.y][(int)target.x];
-	if (elem == '1' || elem == '0')
+	if (elem == '1' || elem == ' ')
 		return (true);
 	return (false);
 }
