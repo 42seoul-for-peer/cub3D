@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 13:44:48 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/20 13:45:37 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:10:20 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # define KEY_D 2
 # define KEY_LEFT 123
 # define KEY_RIGHT 124
+# define EVENT_DESTROY_NOTIFY 17
 
 #endif

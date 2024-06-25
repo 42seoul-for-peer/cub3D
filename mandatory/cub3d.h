@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 16:07:04 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 22:14:31 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:22:21 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <stdbool.h>
 # include <math.h>
 # include "libft.h"
-# include "key.h"
 /* ************************************************************************** */
 # define X 0
 # define Y 1
@@ -131,8 +130,8 @@ void	check_scene_line(char *line, int *player, int *map_size);
 t_info	*init_info(char *file, int *map_size);
 
 // set_map_data.c
-void	set_map_color(t_info *info, char *line, char type);
-void	set_map_texture(t_info *info, char *str, char type);
+void	set_map_color(t_info *info, char *line, char type, int *elem_cnt);
+void	set_map_texture(t_info *info, char *str, char type, int *elem_cnt);
 void	set_map_scene(t_map *map, int fd);
 
 // validate_scene.c

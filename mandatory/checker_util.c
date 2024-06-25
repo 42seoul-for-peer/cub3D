@@ -6,7 +6,7 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/24 14:44:59 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/24 21:43:48 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:17:26 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,30 @@
 
 void	check_color_value(char *line)
 {
-	int	comma_cnt;
-	int	color_cnt;
+	int	flag;
+	int	cnt[2];
 
-	comma_cnt = 0;
-	color_cnt = 0;
+	ft_memset(cnt, 0, sizeof(int) * 2);
+	flag = 0;
 	while (line && *line)
 	{
-		if (ft_isdigit(*line))
+		if (flag == 0 && ft_isdigit(*line))
 		{
-			color_cnt += 1;
+			flag = 1;
+			cnt[0] += 1;
 			if (ft_atoi(line) < 0 || ft_atoi(line) > 255)
 				exit_with_error(map_data);
 			while (ft_isdigit(*line))
 				line++;
 		}
-		if (*line == ',')
-			comma_cnt += 1;
+		if (flag == 1 && *line == ',')
+		{
+			flag = 0;
+			cnt[1] += 1;
+		}
 		line++;
 	}
-	if (comma_cnt != 2 || color_cnt != 3)
+	if (cnt[0] != 3 || cnt[1] != 2)
 		exit_with_error(map_data);
 }
 
