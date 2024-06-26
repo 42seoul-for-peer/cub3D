@@ -1,9 +1,9 @@
-NO ./elem/bound_north.xpm
-SO ./elem/bound_south.xpm
-WE ./elem/bound_west.xpm
-EA ./elem/bound_east.xpm
-F 220,  100,   0
-C 225,  30 ,   0
+WE ./elem/ghost.xpm
+EA ./elem/halloween.xpm
+NO ./elem/left.xpm
+SO ./elem/right.xpm
+F 128,  90,  14
+C 25,  66 , 29
 
 
 111        1111111111111111111111111

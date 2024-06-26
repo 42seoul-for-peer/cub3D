@@ -6,79 +6,23 @@
 /*   By: hyeunkim <hyeunkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 14:12:21 by hyeunkim          #+#    #+#             */
-/*   Updated: 2024/06/26 16:46:20 by hyeunkim         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:09:36 by hyeunkim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
-static int	get_color(int *colorset, int scr_y)
+
+static int	get_color(int *colorset)
 {
-	double	ratio;
-
-	if (scr_y > WIN_H / 2)
-		scr_y = abs(scr_y - WIN_H);
-	ratio = 1 - scr_y / ((double)WIN_H / 2);
-	return ((int)(colorset[0] * ratio) << 16 | (int)(colorset[1] * ratio) << 8 | (int)(colorset[2] * ratio));
-}
-
-int test(int color, t_ray *ray)
-{
-	int r;
-	int g;
-	int b;
-	
-
-	r = (color >> 16) & 0xFF;
-	g = (color >> 8) & 0xFF;
-	b = color & 0xFF;
-	if (ray->perp_wall_dist > 11)
-	{
-		r = 0;
-		g = 0;
-		b = 0;
-	}
-	else
-	{
-		r = r - (int)(r * (ray->perp_wall_dist / 11.0));
-		g = g - (int)(g * (ray->perp_wall_dist / 11.0));
-		b = b - (int)(b * (ray->perp_wall_dist / 11.0));
-	}
-	
-	if ((double)ray->tex_pos->x / (double)ray->tex_ptr->w < 0.01 || (double)ray->tex_pos->x / (double)ray->tex_ptr->w > 0.99)
-	{
-		r = 0;
-		g = 0;
-		b = 0;
-	}
-	else if ((double)ray->tex_pos->y / (double)ray->tex_ptr->h < 0.01 || (double)ray->tex_pos->y / (double)ray->tex_ptr->h > 0.99)
-	{
-		r = 0;
-		g = 0;
-		b = 0;
-	}
-	return (r << 16 | g << 8 | b);
-}
-
-int	color_darker(int color)
-{
-	int	r = color >> 16 & 0xff;
-	int	g = color >> 8 & 0xff;
-	int	b = color & 0xff;
-
-	r = r * 8 / 10;
-	g = g * 8 / 10;
-	b = b * 8 / 10;
-	return (r << 16 | g << 8 | b);
+	return (colorset[0] << 16 | colorset[1] << 8 | colorset[2]);
 }
 
 static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 {
-	int			scr_y;
-	int			color;
-	int			*tex_addr;
-	double		tex_h_unit;
-	//double	percent;
+	int		scr_y;
+	int		color;
+	int		*tex_addr;
+	double	tex_h_unit;
 
 	tex_h_unit = \
 		(ray->wall_rng[0] + (ray->line_len - WIN_H) / 2) * ray->tex_rate;
@@ -86,7 +30,7 @@ static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 	while (scr_y < WIN_H)
 	{
 		if (scr_y < ray->wall_rng[0])
-			color = get_color(tex->ceiling, scr_y);
+			color = get_color(tex->ceiling);
 		else if (scr_y < ray->wall_rng[1])
 		{
 			ray->tex_pos->y = (int) tex_h_unit % ray->tex_ptr->h;
@@ -94,12 +38,9 @@ static void	set_scr_color(t_ray *ray, t_tex *tex, t_img *scr, int scr_x)
 			tex_addr = ray->tex_ptr->addr;
 			color = \
 				tex_addr[ray->tex_ptr->h * ray->tex_pos->y + ray->tex_pos->x];
-			color = test(color, ray);
-			if (ray->hit_side == Y)
-				color = color_darker(color);
 		}
 		else
-			color = get_color(tex->floor, scr_y);
+			color = get_color(tex->floor);
 		*(scr->addr + scr_y * WIN_W + scr_x) = color;
 		scr_y++;
 	}
